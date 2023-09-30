@@ -12,6 +12,7 @@ import MainPage from './pages/mainPage/MainPage';
 import Header from './components/header/Header';
 import Footer from './components/footer/Footer';
 import SideNavigation from './components/sideNavigation/SideNavigation';
+import TextBookPage from './pages/textBookPage/TextBookPage';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -27,7 +28,7 @@ const router = createBrowserRouter(
         }
       >
         <Route index element={<MainPage />} />
-        <Route path="/text-book" element={<div>a</div>} />
+        <Route path="/text-book" element={<TextBookPage />} />
         <Route path="/sprint" element={<div>b</div>} />
         <Route path="/audio-challenge" element={<div>c</div>} />
         <Route path="/statistics" element={<div>d</div>} />
