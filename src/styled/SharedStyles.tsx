@@ -1,5 +1,5 @@
 import { css } from 'styled-components';
-import checkColor from '../utils';
+import { checkColor } from '../utils';
 
 export const gradientBackground = css`
   background: linear-gradient(

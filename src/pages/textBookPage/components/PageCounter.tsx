@@ -3,7 +3,7 @@ import React, { useContext, useEffect } from 'react';
 import styled from 'styled-components';
 import { useForm } from 'react-hook-form';
 import { StyledButton } from '../../../styled/SharedStyles';
-import checkColor from '../../../utils';
+import { checkColor } from '../../../utils';
 import { TextBookPageContext } from '../../../contexts/TextBookPageContext';
 
 const StyledPageCounter = styled('div')<{ $groupColor: number }>`

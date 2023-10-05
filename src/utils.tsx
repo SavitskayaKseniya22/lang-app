@@ -1,4 +1,4 @@
-function checkColor($groupColor: number) {
+export function checkColor($groupColor: number) {
   const colors = [
     'rgb(244, 162, 97)',
     'rgb(212, 75, 56)',
@@ -10,4 +10,6 @@ function checkColor($groupColor: number) {
   return colors[$groupColor];
 }
 
-export default checkColor;
+export function capitalize(string: string) {
+  return string[0].toUpperCase() + string.slice(1);
+}
