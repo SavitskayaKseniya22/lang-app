@@ -14,3 +14,5 @@ export interface AuthData {
   userId: string;
   name: string;
 }
+
+export type TextBookValuesTypes = { group: number; page: number };

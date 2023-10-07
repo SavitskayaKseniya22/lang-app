@@ -10,11 +10,10 @@ import {
   persistReducer,
   persistStore,
 } from 'redux-persist';
-
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
-
-import authReducer from './authApi/authSlice';
-import { authApi } from './authApi/authApi';
+import authReducer from './auth/authSlice';
+import { authApi } from './auth/authApi';
+import { wordsApi } from './words/wordsApi';
 
 const persistConfig = {
   key: 'lang-app-root',
@@ -31,6 +30,7 @@ const persistedReducer = persistReducer(
 const rootReducer = combineReducers({
   persist: persistedReducer,
   [authApi.reducerPath]: authApi.reducer,
+  [wordsApi.reducerPath]: wordsApi.reducer,
 });
 
 export const store = configureStore({
@@ -40,7 +40,9 @@ export const store = configureStore({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
-    }).concat(authApi.middleware),
+    })
+      .concat(authApi.middleware)
+      .concat(wordsApi.middleware),
 });
 
 export const persistor = persistStore(store);

@@ -13,3 +13,7 @@ export function checkColor($groupColor: number) {
 export function capitalize(string: string) {
   return string[0].toUpperCase() + string.slice(1);
 }
+
+export function checkDisabled(number: number, ref: number) {
+  return number === ref || undefined;
+}

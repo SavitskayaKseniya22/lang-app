@@ -1,24 +1,24 @@
-/* eslint-disable react/jsx-no-constructed-context-values */
 /* eslint-disable react/jsx-props-no-spreading */
-import React, { useEffect, useState } from 'react';
+
+import React from 'react';
 import { NavLink } from 'react-router-dom';
+import { FormProvider, useForm } from 'react-hook-form';
 import PageCounter from './components/PageCounter';
-import {
-  initialTextBookValues,
-  TextBookPageContext,
-  TextBookValuesTypes,
-} from '../../contexts/TextBookPageContext';
+
 import GroupPicker from './components/GroupPicker';
+import { useGetAllWordsQuery } from '../../store/words/wordsApi';
 
 function TextBookPage() {
-  const [textBookValues, setTextBookValues] = useState<TextBookValuesTypes>(
-    initialTextBookValues
-  );
+  const methods = useForm({
+    defaultValues: {
+      group: 0,
+      page: 0,
+    },
+  });
 
-  useEffect(() => {
-    console.log(textBookValues);
-    // getData
-  }, [textBookValues]);
+  const { data } = useGetAllWordsQuery(methods.getValues(), {
+    refetchOnMountOrArgChange: true,
+  });
 
   return (
     <div className="textbook-container">
@@ -31,12 +31,14 @@ function TextBookPage() {
         </li>
       </ul>
 
-      <TextBookPageContext.Provider
-        value={{ textBookValues, setTextBookValues }}
-      >
-        <PageCounter />
-        <GroupPicker />
-      </TextBookPageContext.Provider>
+      {data && <div>data</div>}
+
+      <FormProvider {...methods}>
+        <form onSubmit={methods.handleSubmit(() => {})}>
+          <PageCounter />
+          <GroupPicker />
+        </form>
+      </FormProvider>
     </div>
   );
 }

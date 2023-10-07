@@ -1,78 +1,100 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import React, { useContext, useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import styled from 'styled-components';
-import { useForm } from 'react-hook-form';
+import { useFormContext } from 'react-hook-form';
 import { StyledButton } from '../../../styled/SharedStyles';
-import { checkColor } from '../../../utils';
-import { TextBookPageContext } from '../../../contexts/TextBookPageContext';
+import { checkDisabled } from '../../../utils';
 
-const StyledPageCounter = styled('div')<{ $groupColor: number }>`
+const StyledGroupNumbers = styled('ul')<{ $groupColor: number }>`
   display: flex;
-  gap: 0.5rem;
+  gap: 1rem;
 
-  input {
-    border: ${(props) => `2px solid ${checkColor(props.$groupColor)}`};
+  li {
+    ${StyledButton}
   }
 
-  button {
-    ${StyledButton}
+  button:disabled {
+    background-color: gray;
+  }
+
+  input {
+    display: none;
   }
 `;
 
 function PageCounter() {
-  const { register, setValue, getValues, handleSubmit, watch } = useForm({
-    mode: 'onChange',
-    reValidateMode: 'onChange',
-  });
+  const { register, watch, setValue } = useFormContext();
 
-  const pageNamberValue = watch('page');
+  const groupValue = watch('group');
+  const pageValue = watch('page');
 
-  const context = useContext(TextBookPageContext);
+  const extremumValues = useRef({ prev: 0, next: 0 });
 
   useEffect(() => {
-    context.setTextBookValues({
-      ...context.textBookValues,
-      page: pageNamberValue,
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pageNamberValue]);
+    const prev = pageValue > 0 ? pageValue - 1 : 0;
+    const next = pageValue < 29 ? pageValue + 1 : 29;
+    extremumValues.current = { prev, next };
+  }, [pageValue]);
 
   return (
-    <form onSubmit={handleSubmit(() => {})}>
-      <StyledPageCounter $groupColor={context.textBookValues.group}>
+    <StyledGroupNumbers $groupColor={groupValue}>
+      <li>
         <button
+          disabled={checkDisabled(pageValue, 0)}
           type="button"
           onClick={() => {
-            const decreasedValue = +getValues('page') - 1;
-            if (decreasedValue >= 0) {
-              setValue('page', decreasedValue, { shouldTouch: true });
-            }
+            setValue('page', 0);
           }}
         >
-          -
+          <i className="fa-solid fa-backward-fast" />
         </button>
-        <input
-          type="number"
-          placeholder="page"
-          max={29}
-          min={0}
-          defaultValue={0}
-          {...register('page', { required: true, max: 29, min: 0 })}
-        />
+      </li>
 
+      <li>
         <button
+          disabled={checkDisabled(pageValue, extremumValues.current.prev)}
           type="button"
           onClick={() => {
-            const increasedValue = +getValues('page') + 1;
-            if (increasedValue <= 29) {
-              setValue('page', increasedValue);
-            }
+            setValue('page', extremumValues.current.prev);
           }}
         >
-          +
+          <i className="fa-solid fa-backward" />
         </button>
-      </StyledPageCounter>
-    </form>
+      </li>
+
+      <li>
+        <input
+          {...register('page')}
+          type="text"
+          value={extremumValues.current.prev}
+        />
+        {pageValue}
+      </li>
+
+      <li>
+        <button
+          disabled={checkDisabled(pageValue, extremumValues.current.next)}
+          type="button"
+          onClick={() => {
+            setValue('page', extremumValues.current.next);
+          }}
+        >
+          <i className="fa-solid fa-forward" />
+        </button>
+      </li>
+
+      <li>
+        <button
+          disabled={checkDisabled(pageValue, 29)}
+          type="button"
+          onClick={() => {
+            setValue('page', 29);
+          }}
+        >
+          <i className="fa-solid fa-forward-fast" />
+        </button>
+      </li>
+    </StyledGroupNumbers>
   );
 }
 
