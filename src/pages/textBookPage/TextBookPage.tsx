@@ -1,12 +1,27 @@
 /* eslint-disable react/jsx-props-no-spreading */
 
 import React from 'react';
-import { NavLink } from 'react-router-dom';
 import { FormProvider, useForm } from 'react-hook-form';
+import styled from 'styled-components';
 import PageCounter from './components/PageCounter';
-
 import GroupPicker from './components/GroupPicker';
 import { useGetAllWordsQuery } from '../../store/words/wordsApi';
+import WordList from './components/WordList';
+
+const StyledTextBook = styled('div')`
+  display: flex;
+  flex-direction: column;
+  padding: 3rem;
+  gap: 1.5rem;
+
+  form {
+    display: flex;
+    width: 100%;
+    gap: 3rem;
+    align-items: center;
+    justify-content: flex-end;
+  }
+`;
 
 function TextBookPage() {
   const methods = useForm({
@@ -21,25 +36,15 @@ function TextBookPage() {
   });
 
   return (
-    <div className="textbook-container">
-      <ul>
-        <li>
-          <NavLink to="/sprint">Sprint</NavLink>
-        </li>
-        <li>
-          <NavLink to="/audio-challenge">Audio-challenge</NavLink>
-        </li>
-      </ul>
-
-      {data && <div>data</div>}
-
+    <StyledTextBook>
       <FormProvider {...methods}>
         <form onSubmit={methods.handleSubmit(() => {})}>
           <PageCounter />
           <GroupPicker />
         </form>
       </FormProvider>
-    </div>
+      {data && <WordList data={data} />}
+    </StyledTextBook>
   );
 }
 

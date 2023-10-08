@@ -33,4 +33,8 @@ export const StyledButton = css<{ $groupColor: number }>`
   font-size: 1.5rem;
   color: white;
   background-color: ${(props) => checkColor(props.$groupColor)};
+
+  i {
+    font-size: 1rem;
+  }
 `;

@@ -25,7 +25,7 @@ const GlobalStyle = createGlobalStyle`
   button {
     font-family: 'Roboto', sans-serif;
     font-weight: 400;
-    color: white;
+   
     display: flex;
     padding: 0.5rem;
     border: none;
@@ -46,6 +46,11 @@ const GlobalStyle = createGlobalStyle`
     font-size: 2rem;
     margin: 0;
     color: black;
+  }
+
+  h4{ 
+    margin: 0;
+
   }
 
   #root {

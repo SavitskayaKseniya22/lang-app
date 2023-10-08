@@ -13,6 +13,10 @@ const StyledSideNavigation = styled('nav')`
     flex-direction: column;
     gap: 1rem;
     align-items: center;
+
+    a {
+      color: white;
+    }
   }
 `;
 

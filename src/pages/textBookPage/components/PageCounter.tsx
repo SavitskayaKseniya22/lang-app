@@ -5,16 +5,20 @@ import { useFormContext } from 'react-hook-form';
 import { StyledButton } from '../../../styled/SharedStyles';
 import { checkDisabled } from '../../../utils';
 
-const StyledGroupNumbers = styled('ul')<{ $groupColor: number }>`
+const StyledGroupNumbers = styled('div')<{ $groupColor: number }>`
   display: flex;
   gap: 1rem;
 
-  li {
+  button {
     ${StyledButton}
-  }
 
-  button:disabled {
-    background-color: gray;
+    &:disabled {
+      background-color: gray;
+    }
+
+    &.unclickable {
+      cursor: auto;
+    }
   }
 
   input {
@@ -38,62 +42,54 @@ function PageCounter() {
 
   return (
     <StyledGroupNumbers $groupColor={groupValue}>
-      <li>
-        <button
-          disabled={checkDisabled(pageValue, 0)}
-          type="button"
-          onClick={() => {
-            setValue('page', 0);
-          }}
-        >
-          <i className="fa-solid fa-backward-fast" />
-        </button>
-      </li>
+      <input
+        {...register('page')}
+        type="text"
+        value={extremumValues.current.prev}
+      />
+      <button
+        disabled={checkDisabled(pageValue, 0)}
+        type="button"
+        onClick={() => {
+          setValue('page', 0);
+        }}
+      >
+        <i className="fa-solid fa-backward-fast" />
+      </button>
 
-      <li>
-        <button
-          disabled={checkDisabled(pageValue, extremumValues.current.prev)}
-          type="button"
-          onClick={() => {
-            setValue('page', extremumValues.current.prev);
-          }}
-        >
-          <i className="fa-solid fa-backward" />
-        </button>
-      </li>
+      <button
+        disabled={checkDisabled(pageValue, extremumValues.current.prev)}
+        type="button"
+        onClick={() => {
+          setValue('page', extremumValues.current.prev);
+        }}
+      >
+        <i className="fa-solid fa-backward" />
+      </button>
 
-      <li>
-        <input
-          {...register('page')}
-          type="text"
-          value={extremumValues.current.prev}
-        />
+      <button type="button" className="unclickable">
         {pageValue}
-      </li>
+      </button>
 
-      <li>
-        <button
-          disabled={checkDisabled(pageValue, extremumValues.current.next)}
-          type="button"
-          onClick={() => {
-            setValue('page', extremumValues.current.next);
-          }}
-        >
-          <i className="fa-solid fa-forward" />
-        </button>
-      </li>
+      <button
+        disabled={checkDisabled(pageValue, extremumValues.current.next)}
+        type="button"
+        onClick={() => {
+          setValue('page', extremumValues.current.next);
+        }}
+      >
+        <i className="fa-solid fa-forward" />
+      </button>
 
-      <li>
-        <button
-          disabled={checkDisabled(pageValue, 29)}
-          type="button"
-          onClick={() => {
-            setValue('page', 29);
-          }}
-        >
-          <i className="fa-solid fa-forward-fast" />
-        </button>
-      </li>
+      <button
+        disabled={checkDisabled(pageValue, 29)}
+        type="button"
+        onClick={() => {
+          setValue('page', 29);
+        }}
+      >
+        <i className="fa-solid fa-forward-fast" />
+      </button>
     </StyledGroupNumbers>
   );
 }
