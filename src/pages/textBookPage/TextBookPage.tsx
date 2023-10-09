@@ -3,8 +3,8 @@
 import React from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import styled from 'styled-components';
-import PageCounter from './components/PageCounter';
-import GroupPicker from './components/GroupPicker';
+import PagePicker from './components/PagePicker';
+import GroupSelect from './components/GroupSelect';
 import { useGetAllWordsQuery } from '../../store/words/wordsApi';
 import WordList from './components/WordList';
 
@@ -39,8 +39,8 @@ function TextBookPage() {
     <StyledTextBook>
       <FormProvider {...methods}>
         <form onSubmit={methods.handleSubmit(() => {})}>
-          <PageCounter />
-          <GroupPicker />
+          <PagePicker />
+          <GroupSelect />
         </form>
       </FormProvider>
       {data && <WordList data={data} />}

@@ -40,7 +40,7 @@ function SideNavigation() {
           </NavLink>
         </li>
         <li>
-          <NavLink to="/audio-challenge">
+          <NavLink to="/audiocall">
             <i className="fa-solid fa-music" />
           </NavLink>
         </li>

@@ -45,3 +45,9 @@ export interface UserWordInfo {
     dateLearned: string | undefined;
   };
 }
+
+export type SprintProps = {
+  type: 'sprint' | 'audiocall';
+  page?: number;
+  group?: number;
+};

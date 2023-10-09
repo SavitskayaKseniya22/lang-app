@@ -5,7 +5,7 @@ import { useFormContext } from 'react-hook-form';
 import { StyledButton } from '../../../styled/SharedStyles';
 import { checkDisabled } from '../../../utils';
 
-const StyledGroupNumbers = styled('div')<{ $groupColor: number }>`
+const StyledPagePicker = styled('div')<{ $groupColor: number }>`
   display: flex;
   gap: 1rem;
 
@@ -26,7 +26,7 @@ const StyledGroupNumbers = styled('div')<{ $groupColor: number }>`
   }
 `;
 
-function PageCounter() {
+function PagePicker() {
   const { register, watch, setValue } = useFormContext();
 
   const groupValue = watch('group');
@@ -41,7 +41,7 @@ function PageCounter() {
   }, [pageValue]);
 
   return (
-    <StyledGroupNumbers $groupColor={groupValue}>
+    <StyledPagePicker $groupColor={groupValue}>
       <input
         {...register('page')}
         type="text"
@@ -90,8 +90,8 @@ function PageCounter() {
       >
         <i className="fa-solid fa-forward-fast" />
       </button>
-    </StyledGroupNumbers>
+    </StyledPagePicker>
   );
 }
 
-export default PageCounter;
+export default PagePicker;

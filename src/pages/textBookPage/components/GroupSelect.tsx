@@ -2,7 +2,7 @@
 import React from 'react';
 import { useFormContext } from 'react-hook-form';
 
-function GroupPicker() {
+function GroupSelect() {
   const { register } = useFormContext();
 
   return (
@@ -17,4 +17,4 @@ function GroupPicker() {
   );
 }
 
-export default GroupPicker;
+export default GroupSelect;

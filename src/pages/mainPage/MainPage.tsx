@@ -82,7 +82,7 @@ function MainPage() {
       <h1>Awesome language learning app</h1>
       <ul className="feature-list feature-list_second">
         <li className="feature">
-          <NavLink to="/audio-challenge" className="feature__link">
+          <NavLink to="/audiocall" className="feature__link">
             <i className="fa-solid fa-music" />
             <h3>Audio Challenge</h3>
             <p>

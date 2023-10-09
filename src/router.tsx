@@ -13,6 +13,9 @@ import Header from './components/header/Header';
 import Footer from './components/footer/Footer';
 import SideNavigation from './components/sideNavigation/SideNavigation';
 import TextBookPage from './pages/textBookPage/TextBookPage';
+import Game from './pages/game/Game';
+import Sprint from './pages/sprint/Sprint';
+import Audiocall from './pages/audiocall/Audiocall';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -29,8 +32,14 @@ const router = createBrowserRouter(
       >
         <Route index element={<MainPage />} />
         <Route path="/text-book" element={<TextBookPage />} />
-        <Route path="/sprint" element={<div>b</div>} />
-        <Route path="/audio-challenge" element={<div>c</div>} />
+        <Route path="/sprint">
+          <Route index element={<Game type="sprint" />} />
+          <Route path=":group" element={<Sprint />} />
+        </Route>
+        <Route path="/audiocall">
+          <Route index element={<Game type="audiocall" />} />
+          <Route path=":group" element={<Audiocall />} />
+        </Route>
         <Route path="/statistics" element={<div>d</div>} />
         <Route path="*" element={<Page404 />} />
       </Route>
