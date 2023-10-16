@@ -1,15 +1,19 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import ResultContext from './Context';
 
-function Timer({ duration }: { duration: number }) {
+function Timer({
+  duration,
+  doAfterTimer,
+}: {
+  duration: number;
+  doAfterTimer: () => void;
+}) {
   const [timer, setTimer] = useState(duration);
   const navigate = useNavigate();
-  const context = useContext(ResultContext);
 
   useEffect(() => {
-    if (!timer && context) {
-      navigate('result', { state: context.current });
+    if (!timer) {
+      doAfterTimer();
     }
 
     const interval = setTimeout(() => {
@@ -19,8 +23,7 @@ function Timer({ duration }: { duration: number }) {
     return () => {
       clearInterval(interval);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [navigate, timer]);
+  }, [doAfterTimer, navigate, timer]);
 
   return <div>{timer}</div>;
 }

@@ -1,4 +1,4 @@
-import { WordType } from './interfaces';
+import { ActiveWordTypes, WordType } from './interfaces';
 
 export function checkColor($groupColor: number) {
   const colors = [
@@ -51,4 +51,15 @@ export function getActiveWordsArgs(data: WordType[], basicIndex: number) {
     first: { index: basicIndex, word: data[basicIndex] },
     second: { index: secondIndex, word: data[secondIndex] },
   };
+}
+
+export function isAnswerCorrect(
+  value: string,
+  firstWord: ActiveWordTypes,
+  secondWord: ActiveWordTypes
+) {
+  return (
+    (value === 'true' && firstWord.word.id === secondWord.word.id) ||
+    (value === 'false' && firstWord.word.id !== secondWord.word.id)
+  );
 }

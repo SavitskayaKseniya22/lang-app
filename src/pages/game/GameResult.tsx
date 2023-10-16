@@ -4,18 +4,18 @@ import { GameResultType, ResultStatsType } from '../../interfaces';
 import { getPercent, getResultMessage } from '../../utils';
 
 export const isGameResultState = (
-  state: object | null | GameResultType
-): state is GameResultType => (state as GameResultType).correct !== undefined;
+  state: undefined | null | GameResultType
+): state is GameResultType => (state as GameResultType).length !== undefined;
 
 export function makeResult(state: GameResultType): ResultStatsType {
-  const { correct, wrong, total } = state;
+  const correct = state.filter((item) => item.answer);
+  const wrong = state.filter((item) => !item.answer);
 
-  const percent = getPercent(correct.length + wrong.length, correct.length);
+  const percent = getPercent(state.length, correct.length);
 
   return {
-    correct: correct.length,
-    wrong: wrong.length,
-    total: total.length,
+    correct,
+    wrong,
     percent,
     message: getResultMessage(percent),
   };
@@ -34,18 +34,22 @@ function GameResult() {
 
         <ul>
           <li>
-            <h3>{`Correct answers (${correct}):`}</h3>
+            <h3>{`Correct answers (${correct.length}):`}</h3>
             <ul>
-              {state.correct.map((item) => (
-                <li key={item.id}>{`${item.word} - ${item.wordTranslate}`}</li>
+              {correct.map((item) => (
+                <li
+                  key={item.word.id}
+                >{`${item.word.word} - ${item.word.wordTranslate}`}</li>
               ))}
             </ul>
           </li>
           <li>
-            <h3>{`Wrong answers (${wrong}):`}</h3>
+            <h3>{`Wrong answers (${wrong.length}):`}</h3>
             <ul>
-              {state.wrong.map((item) => (
-                <li key={item.id}>{`${item.word} - ${item.wordTranslate}`}</li>
+              {wrong.map((item) => (
+                <li
+                  key={item.word.id}
+                >{`${item.word.word} - ${item.word.wordTranslate}`}</li>
               ))}
             </ul>
           </li>
@@ -53,6 +57,7 @@ function GameResult() {
       </div>
     );
   }
+
   return <div>No result data found</div>;
 }
 

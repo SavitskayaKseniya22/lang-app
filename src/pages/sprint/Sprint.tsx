@@ -1,41 +1,31 @@
 /* eslint-disable react/jsx-props-no-spreading */
 
 import React, { SyntheticEvent, useEffect, useRef, useState } from 'react';
-import { useLocation, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useGetAllWordsQuery } from '../../store/words/wordsApi';
 import {
   ActiveWordsTypes,
   GameResultType,
   TextBookValuesTypes,
-  WordType,
 } from '../../interfaces';
-import { getActiveWordsArgs } from '../../utils';
+import { getActiveWordsArgs, isAnswerCorrect } from '../../utils';
 import Timer from './components/Timer';
-import ResultContext from './components/Context';
 
 function Sprint() {
+  const navigate = useNavigate();
   const { state } = useLocation();
   const { group } = useParams();
 
   const [args, setArgs] = useState<TextBookValuesTypes>(
-    state || { group, page: 0 }
+    state || { group, page: 0 } || { group: 0, page: 0 }
   );
 
   const { currentData: gameData } = useGetAllWordsQuery(args, {
     refetchOnMountOrArgChange: true,
   });
 
-  const [activeWords, setActiveWords] = useState<ActiveWordsTypes>({
-    first: {
-      index: 0,
-      word: {} as WordType,
-    },
-    second: {
-      index: 0,
-      word: {} as WordType,
-    },
-  });
+  const [activeWords, setActiveWords] = useState<ActiveWordsTypes | null>(null);
 
   useEffect(() => {
     if (gameData) {
@@ -43,30 +33,20 @@ function Sprint() {
     }
   }, [gameData]);
 
-  const answers = useRef<GameResultType>({
-    correct: [],
-    wrong: [],
-    total: [],
-  });
+  const answers = useRef<GameResultType>([]);
 
   const { register, handleSubmit, reset } = useForm();
 
   const onChange = (e: SyntheticEvent) => {
     const { value } = e.target as HTMLInputElement;
 
-    if (gameData) {
+    if (gameData && activeWords) {
       const { first, second } = activeWords;
-      const { correct, total, wrong } = answers.current;
-      if (
-        (value === 'true' && first.word?.id === second.word?.id) ||
-        (value === 'false' && first.word?.id !== second.word?.id)
-      ) {
-        correct.push(first.word);
-        total.push('correct');
-      } else {
-        wrong.push(first.word);
-        total.push('wrong');
-      }
+
+      answers.current.push({
+        word: first.word,
+        answer: isAnswerCorrect(value, first, second),
+      });
 
       reset();
 
@@ -83,12 +63,17 @@ function Sprint() {
 
   return (
     <div>
-      <ResultContext.Provider value={answers}>
-        <Timer duration={5} />
+      <Timer
+        duration={5}
+        doAfterTimer={() => {
+          navigate('result', { state: answers.current });
+        }}
+      />
+      {activeWords && (
         <form onSubmit={handleSubmit(() => {})}>
           <ul>
-            <li>{activeWords.first.word?.word}</li>
-            <li>{activeWords.second.word?.wordTranslate}</li>
+            <li>{activeWords.first?.word?.word}</li>
+            <li>{activeWords.second?.word?.wordTranslate}</li>
           </ul>
           {['false', 'true'].map((item) => (
             <label htmlFor={`game-choice-${item}`} key={item}>
@@ -104,7 +89,7 @@ function Sprint() {
             </label>
           ))}
         </form>
-      </ResultContext.Provider>
+      )}
     </div>
   );
 }

@@ -62,27 +62,26 @@ export enum NumberDivisibility {
   EVEN,
 }
 
-export interface GameResultType {
-  correct: WordType[];
-  wrong: WordType[];
-  total: ('correct' | 'wrong')[];
-}
+export type GameResultType = AnswerType[];
 
 export interface ResultStatsType {
-  correct: number;
-  wrong: number;
-  total: number;
+  correct: GameResultType;
+  wrong: GameResultType;
   percent: number;
   message: string;
 }
 
+export interface ActiveWordTypes {
+  index: number;
+  word: WordType;
+}
+
 export interface ActiveWordsTypes {
-  first: {
-    index: number;
-    word: WordType;
-  };
-  second: {
-    index: number;
-    word: WordType;
-  };
+  first: ActiveWordTypes;
+  second: ActiveWordTypes;
+}
+
+export interface AnswerType {
+  word: WordType;
+  answer: boolean;
 }
