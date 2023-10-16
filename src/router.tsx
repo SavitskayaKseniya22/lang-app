@@ -16,6 +16,8 @@ import TextBookPage from './pages/textBookPage/TextBookPage';
 import Game from './pages/game/Game';
 import Sprint from './pages/sprint/Sprint';
 import Audiocall from './pages/audiocall/Audiocall';
+import { GameType } from './interfaces';
+import GameResult from './pages/game/GameResult';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -33,11 +35,14 @@ const router = createBrowserRouter(
         <Route index element={<MainPage />} />
         <Route path="/text-book" element={<TextBookPage />} />
         <Route path="/sprint">
-          <Route index element={<Game type="sprint" />} />
-          <Route path=":group" element={<Sprint />} />
+          <Route index element={<Game type={GameType.SPRINT} />} />
+          <Route path=":group">
+            <Route index element={<Sprint />} />
+            <Route path="result" element={<GameResult />} />
+          </Route>
         </Route>
         <Route path="/audiocall">
-          <Route index element={<Game type="audiocall" />} />
+          <Route index element={<Game type={GameType.AUDIOCALL} />} />
           <Route path=":group" element={<Audiocall />} />
         </Route>
         <Route path="/statistics" element={<div>d</div>} />

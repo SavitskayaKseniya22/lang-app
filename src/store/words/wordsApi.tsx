@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { TextBookValuesTypes } from '../../interfaces';
+import { TextBookValuesTypes, WordType } from '../../interfaces';
 
 export const wordsApi = createApi({
   reducerPath: 'wordsApi',
@@ -7,8 +7,8 @@ export const wordsApi = createApi({
     baseUrl: 'http://localhost:4000',
   }),
   endpoints: (builder) => ({
-    getAllWords: builder.query({
-      query: ({ group, page }: TextBookValuesTypes) => ({
+    getAllWords: builder.query<WordType[], TextBookValuesTypes>({
+      query: ({ group, page }) => ({
         url: `/words?page=${page}&group=${group}`,
         method: 'GET',
       }),

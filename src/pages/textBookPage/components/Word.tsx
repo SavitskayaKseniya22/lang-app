@@ -3,9 +3,9 @@
 
 import React from 'react';
 import styled from 'styled-components';
-import { WordType } from '../../../interfaces';
+import { NumberDivisibility, WordType } from '../../../interfaces';
 
-const StyledWord = styled('li')<{ $type: 'odd' | 'even' }>`
+const StyledWord = styled('li')<{ $type: NumberDivisibility }>`
   width: 320px;
 
   padding: 0.5rem;
@@ -15,11 +15,11 @@ const StyledWord = styled('li')<{ $type: 'odd' | 'even' }>`
   justify-content: center;
 
   img {
-    order: ${(props) => (props.$type === 'odd' ? 0 : 1)};
+    order: ${(props) => (props.$type === NumberDivisibility.ODD ? 0 : 1)};
   }
 
   .word__content {
-    order: ${(props) => (props.$type === 'odd' ? 1 : 0)};
+    order: ${(props) => (props.$type === NumberDivisibility.ODD ? 1 : 0)};
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
@@ -69,7 +69,7 @@ function Word({
   type,
 }: {
   wordData: WordType;
-  type: 'odd' | 'even';
+  type: NumberDivisibility;
 }) {
   return (
     <StyledWord $type={type}>

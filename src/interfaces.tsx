@@ -46,8 +46,43 @@ export interface UserWordInfo {
   };
 }
 
-export type SprintProps = {
-  type: 'sprint' | 'audiocall';
+export enum GameType {
+  SPRINT = 'sprint',
+  AUDIOCALL = 'audiocall',
+}
+
+export type GameProps = {
+  type: GameType;
   page?: number;
   group?: number;
 };
+
+export enum NumberDivisibility {
+  ODD,
+  EVEN,
+}
+
+export interface GameResultType {
+  correct: WordType[];
+  wrong: WordType[];
+  total: ('correct' | 'wrong')[];
+}
+
+export interface ResultStatsType {
+  correct: number;
+  wrong: number;
+  total: number;
+  percent: number;
+  message: string;
+}
+
+export interface ActiveWordsTypes {
+  first: {
+    index: number;
+    word: WordType;
+  };
+  second: {
+    index: number;
+    word: WordType;
+  };
+}

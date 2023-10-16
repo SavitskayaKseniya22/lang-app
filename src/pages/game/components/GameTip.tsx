@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { GameType } from '../../../interfaces';
 
 const StyledGameTip = styled('ul')`
   background-color: gainsboro;
@@ -11,7 +12,7 @@ const StyledGameTip = styled('ul')`
   gap: 1.5rem;
 `;
 
-function GameTip({ type }: { type: 'sprint' | 'audiocall' }) {
+function GameTip({ type }: { type: GameType }) {
   const tips = {
     sprint: [
       'Read the word. Answer if the game suggested the correct translation.',

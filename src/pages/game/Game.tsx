@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { Navigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { SprintProps } from '../../interfaces';
+import { GameProps } from '../../interfaces';
 import GameTip from './components/GameTip';
 import GroupPicker from './components/GroupPicker';
 
@@ -21,7 +21,7 @@ const StyledGame = styled('div')`
   }
 `;
 
-function Game({ type, page, group }: SprintProps) {
+function Game({ type, page, group }: GameProps) {
   const methods = useForm();
 
   const watchGroup = methods.watch('group-choice');
