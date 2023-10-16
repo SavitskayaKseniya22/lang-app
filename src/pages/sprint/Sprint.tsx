@@ -1,8 +1,8 @@
 /* eslint-disable react/jsx-props-no-spreading */
 
-import React, { SyntheticEvent, useEffect, useRef, useState } from 'react';
+import React, { SyntheticEvent, useEffect, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { useForm } from 'react-hook-form';
+import styled from 'styled-components';
 import { useGetAllWordsQuery } from '../../store/words/wordsApi';
 import {
   ActiveWordsTypes,
@@ -11,6 +11,21 @@ import {
 } from '../../interfaces';
 import { getActiveWordsArgs, isAnswerCorrect } from '../../utils';
 import Timer from './components/Timer';
+import Streak from './components/Streak';
+import Points from './components/Points';
+import SprintRound from './components/SprintRound';
+
+const StyledSprint = styled('div')`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+
+  .sprint-container {
+    width: 1024px;
+    padding: 2rem;
+  }
+`;
 
 function Sprint() {
   const navigate = useNavigate();
@@ -20,6 +35,15 @@ function Sprint() {
   const [args, setArgs] = useState<TextBookValuesTypes>(
     state || { group, page: 0 } || { group: 0, page: 0 }
   );
+
+  const [result, setResult] = useState({
+    answers: [],
+    points: {
+      step: 10,
+      total: 0,
+    },
+    streak: 0,
+  } as GameResultType);
 
   const { currentData: gameData } = useGetAllWordsQuery(args, {
     refetchOnMountOrArgChange: true,
@@ -33,22 +57,47 @@ function Sprint() {
     }
   }, [gameData]);
 
-  const answers = useRef<GameResultType>([]);
-
-  const { register, handleSubmit, reset } = useForm();
-
-  const onChange = (e: SyntheticEvent) => {
+  const handleChange = (e: SyntheticEvent) => {
     const { value } = e.target as HTMLInputElement;
 
     if (gameData && activeWords) {
       const { first, second } = activeWords;
 
-      answers.current.push({
-        word: first.word,
-        answer: isAnswerCorrect(value, first, second),
-      });
+      const answerResult = isAnswerCorrect(value, first, second);
 
-      reset();
+      setResult((res) => {
+        const total = answerResult
+          ? res.points.total + res.points.step
+          : res.points.total;
+
+        const step =
+          // eslint-disable-next-line no-nested-ternary
+          answerResult
+            ? res.streak === 3
+              ? res.points.step + 10
+              : res.points.step
+            : 10;
+
+        const streak =
+          (res.streak === 3 && answerResult) || !answerResult
+            ? (res.streak = 0)
+            : res.streak + +answerResult;
+
+        return {
+          answers: [
+            ...result.answers,
+            {
+              word: first.word,
+              answer: isAnswerCorrect(value, first, second),
+            },
+          ],
+          points: {
+            step,
+            total,
+          },
+          streak,
+        };
+      });
 
       if (first.index + 1 < gameData.length) {
         setActiveWords(getActiveWordsArgs(gameData, first.index + 1));
@@ -62,35 +111,22 @@ function Sprint() {
   };
 
   return (
-    <div>
-      <Timer
-        duration={5}
-        doAfterTimer={() => {
-          navigate('result', { state: answers.current });
-        }}
-      />
-      {activeWords && (
-        <form onSubmit={handleSubmit(() => {})}>
-          <ul>
-            <li>{activeWords.first?.word?.word}</li>
-            <li>{activeWords.second?.word?.wordTranslate}</li>
-          </ul>
-          {['false', 'true'].map((item) => (
-            <label htmlFor={`game-choice-${item}`} key={item}>
-              {item}
-              <input
-                {...register('game-choice', {
-                  onChange,
-                })}
-                type="radio"
-                value={item}
-                id={`game-choice-${item}`}
-              />
-            </label>
-          ))}
-        </form>
-      )}
-    </div>
+    <StyledSprint>
+      <div className="sprint-container">
+        <Timer
+          duration={60}
+          doAfterTimer={() => {
+            navigate('result', { state: result });
+          }}
+        />
+        <Points value={result.points} />
+        <Streak value={result.streak} />
+
+        {activeWords && (
+          <SprintRound handleChange={handleChange} words={activeWords} />
+        )}
+      </div>
+    </StyledSprint>
   );
 }
 

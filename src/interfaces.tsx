@@ -61,12 +61,20 @@ export enum NumberDivisibility {
   ODD,
   EVEN,
 }
+export interface PointsType {
+  step: number;
+  total: number;
+}
 
-export type GameResultType = AnswerType[];
+export type GameResultType = {
+  answers: AnswerType[];
+  points: PointsType;
+  streak: number;
+};
 
 export interface ResultStatsType {
-  correct: GameResultType;
-  wrong: GameResultType;
+  correct: AnswerType[];
+  wrong: AnswerType[];
   percent: number;
   message: string;
 }

@@ -5,13 +5,13 @@ import { getPercent, getResultMessage } from '../../utils';
 
 export const isGameResultState = (
   state: undefined | null | GameResultType
-): state is GameResultType => (state as GameResultType).length !== undefined;
+): state is GameResultType => (state as GameResultType).answers !== undefined;
 
 export function makeResult(state: GameResultType): ResultStatsType {
-  const correct = state.filter((item) => item.answer);
-  const wrong = state.filter((item) => !item.answer);
+  const correct = state.answers.filter((item) => item.answer);
+  const wrong = state.answers.filter((item) => !item.answer);
 
-  const percent = getPercent(state.length, correct.length);
+  const percent = getPercent(state.answers.length, correct.length);
 
   return {
     correct,

@@ -1,5 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
+
+const StyledTimer = styled('div')`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+  border-radius: 50%;
+  border: 5px solid black;
+  width: 5rem;
+  height: 5rem;
+  font-size: 1.5rem;
+`;
 
 function Timer({
   duration,
@@ -25,7 +38,7 @@ function Timer({
     };
   }, [doAfterTimer, navigate, timer]);
 
-  return <div>{timer}</div>;
+  return <StyledTimer>{timer}</StyledTimer>;
 }
 
 export default Timer;
