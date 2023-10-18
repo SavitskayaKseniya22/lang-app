@@ -10,6 +10,7 @@ const StyledWordList = styled('ul')`
   flex-wrap: wrap;
   gap: 1.5rem;
   justify-content: space-between;
+  flex-grow: 22;
 `;
 
 function WordList({ data }: { data: WordType[] }) {
