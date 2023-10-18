@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import Spinner from '../../../components/spinner/Spinner';
 import { ActiveWordsTypes } from '../../../interfaces';
+import Suspended from '../../../components/Suspended';
 
 const StyledActiveWordsList = styled('ul')`
   display: flex;
@@ -30,14 +30,10 @@ const StyledActiveWordsList = styled('ul')`
 function ActiveWordsList({ words }: { words: ActiveWordsTypes | null }) {
   return (
     <StyledActiveWordsList>
-      {words && words.first && words.second ? (
-        <>
-          <li>{words.first.word?.word}</li>
-          <li>{words.second.word?.wordTranslate}</li>
-        </>
-      ) : (
-        <Spinner />
-      )}
+      <Suspended condition={!!(words && words.first && words.second)}>
+        <li>{words?.first?.word?.word}</li>
+        <li>{words?.second?.word?.wordTranslate}</li>
+      </Suspended>
     </StyledActiveWordsList>
   );
 }

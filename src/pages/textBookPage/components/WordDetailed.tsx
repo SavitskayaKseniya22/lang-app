@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { WordType } from '../../../interfaces';
-import Spinner from '../../../components/spinner/Spinner';
+import Suspended from '../../../components/Suspended';
 
 const StyledWordDetailed = styled('div')`
   padding: 1.5rem;
@@ -38,32 +38,28 @@ function WordDetailed({ wordData }: { wordData: WordType }) {
   }, [wordData.image]);
 
   return (
-    <StyledWordDetailed>
-      {image ? (
-        <>
-          {image}
-          <audio
-            src={`https://raw.githubusercontent.com/irinainina/rslang/rslang-data/data/${wordData.audio}`}
-          />
-          <div className="word__content">
-            <h3>{wordData.word}</h3>
-            <h4>{wordData.transcription}</h4>
-            <h3>{wordData.wordTranslate}</h3>
-          </div>
-          <dl>
-            <dt>Meaning - Значение</dt>
-            <dd>{wordData.textMeaning}</dd>
-            <dd>{wordData.textMeaningTranslate}</dd>
+    <Suspended condition={!!image}>
+      <StyledWordDetailed>
+        {image}
+        <audio
+          src={`https://raw.githubusercontent.com/irinainina/rslang/rslang-data/data/${wordData.audio}`}
+        />
+        <div className="word__content">
+          <h3>{wordData.word}</h3>
+          <h4>{wordData.transcription}</h4>
+          <h3>{wordData.wordTranslate}</h3>
+        </div>
+        <dl>
+          <dt>Meaning - Значение</dt>
+          <dd>{wordData.textMeaning}</dd>
+          <dd>{wordData.textMeaningTranslate}</dd>
 
-            <dt>Example - Пример использования</dt>
-            <dd>{wordData.textExample}</dd>
-            <dd>{wordData.textExampleTranslate}</dd>
-          </dl>
-        </>
-      ) : (
-        <Spinner />
-      )}
-    </StyledWordDetailed>
+          <dt>Example - Пример использования</dt>
+          <dd>{wordData.textExample}</dd>
+          <dd>{wordData.textExampleTranslate}</dd>
+        </dl>
+      </StyledWordDetailed>
+    </Suspended>
   );
 }
 
