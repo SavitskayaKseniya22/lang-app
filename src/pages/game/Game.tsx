@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { Navigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { GameProps } from '../../interfaces';
+import { GameProps, GameTipView } from '../../interfaces';
 import GameTip from './components/GameTip';
 import GroupPicker from './components/GroupPicker';
 
@@ -41,7 +41,7 @@ function Game({ type, page, group }: GameProps) {
     <FormProvider {...methods}>
       <StyledGame>
         <h2>{type}</h2>
-        <GameTip type={type} />
+        <GameTip type={type} $view={GameTipView.BIG} />
         <GroupPicker />
       </StyledGame>
     </FormProvider>

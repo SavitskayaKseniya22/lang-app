@@ -93,3 +93,10 @@ export interface AnswerType {
   word: WordType;
   answer: boolean;
 }
+
+export enum GameTipView {
+  SMALL,
+  BIG,
+}
+
+export type ChildrenProps = string | JSX.Element | JSX.Element[];

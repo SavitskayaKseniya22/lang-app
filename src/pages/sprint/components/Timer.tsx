@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 const StyledTimer = styled('div')`
@@ -22,21 +21,22 @@ function Timer({
   doAfterTimer: () => void;
 }) {
   const [timer, setTimer] = useState(duration);
-  const navigate = useNavigate();
+
+  if (!timer) {
+    // check double render
+    doAfterTimer();
+  }
 
   useEffect(() => {
-    if (!timer) {
-      doAfterTimer();
-    }
-
-    const interval = setTimeout(() => {
+    const interval = setInterval(() => {
       setTimer((seconds) => seconds - 1);
     }, 1000);
 
     return () => {
       clearInterval(interval);
     };
-  }, [doAfterTimer, navigate, timer]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return <StyledTimer>{timer}</StyledTimer>;
 }

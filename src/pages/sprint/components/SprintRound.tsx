@@ -2,7 +2,6 @@
 import React, { SyntheticEvent } from 'react';
 import { useForm } from 'react-hook-form';
 import styled from 'styled-components';
-import { ActiveWordsTypes } from '../../../interfaces';
 
 const StyledSprintRound = styled('form')`
   padding: 1rem;
@@ -11,27 +10,6 @@ const StyledSprintRound = styled('form')`
   align-items: center;
   flex-direction: column;
   gap: 1rem;
-`;
-
-const StyledAnswerList = styled('ul')`
-  display: flex;
-  flex-direction: column;
-  padding: 2rem;
-  gap: 2rem;
-
-  li {
-    padding: 1rem;
-    color: black;
-    text-align: center;
-
-    &:first-child {
-      font-size: 4rem;
-    }
-
-    &:nth-child(2) {
-      font-size: 2rem;
-    }
-  }
 `;
 
 const StyledChoiceList = styled('ul')`
@@ -64,20 +42,13 @@ const StyledChoiceList = styled('ul')`
 
 function SprintRound({
   handleChange,
-  words,
 }: {
   handleChange: (e: SyntheticEvent) => void;
-  words: ActiveWordsTypes;
 }) {
   const { register, handleSubmit, reset } = useForm();
 
   return (
     <StyledSprintRound onSubmit={handleSubmit(() => {})}>
-      <StyledAnswerList>
-        <li>{words.first?.word?.word}</li>
-        <li>{words.second?.word?.wordTranslate}</li>
-      </StyledAnswerList>
-
       <StyledChoiceList>
         {['false', 'true'].map((item) => (
           <li className={`choices_${item}`} key={item}>

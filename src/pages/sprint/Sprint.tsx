@@ -1,12 +1,13 @@
 /* eslint-disable react/jsx-props-no-spreading */
 
-import React, { SyntheticEvent, useEffect, useState } from 'react';
+import React, { SyntheticEvent, useCallback, useEffect, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { useGetAllWordsQuery } from '../../store/words/wordsApi';
 import {
   ActiveWordsTypes,
   GameResultType,
+  GameType,
   TextBookValuesTypes,
 } from '../../interfaces';
 import { getActiveWordsArgs, isAnswerCorrect } from '../../utils';
@@ -15,16 +16,15 @@ import Streak from './components/Streak';
 import Points from './components/Points';
 import SprintRound from './components/SprintRound';
 
+import ActiveWordsList from './components/ActiveWordsList';
+import GameContainer from '../game/components/GameContainer';
+
 const StyledSprint = styled('div')`
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 2rem;
-
-  .sprint-container {
-    width: 1024px;
-    padding: 2rem;
-  }
+  position: relative;
 `;
 
 function Sprint() {
@@ -110,22 +110,19 @@ function Sprint() {
     }
   };
 
+  const doAfterTimer = useCallback(() => {
+    navigate(`result`, { state: result });
+  }, [navigate, result]);
+
   return (
     <StyledSprint>
-      <div className="sprint-container">
-        <Timer
-          duration={60}
-          doAfterTimer={() => {
-            navigate('result', { state: result });
-          }}
-        />
+      <GameContainer type={GameType.SPRINT}>
+        <Timer duration={5} doAfterTimer={doAfterTimer} />
         <Points value={result.points} />
         <Streak value={result.streak} />
-
-        {activeWords && (
-          <SprintRound handleChange={handleChange} words={activeWords} />
-        )}
-      </div>
+        <ActiveWordsList words={activeWords} />
+        <SprintRound handleChange={handleChange} />
+      </GameContainer>
     </StyledSprint>
   );
 }

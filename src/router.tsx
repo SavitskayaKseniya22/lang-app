@@ -43,7 +43,10 @@ const router = createBrowserRouter(
         </Route>
         <Route path="/audiocall">
           <Route index element={<Game type={GameType.AUDIOCALL} />} />
-          <Route path=":group" element={<Audiocall />} />
+          <Route path=":group">
+            <Route index element={<Audiocall />} />
+            <Route path="result" element={<GameResult />} />
+          </Route>
         </Route>
         <Route path="/statistics" element={<div>d</div>} />
         <Route path="*" element={<Page404 />} />
