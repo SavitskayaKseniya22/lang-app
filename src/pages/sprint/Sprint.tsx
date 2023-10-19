@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/media-has-caption */
 /* eslint-disable react/jsx-props-no-spreading */
 
 import React, { SyntheticEvent, useCallback, useEffect, useState } from 'react';
@@ -18,6 +19,7 @@ import SprintRound from './components/SprintRound';
 
 import ActiveWordsList from './components/ActiveWordsList';
 import GameContainer from '../game/components/GameContainer';
+import Suspended from '../../components/Suspended';
 
 const StyledSprint = styled('div')`
   display: flex;
@@ -117,11 +119,15 @@ function Sprint() {
   return (
     <StyledSprint>
       <GameContainer type={GameType.SPRINT}>
-        <Timer duration={5} doAfterTimer={doAfterTimer} />
-        <Points value={result.points} />
-        <Streak value={result.streak} />
-        <ActiveWordsList words={activeWords} />
-        <SprintRound handleChange={handleChange} />
+        <Suspended condition={!!activeWords}>
+          <Timer duration={666} doAfterTimer={doAfterTimer} />
+          <Points value={result.points} />
+          <Streak value={result.streak} />
+
+          <ActiveWordsList words={activeWords} />
+
+          <SprintRound handleChange={handleChange} />
+        </Suspended>
       </GameContainer>
     </StyledSprint>
   );

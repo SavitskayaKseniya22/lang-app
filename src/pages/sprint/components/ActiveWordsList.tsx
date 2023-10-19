@@ -1,7 +1,10 @@
-import React from 'react';
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/media-has-caption */
+
+import React, { useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { ActiveWordsTypes } from '../../../interfaces';
-import Suspended from '../../../components/Suspended';
 
 const StyledActiveWordsList = styled('ul')`
   display: flex;
@@ -12,13 +15,19 @@ const StyledActiveWordsList = styled('ul')`
   gap: 2rem;
   flex-grow: 11;
 
+  audio {
+    display: none;
+    color: red;
+  }
+
   li {
     padding: 1rem;
     color: black;
     text-align: center;
 
-    &:first-child {
+    &.audible {
       font-size: 4rem;
+      cursor: pointer;
     }
 
     &:nth-child(2) {
@@ -28,12 +37,29 @@ const StyledActiveWordsList = styled('ul')`
 `;
 
 function ActiveWordsList({ words }: { words: ActiveWordsTypes | null }) {
+  const audioRef = useRef<HTMLAudioElement>(null);
+
   return (
     <StyledActiveWordsList>
-      <Suspended condition={!!(words && words.first && words.second)}>
-        <li>{words?.first?.word?.word}</li>
-        <li>{words?.second?.word?.wordTranslate}</li>
-      </Suspended>
+      {words && (
+        <>
+          <li
+            title="listen"
+            className="audible"
+            onClick={() => {
+              audioRef.current?.play();
+            }}
+          >
+            {words.first.word.word}
+          </li>
+          <li>{words.second.word.wordTranslate}</li>
+          <audio
+            ref={audioRef}
+            controls
+            src={`https://raw.githubusercontent.com/irinainina/rslang/rslang-data/data/${words.first.word.audio}`}
+          />
+        </>
+      )}
     </StyledActiveWordsList>
   );
 }

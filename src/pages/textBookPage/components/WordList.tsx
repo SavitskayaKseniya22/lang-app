@@ -13,7 +13,7 @@ const StyledWordList = styled('ul')`
   flex-grow: 22;
 `;
 
-function WordList({ data }: { data: WordType[] }) {
+function WordList({ data }: { data: WordType[] | undefined }) {
   return (
     <StyledWordList>
       {data &&

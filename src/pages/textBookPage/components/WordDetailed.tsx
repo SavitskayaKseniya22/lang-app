@@ -42,6 +42,7 @@ function WordDetailed({ wordData }: { wordData: WordType }) {
       <StyledWordDetailed>
         {image}
         <audio
+          controls
           src={`https://raw.githubusercontent.com/irinainina/rslang/rslang-data/data/${wordData.audio}`}
         />
         <div className="word__content">

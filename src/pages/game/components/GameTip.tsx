@@ -16,7 +16,7 @@ const StyledGameTip = styled('ul')<{ $view: GameTipView }>`
 function GameTip({ type, $view }: { type: GameType; $view: GameTipView }) {
   const tips = {
     sprint: [
-      'Read the word. Answer if the game suggested the correct translation.',
+      'Read or listen the word. Answer if the game suggested the correct translation.',
       'Control the game using the arrows keys on your keyboard.',
       'Press the Space key to pause.',
     ],

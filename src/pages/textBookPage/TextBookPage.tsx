@@ -43,7 +43,7 @@ function TextBookPage() {
           <GroupSelect />
         </form>
       </FormProvider>
-      {data && <WordList data={data} />}
+      <WordList data={data} />
     </StyledTextBook>
   );
 }
