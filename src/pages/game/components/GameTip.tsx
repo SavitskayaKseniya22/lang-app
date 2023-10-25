@@ -25,6 +25,11 @@ function GameTip({ type, $view }: { type: GameType; $view: GameTipView }) {
       'Use keys 1 to 5 to control game from the keyboard.',
       'Press the Space key to pause.',
     ],
+    puzzles: [
+      'Make sentences from a set of words.',
+      ' The number of points awarded depends on the length of the word.',
+      'Use the hint if you need help. This will subtract one point from the final result.',
+    ],
   };
   return (
     <StyledGameTip className="game-tip" $view={$view}>

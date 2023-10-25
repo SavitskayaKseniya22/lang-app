@@ -1,6 +1,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
-import { useFormContext } from 'react-hook-form';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 const StyledGroupPicker = styled('div')`
@@ -34,24 +35,41 @@ const StyledGroupPicker = styled('div')`
   }
 `;
 
-function GroupPicker() {
-  const { register } = useFormContext();
+function GroupPicker({
+  initValues,
+}: {
+  initValues: {
+    page: number;
+    group: number;
+  };
+}) {
+  const { register, handleSubmit } = useForm({
+    defaultValues: { group: initValues.group.toString() },
+  });
+  const navigate = useNavigate();
+
+  const onSubmit: SubmitHandler<{ group: string }> = (data) => {
+    navigate(data.group, {
+      state: { group: data.group, page: initValues.page },
+    });
+  };
 
   return (
     <StyledGroupPicker>
       <h3>Select difficulty:</h3>
-      <form>
+      <form onSubmit={handleSubmit(onSubmit)}>
         {new Array(6).fill(0).map((item, i) => (
-          <label htmlFor={`group-choice-${i}`} key={Math.random()}>
+          <label htmlFor={`group-${i}`} key={Math.random()}>
             {i}
             <input
-              {...register('group-choice')}
+              {...register('group')}
               type="radio"
               value={i}
-              id={`group-choice-${i}`}
+              id={`group-${i}`}
             />
           </label>
         ))}
+        <button type="submit">Start the game</button>
       </form>
     </StyledGroupPicker>
   );

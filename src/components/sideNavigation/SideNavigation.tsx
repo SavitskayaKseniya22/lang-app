@@ -45,6 +45,11 @@ function SideNavigation() {
           </NavLink>
         </li>
         <li>
+          <NavLink to="/puzzles">
+            <i className="fa-solid fa-puzzle-piece" />
+          </NavLink>
+        </li>
+        <li>
           <NavLink to="/statistics">
             <i className="fa-solid fa-table" />
           </NavLink>

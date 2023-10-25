@@ -1,4 +1,4 @@
-import { ActiveWordTypes, WordType } from './interfaces';
+import { ActiveWordTypes, WordForDrop, WordType } from './interfaces';
 
 export function checkColor($groupColor: number) {
   const colors = [
@@ -62,4 +62,24 @@ export function isAnswerCorrect(
     (value === 'true' && firstWord.word.id === secondWord.word.id) ||
     (value === 'false' && firstWord.word.id !== secondWord.word.id)
   );
+}
+
+export function shuffle(array: WordForDrop[]) {
+  const arrayCopy = [...array];
+  for (let i = array.length - 1; i > 0; i -= 1) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arrayCopy[i], arrayCopy[j]] = [arrayCopy[j], arrayCopy[i]];
+  }
+  return arrayCopy;
+}
+
+export function makeWordList(string: string) {
+  const res = [] as WordForDrop[];
+  string.split(' ').forEach((word) => {
+    res.push({
+      key: Math.random().toString(),
+      word,
+    });
+  });
+  return shuffle(res);
 }

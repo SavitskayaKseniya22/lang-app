@@ -57,14 +57,11 @@ function MainPage() {
     <StyledMainPage>
       <ul className="feature-list feature-list_first">
         <li className="feature">
-          <NavLink to="/text-book" className="feature__link">
-            <i className="fa-solid fa-book" />
-            <h3>Textbook</h3>
+          <NavLink to="/audiocall" className="feature__link">
+            <i className="fa-solid fa-music" />
+            <h3>Audio Challenge</h3>
             <p>
-              3600 of the most commonly used english words are organised in 6
-              sections for a convenient and measured learning experience.
-              Don&apos;t hesitate to mark words as &quot;difficult&quot; or
-              &quot;learned to better track your progress!&quot;
+              Train your ears as well as your eyes to recognise english speech!
             </p>
           </NavLink>
         </li>
@@ -78,18 +75,33 @@ function MainPage() {
             </p>
           </NavLink>
         </li>
+        <li className="feature">
+          <NavLink to="/puzzles" className="feature__link">
+            <i className="fa-solid fa-puzzle-piece" />
+            <h3>Puzzles</h3>
+
+            <p>
+              Make puzzles from a set of words. Score more points in the given
+              time.
+            </p>
+          </NavLink>
+        </li>
       </ul>
       <h1>Awesome language learning app</h1>
       <ul className="feature-list feature-list_second">
         <li className="feature">
-          <NavLink to="/audiocall" className="feature__link">
-            <i className="fa-solid fa-music" />
-            <h3>Audio Challenge</h3>
+          <NavLink to="/text-book" className="feature__link">
+            <i className="fa-solid fa-book" />
+            <h3>Textbook</h3>
             <p>
-              Train your ears as well as your eyes to recognise english speech!
+              3600 of the most commonly used english words are organised in 6
+              sections for a convenient and measured learning experience.
+              Don&apos;t hesitate to mark words as &quot;difficult&quot; or
+              &quot;learned to better track your progress!&quot;
             </p>
           </NavLink>
         </li>
+
         <li className="feature">
           <NavLink to="/statistics" className="feature__link">
             <i className="fa-solid fa-table" />

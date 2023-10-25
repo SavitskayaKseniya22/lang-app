@@ -1,9 +1,9 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import React, { useEffect, useState } from 'react';
-import { FormProvider, useForm } from 'react-hook-form';
-import { Navigate } from 'react-router-dom';
+import React from 'react';
+
 import styled from 'styled-components';
-import { GameProps, GameTipView } from '../../interfaces';
+import { useNavigate } from 'react-router-dom';
+import { GameProps, GameTipView, GameType } from '../../interfaces';
 import GameTip from './components/GameTip';
 import GroupPicker from './components/GroupPicker';
 
@@ -21,32 +21,27 @@ const StyledGame = styled('div')`
   }
 `;
 
-function Game({ type, page, group }: GameProps) {
-  const methods = useForm();
+function Game({ type, page = 0, group = 0 }: GameProps) {
+  const navigate = useNavigate();
 
-  const watchGroup = methods.watch('group-choice');
-
-  const [initValues, setInitValues] = useState({
-    page,
-    group,
-  });
-
-  useEffect(() => {
-    if (watchGroup) {
-      setInitValues({ page: 0, group: watchGroup });
-    }
-  }, [watchGroup]);
-
-  return initValues.group === undefined ? (
-    <FormProvider {...methods}>
-      <StyledGame>
-        <h2>{type}</h2>
-        <GameTip type={type} $view={GameTipView.BIG} />
-        <GroupPicker />
-      </StyledGame>
-    </FormProvider>
-  ) : (
-    <Navigate to={`${initValues.group}`} state={initValues} />
+  return (
+    <StyledGame>
+      <h2>{type}</h2>
+      <GameTip type={type} $view={GameTipView.BIG} />
+      {(type === GameType.AUDIOCALL || type === GameType.SPRINT) && (
+        <GroupPicker initValues={{ page, group }} />
+      )}
+      {type === GameType.PUZZLES && (
+        <button
+          type="button"
+          onClick={() => {
+            navigate('0');
+          }}
+        >
+          Start the game
+        </button>
+      )}
+    </StyledGame>
   );
 }
 

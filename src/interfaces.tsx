@@ -49,6 +49,7 @@ export interface UserWordInfo {
 export enum GameType {
   SPRINT = 'sprint',
   AUDIOCALL = 'audiocall',
+  PUZZLES = 'puzzles',
 }
 
 export type GameProps = {
@@ -100,3 +101,13 @@ export enum GameTipView {
 }
 
 export type ChildrenProps = string | JSX.Element | JSX.Element[];
+
+export interface WordForDrop {
+  key: string;
+  word: string;
+}
+
+export interface DropData {
+  source: WordForDrop[];
+  result: WordForDrop[];
+}

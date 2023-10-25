@@ -26,11 +26,11 @@ function Audiocall() {
   }, [data]);
 
   return (
-    <StyledAudiocall>
-      <GameContainer type={GameType.AUDIOCALL}>
+    <GameContainer type={GameType.AUDIOCALL} condition>
+      <StyledAudiocall>
         <Timer duration={60} doAfterTimer={() => {}} />
-      </GameContainer>
-    </StyledAudiocall>
+      </StyledAudiocall>
+    </GameContainer>
   );
 }
 

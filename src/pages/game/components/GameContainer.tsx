@@ -3,14 +3,15 @@ import React from 'react';
 import styled from 'styled-components';
 import { GameType, GameTipView, ChildrenProps } from '../../../interfaces';
 import GameTip from './GameTip';
+import Suspended from '../../../components/Suspended';
 
 const StyledGameContainer = styled('div')`
-  width: 1024px;
-  padding: 2rem;
   display: flex;
-  justify-content: space-between;
-  flex-direction: column;
-  height: 100%;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  position: relative;
+
   .game-tip {
     position: absolute;
     bottom: 1rem;
@@ -22,14 +23,16 @@ const StyledGameContainer = styled('div')`
 
 function GameContainer({
   type,
+  condition,
   children,
 }: {
   type: GameType;
+  condition: boolean;
   children: ChildrenProps;
 }) {
   return (
     <StyledGameContainer>
-      {children}
+      <Suspended condition={condition}>{children}</Suspended>
       <GameTip type={type} $view={GameTipView.SMALL} />
     </StyledGameContainer>
   );

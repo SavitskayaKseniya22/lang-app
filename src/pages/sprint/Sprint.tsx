@@ -16,17 +16,16 @@ import Timer from './components/Timer';
 import Streak from './components/Streak';
 import Points from './components/Points';
 import SprintRound from './components/SprintRound';
-
 import ActiveWordsList from './components/ActiveWordsList';
 import GameContainer from '../game/components/GameContainer';
-import Suspended from '../../components/Suspended';
 
 const StyledSprint = styled('div')`
+  width: 1024px;
+  padding: 5rem 2rem;
   display: flex;
   justify-content: center;
-  align-items: center;
-  padding: 2rem;
-  position: relative;
+  flex-direction: column;
+  height: 100%;
 `;
 
 function Sprint() {
@@ -117,19 +116,15 @@ function Sprint() {
   }, [navigate, result]);
 
   return (
-    <StyledSprint>
-      <GameContainer type={GameType.SPRINT}>
-        <Suspended condition={!!activeWords}>
-          <Timer duration={666} doAfterTimer={doAfterTimer} />
-          <Points value={result.points} />
-          <Streak value={result.streak} />
-
-          <ActiveWordsList words={activeWords} />
-
-          <SprintRound handleChange={handleChange} />
-        </Suspended>
-      </GameContainer>
-    </StyledSprint>
+    <GameContainer type={GameType.SPRINT} condition={!!activeWords}>
+      <StyledSprint>
+        <Timer duration={666} doAfterTimer={doAfterTimer} />
+        <Points value={result.points} />
+        <Streak value={result.streak} />
+        <ActiveWordsList words={activeWords} />
+        <SprintRound handleChange={handleChange} />
+      </StyledSprint>
+    </GameContainer>
   );
 }
 
