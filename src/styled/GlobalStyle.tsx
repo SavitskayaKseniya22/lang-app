@@ -1,6 +1,7 @@
 import { createGlobalStyle } from 'styled-components';
 
 const GlobalStyle = createGlobalStyle`
+
   * {
     box-sizing: border-box;
   }
@@ -54,10 +55,12 @@ const GlobalStyle = createGlobalStyle`
   }
 
   #root {
+    font-family: 'Poppins', sans-serif;
     min-height: 100vh;
     max-width: 100vw;
+
     display: grid;
-    grid-template-columns: 4rem 1fr;
+    grid-template-columns: 12rem 1fr;
     grid-template-rows: 4rem 1fr 3rem;
     grid-column-gap: 0px;
     grid-row-gap: 0px;

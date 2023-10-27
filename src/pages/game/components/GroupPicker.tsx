@@ -46,6 +46,7 @@ function GroupPicker({
   const { register, handleSubmit } = useForm({
     defaultValues: { group: initValues.group.toString() },
   });
+
   const navigate = useNavigate();
 
   const onSubmit: SubmitHandler<{ group: string }> = (data) => {

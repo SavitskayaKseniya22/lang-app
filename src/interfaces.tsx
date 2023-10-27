@@ -51,6 +51,28 @@ export enum GameType {
   AUDIOCALL = 'audiocall',
   PUZZLES = 'puzzles',
 }
+export enum WordBaseValues {
+  MINGROUP = 0,
+  MAXGROUP = 5,
+  MINPAGE = 0,
+  MAXPAGE = 29,
+  MAXWORD = 19,
+  MINWORD = 0,
+}
+
+export enum DefaultTextBookValues {
+  group = WordBaseValues.MINGROUP,
+  page = WordBaseValues.MINPAGE,
+}
+
+export enum StreakValues {
+  MIN = 0,
+  MAX = 3,
+}
+
+export enum StepValues {
+  MIN = 10,
+}
 
 export type GameProps = {
   type: GameType;

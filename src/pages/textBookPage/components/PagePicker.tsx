@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { useFormContext } from 'react-hook-form';
 import { StyledButton } from '../../../styled/SharedStyles';
 import { checkDisabled } from '../../../utils';
+import { WordBaseValues } from '../../../interfaces';
 
 const StyledPagePicker = styled('div')<{ $groupColor: number }>`
   display: flex;
@@ -32,12 +33,18 @@ function PagePicker() {
   const groupValue = watch('group');
   const pageValue = watch('page');
 
-  const extremumValues = useRef({ prev: 0, next: 0 });
+  const borderValues = useRef({ prev: 0, next: 0 });
 
   useEffect(() => {
-    const prev = pageValue > 0 ? pageValue - 1 : 0;
-    const next = pageValue < 29 ? pageValue + 1 : 29;
-    extremumValues.current = { prev, next };
+    const prev =
+      pageValue > WordBaseValues.MINPAGE
+        ? pageValue - 1
+        : WordBaseValues.MINPAGE;
+    const next =
+      pageValue < WordBaseValues.MAXPAGE
+        ? pageValue + 1
+        : WordBaseValues.MAXPAGE;
+    borderValues.current = { prev, next };
   }, [pageValue]);
 
   return (
@@ -45,23 +52,23 @@ function PagePicker() {
       <input
         {...register('page')}
         type="text"
-        value={extremumValues.current.prev}
+        value={borderValues.current.prev}
       />
       <button
-        disabled={checkDisabled(pageValue, 0)}
+        disabled={checkDisabled(pageValue, WordBaseValues.MINPAGE)}
         type="button"
         onClick={() => {
-          setValue('page', 0);
+          setValue('page', WordBaseValues.MINPAGE);
         }}
       >
         <i className="fa-solid fa-backward-fast" />
       </button>
 
       <button
-        disabled={checkDisabled(pageValue, extremumValues.current.prev)}
+        disabled={checkDisabled(pageValue, borderValues.current.prev)}
         type="button"
         onClick={() => {
-          setValue('page', extremumValues.current.prev);
+          setValue('page', borderValues.current.prev);
         }}
       >
         <i className="fa-solid fa-backward" />
@@ -72,20 +79,20 @@ function PagePicker() {
       </button>
 
       <button
-        disabled={checkDisabled(pageValue, extremumValues.current.next)}
+        disabled={checkDisabled(pageValue, borderValues.current.next)}
         type="button"
         onClick={() => {
-          setValue('page', extremumValues.current.next);
+          setValue('page', borderValues.current.next);
         }}
       >
         <i className="fa-solid fa-forward" />
       </button>
 
       <button
-        disabled={checkDisabled(pageValue, 29)}
+        disabled={checkDisabled(pageValue, WordBaseValues.MAXPAGE)}
         type="button"
         onClick={() => {
-          setValue('page', 29);
+          setValue('page', WordBaseValues.MAXPAGE);
         }}
       >
         <i className="fa-solid fa-forward-fast" />

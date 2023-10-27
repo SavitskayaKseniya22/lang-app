@@ -7,9 +7,13 @@ import styled from 'styled-components';
 import { useGetAllWordsQuery } from '../../store/words/wordsApi';
 import {
   ActiveWordsTypes,
+  DefaultTextBookValues,
   GameResultType,
   GameType,
+  StepValues,
+  StreakValues,
   TextBookValuesTypes,
+  WordBaseValues,
 } from '../../interfaces';
 import { getActiveWordsArgs, isAnswerCorrect } from '../../utils';
 import Timer from './components/Timer';
@@ -34,16 +38,16 @@ function Sprint() {
   const { group } = useParams();
 
   const [args, setArgs] = useState<TextBookValuesTypes>(
-    state || { group, page: 0 } || { group: 0, page: 0 }
+    state || { group, page: WordBaseValues.MINPAGE } || DefaultTextBookValues
   );
 
   const [result, setResult] = useState({
     answers: [],
     points: {
-      step: 10,
+      step: StepValues.MIN,
       total: 0,
     },
-    streak: 0,
+    streak: StreakValues.MIN,
   } as GameResultType);
 
   const { currentData: gameData } = useGetAllWordsQuery(args, {
@@ -54,7 +58,7 @@ function Sprint() {
 
   useEffect(() => {
     if (gameData) {
-      setActiveWords(getActiveWordsArgs(gameData, 0));
+      setActiveWords(getActiveWordsArgs(gameData, WordBaseValues.MINWORD));
     }
   }, [gameData]);
 
@@ -64,32 +68,32 @@ function Sprint() {
     if (gameData && activeWords) {
       const { first, second } = activeWords;
 
-      const answerResult = isAnswerCorrect(value, first, second);
+      const answer = isAnswerCorrect(value, first, second);
 
       setResult((res) => {
-        const total = answerResult
+        const total = answer
           ? res.points.total + res.points.step
           : res.points.total;
 
         const step =
           // eslint-disable-next-line no-nested-ternary
-          answerResult
-            ? res.streak === 3
-              ? res.points.step + 10
+          answer
+            ? res.streak === StreakValues.MAX
+              ? res.points.step + StepValues.MIN
               : res.points.step
-            : 10;
+            : StepValues.MIN;
 
         const streak =
-          (res.streak === 3 && answerResult) || !answerResult
-            ? (res.streak = 0)
-            : res.streak + +answerResult;
+          (res.streak === StreakValues.MAX && answer) || !answer
+            ? (res.streak = StreakValues.MIN)
+            : res.streak + +answer;
 
         return {
           answers: [
             ...result.answers,
             {
               word: first.word,
-              answer: isAnswerCorrect(value, first, second),
+              answer,
             },
           ],
           points: {
@@ -100,11 +104,14 @@ function Sprint() {
         };
       });
 
-      if (first.index + 1 < gameData.length) {
+      if (first.index < WordBaseValues.MAXWORD) {
         setActiveWords(getActiveWordsArgs(gameData, first.index + 1));
       } else {
         setArgs({
-          page: args.page + 1 < 29 ? args.page + 1 : 0,
+          page:
+            args.page < WordBaseValues.MAXPAGE
+              ? args.page + 1
+              : WordBaseValues.MINPAGE,
           group: args.group,
         });
       }

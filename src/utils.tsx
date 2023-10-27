@@ -1,4 +1,9 @@
-import { ActiveWordTypes, WordForDrop, WordType } from './interfaces';
+import {
+  ActiveWordTypes,
+  WordBaseValues,
+  WordForDrop,
+  WordType,
+} from './interfaces';
 
 export function checkColor($groupColor: number) {
   const colors = [
@@ -21,7 +26,7 @@ export function checkDisabled(number: number, ref: number) {
 }
 
 export function getRandom(min: number, max: number) {
-  return Math.trunc(Math.random() * (max - min) + min);
+  return Math.trunc(Math.random() * (max + 1 - min) + min);
 }
 
 export function getResultMessage(percent: number) {
@@ -41,7 +46,9 @@ export function getPercent(total: number, correct: number) {
 }
 
 export function createSecondIndex(firstIndex: number) {
-  return Math.random() <= 0.6 ? firstIndex : getRandom(0, 20);
+  return Math.random() <= 0.6
+    ? firstIndex
+    : getRandom(WordBaseValues.MINWORD, WordBaseValues.MAXWORD);
 }
 
 export function getActiveWordsArgs(data: WordType[], basicIndex: number) {

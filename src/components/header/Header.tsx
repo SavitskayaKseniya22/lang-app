@@ -4,8 +4,7 @@ import Greeting from '../greeting/Greeting';
 
 const StyledHeader = styled('header')`
   grid-area: 1 / 2 / 2 / 3;
-  background-color: rgba(0, 0, 0, 0.3);
-  padding: 0.5rem;
+  padding: 1rem;
   display: flex;
   justify-content: flex-end;
   align-items: center;

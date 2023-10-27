@@ -19,7 +19,6 @@ import Audiocall from './pages/audiocall/Audiocall';
 import { GameType } from './interfaces';
 import GameResult from './pages/game/GameResult';
 
-import { getRandom } from './utils';
 import Puzzles from './pages/sentences/Puzzles';
 
 const router = createBrowserRouter(
@@ -49,12 +48,7 @@ const router = createBrowserRouter(
         <Route path="/puzzles">
           <Route index element={<Game type={GameType.PUZZLES} />} />
           <Route path=":group">
-            <Route
-              index
-              element={
-                <Puzzles page={getRandom(0, 29)} group={getRandom(0, 6)} />
-              }
-            />
+            <Route index element={<Puzzles />} />
             <Route path="result" element={<GameResult />} />
           </Route>
         </Route>

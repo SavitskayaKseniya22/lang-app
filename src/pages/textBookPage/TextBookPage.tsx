@@ -7,6 +7,7 @@ import PagePicker from './components/PagePicker';
 import GroupSelect from './components/GroupSelect';
 import { useGetAllWordsQuery } from '../../store/words/wordsApi';
 import WordList from './components/WordList';
+import { DefaultTextBookValues } from '../../interfaces';
 
 const StyledTextBook = styled('div')`
   display: flex;
@@ -25,10 +26,7 @@ const StyledTextBook = styled('div')`
 
 function TextBookPage() {
   const methods = useForm({
-    defaultValues: {
-      group: 0,
-      page: 0,
-    },
+    defaultValues: DefaultTextBookValues,
   });
 
   const { data } = useGetAllWordsQuery(methods.getValues(), {

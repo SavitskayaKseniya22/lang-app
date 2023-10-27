@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable react/jsx-no-bind */
 /* eslint-disable @typescript-eslint/no-shadow */
 /* eslint-disable react/jsx-props-no-spreading */
@@ -8,6 +10,7 @@ import {
   Draggable,
 } from '@hello-pangea/dnd';
 import React, { useCallback, useEffect, useState } from 'react';
+import styled from 'styled-components';
 import { WordForDrop, DropData } from '../../../interfaces';
 import { makeWordList } from '../../../utils';
 
@@ -19,12 +22,41 @@ const reorder = (list: WordForDrop[], startIndex: number, endIndex: number) => {
   return result;
 };
 
+const StyledDragContainer = styled('div')<{ $isItActive: boolean }>`
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  gap: 3rem;
+  padding: 1rem;
+  pointer-events: ${(props) => (props.$isItActive ? 'auto' : 'none')};
+
+  .list1,
+  .list2 {
+    border-radius: 1.5rem;
+    background-color: gainsboro;
+    padding: 1rem;
+    min-height: 80px;
+
+    display: flex;
+    gap: 1rem;
+
+    li {
+      border-radius: 1rem;
+      background-color: white;
+      padding: 1rem;
+      font-weight: bolder;
+    }
+  }
+`;
+
 function DragAndDrop({
   source,
   returnResult,
+  isItActive,
 }: {
   source: string;
   returnResult: (value: string) => void;
+  isItActive: boolean;
 }) {
   const updater = useCallback(
     () => ({
@@ -89,7 +121,7 @@ function DragAndDrop({
   }
 
   return (
-    <div className="dragPlace">
+    <StyledDragContainer $isItActive={isItActive}>
       <DragDropContext onDragEnd={onDragEnd}>
         <Droppable droppableId="result" direction="horizontal">
           {(provided) => (
@@ -130,6 +162,16 @@ function DragAndDrop({
                       ref={provided.innerRef}
                       {...provided.draggableProps}
                       {...provided.dragHandleProps}
+                      onClick={() => {
+                        const sourceCopy = [...sentence.source];
+                        sourceCopy.splice(index, 1);
+
+                        setSentence({
+                          ...sentence,
+                          source: sourceCopy,
+                          result: [...sentence.result, item],
+                        });
+                      }}
                     >
                       {item.word}
                     </li>
@@ -141,7 +183,7 @@ function DragAndDrop({
           )}
         </Droppable>
       </DragDropContext>
-    </div>
+    </StyledDragContainer>
   );
 }
 
