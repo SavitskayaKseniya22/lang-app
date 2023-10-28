@@ -9,7 +9,6 @@ import {
 import Page404 from './pages/404Page/Page404';
 import ErrorPage from './pages/errorPage/ErrorPage';
 import MainPage from './pages/mainPage/MainPage';
-import Header from './components/header/Header';
 import Footer from './components/footer/Footer';
 import SideNavigation from './components/sideNavigation/SideNavigation';
 import TextBookPage from './pages/textBookPage/TextBookPage';
@@ -28,7 +27,6 @@ const router = createBrowserRouter(
         element={
           <>
             <SideNavigation />
-            <Header />
             <Outlet />
             <Footer />
           </>

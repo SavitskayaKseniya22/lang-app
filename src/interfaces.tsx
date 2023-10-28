@@ -133,3 +133,10 @@ export interface DropData {
   source: WordForDrop[];
   result: WordForDrop[];
 }
+
+export interface AuthError {
+  status: string;
+  originalStatus: number;
+  data: string;
+  error: string;
+}

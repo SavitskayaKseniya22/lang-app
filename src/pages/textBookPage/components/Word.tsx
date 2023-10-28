@@ -8,6 +8,7 @@ import Modal from '../../../components/Modal';
 import WordDetailed from './WordDetailed';
 
 const StyledWord = styled('li')<{ $type: NumberDivisibility }>`
+  cursor: pointer;
   min-width: 300px;
   padding: 1.5rem;
   display: flex;

@@ -61,7 +61,7 @@ const GlobalStyle = createGlobalStyle`
 
     display: grid;
     grid-template-columns: 12rem 1fr;
-    grid-template-rows: 4rem 1fr 3rem;
+    grid-template-rows:  1fr 3rem;
     grid-column-gap: 0px;
     grid-row-gap: 0px;
   }

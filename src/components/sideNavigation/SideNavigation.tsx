@@ -3,13 +3,15 @@ import { Link, NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 import { gradientBackground } from '../../styled/SharedStyles';
 import gitHubLogo from '../../assets/images/png/GitHub_Logo_White.png';
+import Header from '../header/Profile';
 
 const StyledSideNavigation = styled('nav')`
   ${gradientBackground}
-  grid-area: 1 / 1 / 4 / 2;
+  grid-area: 1 / 1 / 3 / 2;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  gap: 2rem;
 
   .nav-list {
     display: flex;
@@ -89,6 +91,7 @@ function SideNavigation() {
           </NavLink>
         </li>
       </ul>
+      <Header />
 
       <Link
         className="logo_github"
