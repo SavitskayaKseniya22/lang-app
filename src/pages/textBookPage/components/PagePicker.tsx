@@ -2,16 +2,16 @@
 import React, { useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { useFormContext } from 'react-hook-form';
-import { StyledButton } from '../../../styled/SharedStyles';
 import { checkDisabled } from '../../../utils';
 import { WordBaseValues } from '../../../interfaces';
+import { StyledPageButton } from '../../../styled/SharedStyles';
 
 const StyledPagePicker = styled('div')<{ $groupColor: number }>`
   display: flex;
   gap: 1rem;
 
   button {
-    ${StyledButton}
+    ${StyledPageButton}
 
     &:disabled {
       background-color: gray;

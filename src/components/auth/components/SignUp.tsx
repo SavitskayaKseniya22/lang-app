@@ -2,6 +2,7 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 
+import { toast } from 'react-toastify';
 import {
   useSignInMutation,
   useSignUpMutation,
@@ -26,7 +27,7 @@ function SignUp({ doAfterSubmit }: { doAfterSubmit: () => void }) {
       })
       .catch((err) => {
         if ('data' in err) {
-          console.log(err.data);
+          toast.error(err.data);
         }
       });
   }

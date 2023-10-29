@@ -84,6 +84,7 @@ export enum NumberDivisibility {
   ODD,
   EVEN,
 }
+
 export interface PointsType {
   step: number;
   total: number;
@@ -139,4 +140,22 @@ export interface AuthError {
   originalStatus: number;
   data: string;
   error: string;
+}
+
+export function isAuthError(x: unknown): x is AuthError {
+  return Boolean(
+    typeof x === 'object' &&
+      x &&
+      'data' in x &&
+      typeof x.data === 'string' &&
+      'originalStatus' in x &&
+      typeof x.originalStatus === 'number'
+  );
+}
+
+export enum ScreenSize {
+  MOBILE = '(min-width: 320px)',
+  TABLET = '(min-width: 768px)',
+  LAPTOPS = '(min-width: 1024px)',
+  LAPTOPL = '(min-width: 1920px)',
 }

@@ -2,6 +2,7 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import styled from 'styled-components';
+import { toast } from 'react-toastify';
 import { useSignInMutation } from '../../../store/auth/authApi';
 import { BasicUserCredentials } from '../../../interfaces';
 
@@ -39,7 +40,7 @@ function SignIn({ doAfterSubmit }: { doAfterSubmit: () => void }) {
       })
       .catch((err) => {
         if ('data' in err) {
-          console.log(err.data);
+          toast.error(err.data);
         }
       });
   }

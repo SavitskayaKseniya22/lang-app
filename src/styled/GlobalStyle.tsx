@@ -1,4 +1,5 @@
 import { createGlobalStyle } from 'styled-components';
+import { ScreenSize } from '../interfaces';
 
 const GlobalStyle = createGlobalStyle`
 
@@ -22,23 +23,18 @@ const GlobalStyle = createGlobalStyle`
     margin: 0;
   }
 
-  a,
+  
   button {
-    font-family: 'Roboto', sans-serif;
-    font-weight: 400;
-   
-    display: flex;
-    padding: 0.5rem;
     border: none;
-    text-decoration: none;
     cursor: pointer;
     background-color: transparent;
   }
 
-  i {
-    font-size: 2rem;
+  a {
+     text-decoration: none;
   }
 
+ 
   h1 {
     font-size: 3rem;
   }
@@ -58,12 +54,13 @@ const GlobalStyle = createGlobalStyle`
     font-family: 'Poppins', sans-serif;
     min-height: 100vh;
     max-width: 100vw;
+    display: flex;
+    flex-direction:column;
 
-    display: grid;
-    grid-template-columns: 12rem 1fr;
-    grid-template-rows:  1fr 3rem;
-    grid-column-gap: 0px;
-    grid-row-gap: 0px;
+    @media ${ScreenSize.TABLET} {
+    flex-direction: row;
+  }
+  
   }
 `;
 

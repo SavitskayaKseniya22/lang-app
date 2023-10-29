@@ -12,14 +12,6 @@ export const wordsApi = createApi({
         url: `/words?page=${page}&group=${group}`,
         method: 'GET',
       }),
-      async onQueryStarted(id, { queryFulfilled }) {
-        try {
-          const { data } = await queryFulfilled;
-          console.log(data);
-        } catch (err) {
-          console.log(err);
-        }
-      },
     }),
   }),
 });

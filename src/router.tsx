@@ -6,11 +6,10 @@ import {
   createBrowserRouter,
   createRoutesFromElements,
 } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
 import Page404 from './pages/404Page/Page404';
 import ErrorPage from './pages/errorPage/ErrorPage';
 import MainPage from './pages/mainPage/MainPage';
-import Footer from './components/footer/Footer';
-import SideNavigation from './components/sideNavigation/SideNavigation';
 import TextBookPage from './pages/textBookPage/TextBookPage';
 import Game from './pages/game/Game';
 import Sprint from './pages/sprint/Sprint';
@@ -19,6 +18,7 @@ import { GameType } from './interfaces';
 import GameResult from './pages/game/GameResult';
 
 import Puzzles from './pages/sentences/Puzzles';
+import SidePanel from './components/sideNavigation/SidePanel';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -26,9 +26,20 @@ const router = createBrowserRouter(
       <Route
         element={
           <>
-            <SideNavigation />
+            <SidePanel />
             <Outlet />
-            <Footer />
+            <ToastContainer
+              position="top-right"
+              autoClose={5000}
+              hideProgressBar={false}
+              newestOnTop={false}
+              closeOnClick
+              rtl={false}
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover
+              theme="light"
+            />
           </>
         }
       >

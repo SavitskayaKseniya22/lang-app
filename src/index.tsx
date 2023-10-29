@@ -4,6 +4,7 @@ import { Provider } from 'react-redux';
 import App from './App';
 import Spinner from './components/spinner/Spinner';
 import './index.css';
+import 'react-toastify/dist/ReactToastify.css';
 
 import { store } from './store/store';
 
