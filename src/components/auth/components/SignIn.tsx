@@ -1,10 +1,11 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import React from 'react';
+import React, { useContext } from 'react';
 import { useForm } from 'react-hook-form';
 import styled from 'styled-components';
 import { toast } from 'react-toastify';
 import { useSignInMutation } from '../../../store/auth/authApi';
 import { BasicUserCredentials } from '../../../interfaces';
+import ModalContext from '../../modal/ModalContext';
 
 export const passwordPattern =
   /(?=.*[+-_@$!%*?&#.,;:[\]{}])(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])[0-9a-zA-Z+-_@$!%*?&#.,;:[\]{}]{8,}/g;
@@ -28,15 +29,16 @@ export const StyledAuthForm = styled('form')`
   }
 `;
 
-function SignIn({ doAfterSubmit }: { doAfterSubmit: () => void }) {
+function SignIn() {
   const { register, handleSubmit } = useForm<BasicUserCredentials>();
   const [signIn] = useSignInMutation();
+  const { setContent } = useContext(ModalContext);
 
   function onSubmit(data: BasicUserCredentials) {
     signIn(data)
       .unwrap()
       .then(() => {
-        doAfterSubmit();
+        setContent(null);
       })
       .catch((err) => {
         if ('data' in err) {

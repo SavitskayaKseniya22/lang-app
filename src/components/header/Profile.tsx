@@ -1,8 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import Greeting from '../greeting/Greeting';
-import Modal from '../Modal';
-import Auth from '../auth/Auth';
 import { ScreenSize } from '../../interfaces';
 import SignInControl from './components/SignInControl';
 
@@ -21,25 +19,10 @@ const StyledProfile = styled('div')`
 `;
 
 function Profile() {
-  const [isOpen, setIsOpen] = useState(false);
-
   return (
     <StyledProfile>
       <Greeting />
       <SignInControl />
-
-      <Modal
-        isOpen={isOpen}
-        handleClose={() => {
-          setIsOpen(false);
-        }}
-      >
-        <Auth
-          doAfterSubmit={() => {
-            setIsOpen(false);
-          }}
-        />
-      </Modal>
     </StyledProfile>
   );
 }

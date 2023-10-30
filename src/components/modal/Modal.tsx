@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { createPortal } from 'react-dom';
 import styled from 'styled-components';
-import { ChildrenProps } from '../interfaces';
+import { ChildrenProps } from '../../interfaces';
+import ModalContext from './ModalContext';
 
 function ReactPortal({ children }: { children: ChildrenProps }) {
   return createPortal(children, document.body);
@@ -11,8 +12,7 @@ const StyledModal = styled('div')`
   width: 100vw;
   height: 100vh;
   background-color: rgba(0, 0, 0, 0.6);
-
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
 
@@ -26,8 +26,9 @@ const StyledModal = styled('div')`
     padding: 1rem;
     display: flex;
     flex-direction: column;
-
     gap: 0.5rem;
+    min-width: 250px;
+    min-height: 250px;
 
     .modal-container__button_close {
       align-self: flex-end;
@@ -35,36 +36,31 @@ const StyledModal = styled('div')`
   }
 `;
 
-function Modal({
-  isOpen,
-  children,
-  handleClose,
-}: {
-  isOpen: boolean;
-  children: ChildrenProps;
-  handleClose: () => void;
-}) {
-  if (!isOpen) return null;
+function Modal() {
+  const { content, setContent } = useContext(ModalContext);
+  if (!content) return null;
 
   return (
     <ReactPortal>
       <StyledModal
         onClick={(e) => {
           if (e.currentTarget === e.target) {
-            handleClose();
+            setContent(null);
           }
         }}
       >
         <div className="modal__container">
           <button
             type="button"
-            onClick={handleClose}
+            onClick={() => {
+              setContent(null);
+            }}
             className="modal-container__button_close"
             title="close"
           >
             <i className="fa-solid fa-xmark" />
           </button>
-          {children}
+          {content}
         </div>
       </StyledModal>
     </ReactPortal>

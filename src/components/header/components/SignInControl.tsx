@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
 import { resetUser } from '../../../store/auth/authSlice';
 import { useAppSelector, useAppDispatch } from '../../../store/store';
+import ModalContext from '../../modal/ModalContext';
+import Auth from '../../auth/Auth';
 
 const StyledSignInControl = styled('button')`
   padding: 0.5rem 1.5rem;
@@ -12,6 +14,7 @@ const StyledSignInControl = styled('button')`
 function SignInControl() {
   const { user } = useAppSelector((state) => state.persist.auth);
   const dispatch = useAppDispatch();
+  const { setContent } = useContext(ModalContext);
 
   return user ? (
     <StyledSignInControl
@@ -26,7 +29,7 @@ function SignInControl() {
     <StyledSignInControl
       type="button"
       onClick={() => {
-        // setIsOpen(true);
+        setContent(<Auth />);
       }}
     >
       Sign in

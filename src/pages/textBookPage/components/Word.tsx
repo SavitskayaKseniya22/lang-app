@@ -1,11 +1,11 @@
 /* eslint-disable jsx-a11y/media-has-caption */
 /* eslint-disable react/jsx-props-no-spreading */
 
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
 import { NumberDivisibility, WordType } from '../../../interfaces';
-import Modal from '../../../components/Modal';
 import WordDetailed from './WordDetailed';
+import ModalContext from '../../../components/modal/ModalContext';
 
 const StyledWord = styled('li')<{ $type: NumberDivisibility }>`
   cursor: pointer;
@@ -39,30 +39,20 @@ function Word({
   wordData: WordType;
   type: NumberDivisibility;
 }) {
-  const [isOpen, setIsOpen] = useState(false);
+  const { setContent } = useContext(ModalContext);
 
   return (
-    <>
-      <StyledWord
-        $type={type}
-        onClick={() => {
-          setIsOpen(true);
-        }}
-      >
-        <h3>{wordData.word}</h3>
-        <h4>{wordData.transcription}</h4>
-        <h3>{wordData.wordTranslate}</h3>
-      </StyledWord>
-
-      <Modal
-        isOpen={isOpen}
-        handleClose={() => {
-          setIsOpen(false);
-        }}
-      >
-        <WordDetailed wordData={wordData} />
-      </Modal>
-    </>
+    <StyledWord
+      $type={type}
+      onClick={(e) => {
+        setContent(<WordDetailed wordData={wordData} />);
+        e.stopPropagation();
+      }}
+    >
+      <h3>{wordData.word}</h3>
+      <h4>{wordData.transcription}</h4>
+      <h3>{wordData.wordTranslate}</h3>
+    </StyledWord>
   );
 }
 

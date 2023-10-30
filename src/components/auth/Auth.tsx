@@ -13,7 +13,7 @@ const StyledAuthContainer = styled('div')`
   align-items: center;
 `;
 
-function Auth({ doAfterSubmit }: { doAfterSubmit: () => void }) {
+function Auth() {
   const [authFormType, setAuthFormType] = useState<'signin' | 'signup'>(
     'signin'
   );
@@ -22,7 +22,7 @@ function Auth({ doAfterSubmit }: { doAfterSubmit: () => void }) {
     <StyledAuthContainer>
       {authFormType === 'signin' ? (
         <>
-          <SignIn doAfterSubmit={doAfterSubmit} />
+          <SignIn />
           <button
             type="button"
             onClick={() => {
@@ -34,7 +34,7 @@ function Auth({ doAfterSubmit }: { doAfterSubmit: () => void }) {
         </>
       ) : (
         <>
-          <SignUp doAfterSubmit={doAfterSubmit} />
+          <SignUp />
           <button
             type="button"
             onClick={() => {

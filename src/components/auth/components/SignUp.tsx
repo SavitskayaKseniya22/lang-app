@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import React from 'react';
+import React, { useContext } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { toast } from 'react-toastify';
@@ -9,11 +9,13 @@ import {
 } from '../../../store/auth/authApi';
 import { ExtendedUserCredentials } from '../../../interfaces';
 import { StyledAuthForm, passwordPattern } from './SignIn';
+import ModalContext from '../../modal/ModalContext';
 
-function SignUp({ doAfterSubmit }: { doAfterSubmit: () => void }) {
+function SignUp() {
   const { register, handleSubmit } = useForm<ExtendedUserCredentials>();
   const [signUp] = useSignUpMutation();
   const [signIn] = useSignInMutation();
+  const { setContent } = useContext(ModalContext);
 
   function onSubmit(data: ExtendedUserCredentials) {
     signUp(data)
@@ -23,7 +25,7 @@ function SignUp({ doAfterSubmit }: { doAfterSubmit: () => void }) {
       })
 
       .then(() => {
-        doAfterSubmit();
+        setContent(null);
       })
       .catch((err) => {
         if ('data' in err) {
