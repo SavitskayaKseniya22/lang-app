@@ -8,9 +8,9 @@ import Word from './Word';
 const StyledWordList = styled('ul')`
   display: flex;
   flex-wrap: wrap;
-  gap: 1.5rem;
-  justify-content: space-between;
-  flex-grow: 22;
+  gap: 1rem;
+  justify-content: center;
+  align-items: center;
 `;
 
 function WordList({ data }: { data: WordType[] | undefined }) {

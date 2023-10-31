@@ -2,11 +2,13 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 import { NavArrow } from './component/NavArrow';
+import { ScreenSize } from '../../interfaces';
 
 const StyledMainPage = styled('main')`
   display: flex;
   flex-direction: column;
   min-width: 320px;
+  flex-grow: 22;
 
   p {
     font-weight: 300;
@@ -15,7 +17,7 @@ const StyledMainPage = styled('main')`
     line-height: 150%;
   }
 
-  h3 {
+  h2 {
     margin: 1rem 0;
     color: rgb(231, 111, 81);
   }
@@ -36,12 +38,15 @@ export const StyledMainPageBlock = css`
   display: flex;
   flex-direction: column;
   justify-content: center;
+
+  @media ${ScreenSize.LAPTOPS} {
+    padding: 3rem;
+  }
 `;
 
 const StyledMainPageFirstScreen = styled('div')`
   ${StyledMainPageBlock}
   gap: 2rem;
-
   h1 {
     margin: 2rem 0;
     color: rgb(231, 111, 81);
@@ -70,7 +75,7 @@ function MainPage() {
       <StyledMainPageGamesList id="section-1">
         <li className="feature">
           <NavLink to="/audiocall">
-            <h3>Audio Challenge</h3>
+            <h2>Audio Challenge</h2>
             <p>
               Train your ears as well as your eyes to recognise english speech!
             </p>
@@ -78,7 +83,7 @@ function MainPage() {
         </li>
         <li className="feature">
           <NavLink to="/sprint">
-            <h3>Sprint</h3>
+            <h2>Sprint</h2>
             <p>
               Challenge your wit and knowledge in a fast paced and rewarding
               guessing game!
@@ -87,7 +92,7 @@ function MainPage() {
         </li>
         <li className="feature">
           <NavLink to="/puzzles">
-            <h3>Puzzles</h3>
+            <h2>Puzzles</h2>
             <p>
               Make puzzles from a set of words. Score more points in the given
               time.
@@ -97,11 +102,11 @@ function MainPage() {
       </StyledMainPageGamesList>
       <StyledMainPageFeatureList id="section-2">
         <li>
-          <h3>
+          <h2>
             Use
             <NavLink to="/text-book"> the Textbook </NavLink>
             to understand the meaning of the word
-          </h3>
+          </h2>
           <p>
             3600 of the most commonly used english words are organised in 6
             sections for a convenient and measured learning experience.
@@ -110,10 +115,10 @@ function MainPage() {
           </p>
         </li>
         <li>
-          <h3>
+          <h2>
             Track your progress in{' '}
             <NavLink to="/statistics">Statistics</NavLink>
-          </h3>
+          </h2>
           <p>
             Your progress is monitored and logged. Be sure to take a look at it
             once in a while to make sure you are on track! Available only for

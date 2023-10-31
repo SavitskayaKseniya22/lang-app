@@ -2,19 +2,21 @@
 import React, { useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { useFormContext } from 'react-hook-form';
-import { checkDisabled } from '../../../utils';
-import { WordBaseValues } from '../../../interfaces';
-import { StyledPageButton } from '../../../styled/SharedStyles';
+import { checkColor, checkDisabled } from '../../../utils';
+import { ScreenSize, WordBaseValues } from '../../../interfaces';
 
 const StyledPagePicker = styled('div')<{ $groupColor: number }>`
   display: flex;
   gap: 1rem;
 
   button {
-    ${StyledPageButton}
+    width: 2rem;
+    height: 2rem;
+    color: white;
+    background-color: ${(props) => checkColor(props.$groupColor)};
 
     &:disabled {
-      background-color: gray;
+      background-color: rgba(42, 157, 144, 0.2);
     }
 
     &.unclickable {
@@ -24,6 +26,14 @@ const StyledPagePicker = styled('div')<{ $groupColor: number }>`
 
   input {
     display: none;
+  }
+
+  @media ${ScreenSize.TABLET} {
+    button {
+      width: 2.5rem;
+      height: 2.5rem;
+      font-size: 1rem;
+    }
   }
 `;
 

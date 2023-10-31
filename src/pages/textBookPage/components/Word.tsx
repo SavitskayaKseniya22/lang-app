@@ -3,32 +3,35 @@
 
 import React, { useContext } from 'react';
 import styled from 'styled-components';
-import { NumberDivisibility, WordType } from '../../../interfaces';
+import { NumberDivisibility, ScreenSize, WordType } from '../../../interfaces';
 import WordDetailed from './WordDetailed';
 import ModalContext from '../../../components/modal/ModalContext';
 
 const StyledWord = styled('li')<{ $type: NumberDivisibility }>`
   cursor: pointer;
-  min-width: 300px;
-  padding: 1.5rem;
+  padding: 1rem;
   display: flex;
-  flex-direction: column;
   gap: 0.5rem;
   justify-content: center;
-  text-align: center;
-  background-color: gainsboro;
+  align-items: center;
   flex-wrap: wrap;
-  flex-grow: 22;
+  flex-grow: 3;
+  max-height: 120px;
+
   background-color: ${(props) =>
     props.$type === NumberDivisibility.ODD
-      ? 'rgb(233, 196, 106)'
-      : 'rgb(42, 157, 143)'};
+      ? 'rgba(233, 197, 106, 0.2)'
+      : 'rgba(42, 157, 144, 0.2)'};
 
-  h4 {
+  p {
     color: ${(props) =>
       props.$type === NumberDivisibility.ODD
         ? 'rgb(42, 157, 143)'
         : 'rgb(233, 196, 106)'};
+  }
+
+  @media ${ScreenSize.TABLET} {
+    padding: 1.5rem;
   }
 `;
 
@@ -44,14 +47,13 @@ function Word({
   return (
     <StyledWord
       $type={type}
-      onClick={(e) => {
+      onClick={() => {
         setContent(<WordDetailed wordData={wordData} />);
-        e.stopPropagation();
       }}
     >
-      <h3>{wordData.word}</h3>
-      <h4>{wordData.transcription}</h4>
-      <h3>{wordData.wordTranslate}</h3>
+      <h4>{wordData.word}</h4>
+      <p>{wordData.transcription}</p>
+      <h5>{wordData.wordTranslate}</h5>
     </StyledWord>
   );
 }
