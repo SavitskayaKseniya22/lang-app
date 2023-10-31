@@ -5,12 +5,11 @@ import SignUp from './components/SignUp';
 
 const StyledAuthContainer = styled('div')`
   display: flex;
-  flex-grow: 22;
   flex-direction: column;
   gap: 1rem;
-  padding: 1rem;
   justify-content: space-between;
   align-items: center;
+  width: 100%;
 `;
 
 function Auth() {

@@ -27,7 +27,7 @@ const StyledNavLink = styled(NavLink)`
   &.active {
     border-radius: 0 0 1.5rem 1.5rem;
     background-color: white;
-    color: black;
+    color: rgb(231, 111, 81);
   }
 
   span {

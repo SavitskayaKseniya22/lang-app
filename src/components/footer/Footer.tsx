@@ -1,19 +1,24 @@
 import React from 'react';
 import styled from 'styled-components';
+import GitHubLink from '../sideNavigation/components/GitHubLink';
+import { ScreenSize } from '../../interfaces';
 
 const StyledFooter = styled('footer')`
-  grid-area: 2 / 2 / 3 / 3;
-  padding: 1rem;
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  color: black;
+  padding: 0;
+  background-color: transparent;
+
+  @media ${ScreenSize.TABLET} {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    z-index: 1;
+  }
 `;
 
 function Footer() {
   return (
     <StyledFooter>
-      <span>&#169; 2023</span>
+      <GitHubLink />
     </StyledFooter>
   );
 }

@@ -26,8 +26,10 @@ const StyledModal = styled('div')`
     padding: 1rem;
     display: flex;
     flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
     gap: 0.5rem;
-    min-width: 250px;
+    min-width: 300px;
     min-height: 250px;
 
     .modal-container__button_close {

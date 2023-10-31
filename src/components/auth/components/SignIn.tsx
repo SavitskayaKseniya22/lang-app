@@ -15,15 +15,17 @@ export const StyledAuthForm = styled('form')`
   flex-direction: column;
   gap: 1rem;
   align-items: center;
+  max-width: 300px;
 
   input {
-    min-width: 300px;
+    width: 100%;
     padding: 0.5rem;
     border: none;
     background-color: rgb(244, 162, 97);
     text-align: center;
     font-size: 1.25rem;
   }
+
   button {
     font-size: 1.25rem;
   }

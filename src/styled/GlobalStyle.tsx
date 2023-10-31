@@ -2,6 +2,9 @@ import { createGlobalStyle } from 'styled-components';
 import { ScreenSize } from '../interfaces';
 
 const GlobalStyle = createGlobalStyle`
+html{
+  scroll-behavior: smooth;
+}
 
   * {
     box-sizing: border-box;
@@ -28,10 +31,12 @@ const GlobalStyle = createGlobalStyle`
     border: none;
     cursor: pointer;
     background-color: transparent;
+    font-family:inherit;
   }
 
   a {
      text-decoration: none;
+      font-family:inherit;
   }
 
  

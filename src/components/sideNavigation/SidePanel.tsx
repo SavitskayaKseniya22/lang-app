@@ -1,20 +1,21 @@
 import React from 'react';
 import styled from 'styled-components';
-import { gradientBackground } from '../../styled/SharedStyles';
 import Profile from '../header/Profile';
-import GitHubLink from './components/GitHubLink';
 import MainNavigation from './components/MainNavigation';
 import { ScreenSize } from '../../interfaces';
 
 const StyledSidePanel = styled('nav')`
-  ${gradientBackground}
+  background-color: rgba(38, 70, 83);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   gap: 0.5rem;
+  position: sticky;
+  top: 0;
 
   @media ${ScreenSize.TABLET} {
     gap: 2rem;
+    height: 100vh;
   }
 `;
 
@@ -23,7 +24,6 @@ function SidePanel() {
     <StyledSidePanel>
       <MainNavigation />
       <Profile />
-      <GitHubLink />
     </StyledSidePanel>
   );
 }

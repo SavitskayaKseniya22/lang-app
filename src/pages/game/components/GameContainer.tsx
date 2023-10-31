@@ -5,7 +5,8 @@ import { GameType, GameTipView, ChildrenProps } from '../../../interfaces';
 import GameTip from './GameTip';
 import Suspended from '../../../components/Suspended';
 
-const StyledGameContainer = styled('div')`
+const StyledGameContainer = styled('main')`
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;

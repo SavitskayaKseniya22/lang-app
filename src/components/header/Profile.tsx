@@ -5,7 +5,7 @@ import { ScreenSize } from '../../interfaces';
 import SignInControl from './components/SignInControl';
 
 const StyledProfile = styled('div')`
-  padding: 0;
+  padding: 0.5rem 0;
   display: flex;
   justify-content: flex-start;
   align-items: flex-end;
@@ -14,7 +14,7 @@ const StyledProfile = styled('div')`
 
   @media ${ScreenSize.TABLET} {
     flex-direction: column;
-    padding-left: 1rem;
+    padding: 0 0 5rem 1rem;
   }
 `;
 
