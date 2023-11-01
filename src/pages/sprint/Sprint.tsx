@@ -9,7 +9,6 @@ import {
   ActiveWordsTypes,
   DefaultTextBookValues,
   GameResultType,
-  GameType,
   StepValues,
   StreakValues,
   TextBookValuesTypes,
@@ -21,15 +20,12 @@ import Streak from './components/Streak';
 import Points from './components/Points';
 import SprintRound from './components/SprintRound';
 import ActiveWordsList from './components/ActiveWordsList';
-import GameContainer from '../game/components/GameContainer';
+import Suspended from '../../components/Suspended';
 
 const StyledSprint = styled('div')`
-  width: 1024px;
-  padding: 5rem 2rem;
   display: flex;
   justify-content: center;
   flex-direction: column;
-  height: 100%;
 `;
 
 function Sprint() {
@@ -119,19 +115,19 @@ function Sprint() {
   };
 
   const doAfterTimer = useCallback(() => {
-    navigate(`result`, { state: result });
+    navigate(`/result`, { state: result });
   }, [navigate, result]);
 
   return (
-    <GameContainer type={GameType.SPRINT} condition={!!activeWords}>
+    <Suspended condition={!!activeWords}>
       <StyledSprint>
-        <Timer duration={666} doAfterTimer={doAfterTimer} />
+        <Timer duration={999} doAfterTimer={doAfterTimer} />
         <Points value={result.points} />
         <Streak value={result.streak} />
         <ActiveWordsList words={activeWords} />
         <SprintRound handleChange={handleChange} />
       </StyledSprint>
-    </GameContainer>
+    </Suspended>
   );
 }
 

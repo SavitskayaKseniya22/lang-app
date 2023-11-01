@@ -16,6 +16,7 @@ const titles = css`
 
   h2 {
     font-size: 2.5rem;
+    color: rgb(231, 111, 81);
   }
 
   h3 {

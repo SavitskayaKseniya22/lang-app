@@ -2,9 +2,8 @@ import React, { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import { useGetAllWordsQuery } from '../../store/words/wordsApi';
-import { GameType } from '../../interfaces';
-import GameContainer from '../game/components/GameContainer';
 import Timer from '../sprint/components/Timer';
+import Suspended from '../../components/Suspended';
 
 const StyledAudiocall = styled('div')`
   display: flex;
@@ -26,11 +25,11 @@ function Audiocall() {
   }, [data]);
 
   return (
-    <GameContainer type={GameType.AUDIOCALL} condition>
+    <Suspended condition>
       <StyledAudiocall>
         <Timer duration={60} doAfterTimer={() => {}} />
       </StyledAudiocall>
-    </GameContainer>
+    </Suspended>
   );
 }
 

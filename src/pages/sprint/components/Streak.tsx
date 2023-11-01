@@ -18,18 +18,20 @@ const StyledStreak = styled('ul')<{ $fullfilled: number }>`
         props.$fullfilled === 1 ||
         props.$fullfilled === 2 ||
         props.$fullfilled === 3
-          ? 'rgb(231, 111, 81)'
-          : 'rgb(233, 196, 106)'};
+          ? 'rgb(244, 162, 97)'
+          : 'rgba(233, 197, 106, 0.2)'};
     }
     &:nth-child(2) {
       background-color: ${(props) =>
         props.$fullfilled === 2 || props.$fullfilled === 3
-          ? 'rgb(231, 111, 81)'
-          : 'rgb(233, 196, 106)'};
+          ? 'rgb(244, 162, 97)'
+          : 'rgba(233, 197, 106, 0.2)'};
     }
     &:nth-child(3) {
       background-color: ${(props) =>
-        props.$fullfilled === 3 ? 'rgb(231, 111, 81)' : 'rgb(233, 196, 106)'};
+        props.$fullfilled === 3
+          ? 'rgb(244, 162, 97)'
+          : 'rgba(233, 197, 106, 0.2)'};
     }
   }
 `;

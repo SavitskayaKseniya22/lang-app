@@ -47,9 +47,9 @@ export interface UserWordInfo {
 }
 
 export enum GameType {
-  SPRINT = 'sprint',
-  AUDIOCALL = 'audiocall',
-  PUZZLES = 'puzzles',
+  SPRINT = 'Sprint',
+  AUDIOCALL = 'Audiocall',
+  PUZZLES = 'Puzzles',
 }
 export enum WordBaseValues {
   MINGROUP = 0,
@@ -116,11 +116,6 @@ export interface ActiveWordsTypes {
 export interface AnswerType {
   word: WordType;
   answer: boolean;
-}
-
-export enum GameTipView {
-  SMALL,
-  BIG,
 }
 
 export type ChildrenProps = string | JSX.Element | JSX.Element[];

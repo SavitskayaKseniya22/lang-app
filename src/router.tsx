@@ -16,8 +16,9 @@ import { GameType } from './interfaces';
 import GameResult from './pages/game/GameResult';
 import Puzzles from './pages/sentences/Puzzles';
 import SidePanel from './components/sideNavigation/SidePanel';
-import GameStartScreen from './pages/game/components/GameStartScreen';
 import Footer from './components/footer/Footer';
+import GameLayout from './pages/game/components/GameLayout';
+import GroupPicker from './pages/game/components/GroupPicker';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -45,30 +46,31 @@ const router = createBrowserRouter(
       >
         <Route index element={<MainPage />} />
         <Route path="/text-book" element={<TextBookPage />} />
-        <Route path="/sprint">
-          <Route index element={<GameStartScreen type={GameType.SPRINT} />} />
-          <Route path=":group">
-            <Route index element={<Sprint />} />
-            <Route path="result" element={<GameResult />} />
-          </Route>
-        </Route>
-        <Route path="/puzzles">
-          <Route index element={<GameStartScreen type={GameType.PUZZLES} />} />
-          <Route path=":group">
-            <Route index element={<Puzzles />} />
-            <Route path="result" element={<GameResult />} />
-          </Route>
-        </Route>
-        <Route path="/audiocall">
+        <Route path="/sprint" element={<GameLayout type={GameType.SPRINT} />}>
           <Route
             index
-            element={<GameStartScreen type={GameType.AUDIOCALL} />}
+            element={<GroupPicker initValues={{ page: 0, group: 0 }} />}
+          />
+          <Route path=":group">
+            <Route index element={<Sprint />} />
+          </Route>
+        </Route>
+        <Route path="/puzzles" element={<GameLayout type={GameType.PUZZLES} />}>
+          <Route index element={<Puzzles />} />
+        </Route>
+        <Route
+          path="/audiocall"
+          element={<GameLayout type={GameType.AUDIOCALL} />}
+        >
+          <Route
+            index
+            element={<GroupPicker initValues={{ page: 0, group: 0 }} />}
           />
           <Route path=":group">
             <Route index element={<Audiocall />} />
-            <Route path="result" element={<GameResult />} />
           </Route>
         </Route>
+        <Route path="result" element={<GameResult />} />
         <Route path="/statistics" element={<div>d</div>} />
         <Route path="*" element={<Page404 />} />
       </Route>

@@ -1,8 +1,8 @@
 /* eslint-disable react/jsx-props-no-spreading */
-
 import React from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 import PagePicker from './components/PagePicker';
 import GroupSelect from './components/GroupSelect';
 import { useGetAllWordsQuery } from '../../store/words/wordsApi';
@@ -17,27 +17,39 @@ const StyledTextBook = styled('div')`
   align-items: center;
   justify-content: center;
 
-  form {
-    display: flex;
-    gap: 1.5rem;
-    align-items: center;
-    position: sticky;
-    bottom: 0;
-    left: 0;
-    background-color: white;
-    padding: 1rem;
-    width: 100%;
-    flex-direction: column;
-  }
-
-  @media ${ScreenSize.LAPTOPS} {
-    form {
-      justify-content: flex-end;
-      flex-direction: row;
-    }
-  }
   @media ${ScreenSize.LAPTOPL} {
     padding: 10rem;
+  }
+`;
+
+const StyledTextBookSettings = styled('div')`
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  position: sticky;
+  bottom: 0;
+  left: 0;
+  background-color: white;
+  padding: 1rem;
+  width: 100%;
+  flex-direction: column;
+
+  @media ${ScreenSize.LAPTOPS} {
+    justify-content: flex-end;
+    flex-direction: row;
+  }
+`;
+
+const StyledTextBookForm = styled('form')`
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  flex-direction: column;
+  padding: 0.5rem;
+
+  @media ${ScreenSize.LAPTOPS} {
+    justify-content: flex-end;
+    flex-direction: row;
   }
 `;
 
@@ -53,12 +65,15 @@ function TextBookPage() {
   return (
     <StyledTextBook>
       <WordList data={data} />
-      <FormProvider {...methods}>
-        <form onSubmit={methods.handleSubmit(() => {})}>
-          <PagePicker />
-          <GroupSelect />
-        </form>
-      </FormProvider>
+      <StyledTextBookSettings>
+        <FormProvider {...methods}>
+          <StyledTextBookForm onSubmit={methods.handleSubmit(() => {})}>
+            <PagePicker />
+            <GroupSelect />
+          </StyledTextBookForm>
+        </FormProvider>
+        <Link to="/games">Practice this set of words</Link>
+      </StyledTextBookSettings>
     </StyledTextBook>
   );
 }

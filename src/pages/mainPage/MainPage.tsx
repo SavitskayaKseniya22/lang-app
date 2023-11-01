@@ -19,7 +19,6 @@ const StyledMainPage = styled('main')`
 
   h2 {
     margin: 1rem 0;
-    color: rgb(231, 111, 81);
   }
 
   i {
@@ -47,6 +46,7 @@ export const StyledMainPageBlock = css`
 const StyledMainPageFirstScreen = styled('div')`
   ${StyledMainPageBlock}
   gap: 2rem;
+
   h1 {
     margin: 2rem 0;
     color: rgb(231, 111, 81);
@@ -70,7 +70,7 @@ function MainPage() {
       <NavArrow />
       <StyledMainPageFirstScreen id="section-0">
         <h1>Awesome language learning app</h1>
-        <p>Learn English by playing games</p>
+        <a href="#section-1">Learn English by playing games</a>
       </StyledMainPageFirstScreen>
       <StyledMainPageGamesList id="section-1">
         <li className="feature">

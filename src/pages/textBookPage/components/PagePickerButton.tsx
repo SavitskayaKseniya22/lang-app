@@ -15,11 +15,9 @@ const StyledPagePickerButton = styled('button')<{ $groupColor: number }>`
   }
 
   @media ${ScreenSize.TABLET} {
-    button {
-      width: 2.5rem;
-      height: 2.5rem;
-      font-size: 1rem;
-    }
+    width: 2.5rem;
+    height: 2.5rem;
+    font-size: 1rem;
   }
 `;
 

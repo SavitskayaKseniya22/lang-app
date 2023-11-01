@@ -11,28 +11,18 @@ const StyledActiveWordsList = styled('ul')`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 2rem;
-  gap: 2rem;
+  padding: 1rem;
+  gap: 1rem;
   flex-grow: 11;
+  text-align: center;
+
+  .audible {
+    cursor: pointer;
+  }
 
   audio {
     display: none;
     color: red;
-  }
-
-  li {
-    padding: 1rem;
-    color: black;
-    text-align: center;
-
-    &.audible {
-      font-size: 4rem;
-      cursor: pointer;
-    }
-
-    &:nth-child(2) {
-      font-size: 2rem;
-    }
   }
 `;
 
@@ -50,9 +40,11 @@ function ActiveWordsList({ words }: { words: ActiveWordsTypes | null }) {
               audioRef.current?.play();
             }}
           >
-            {words.first.word.word}
+            <h2>{words.first.word.word}</h2>
           </li>
-          <li>{words.second.word.wordTranslate}</li>
+          <li>
+            <h4>{words.second.word.wordTranslate}</h4>
+          </li>
           <audio
             ref={audioRef}
             controls

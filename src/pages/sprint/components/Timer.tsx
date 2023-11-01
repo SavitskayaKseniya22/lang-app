@@ -12,8 +12,9 @@ const StyledTimer = styled('div')`
   height: 5rem;
   font-size: 1.5rem;
   position: absolute;
-  top: 2rem;
-  left: 2rem;
+  top: 1rem;
+  right: 1rem;
+  opacity: 0.5;
 `;
 
 function Timer({

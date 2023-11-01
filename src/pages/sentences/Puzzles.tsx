@@ -1,20 +1,18 @@
 import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import { GameType, WordBaseValues, WordType } from '../../interfaces';
-import GameContainer from '../game/components/GameContainer';
+import { WordBaseValues, WordType } from '../../interfaces';
 import { useGetAllWordsQuery } from '../../store/words/wordsApi';
 import DragAndDrop from './components/DragAndDrop';
 import { getRandom } from '../../utils';
+import Suspended from '../../components/Suspended';
 
 const StyledSentences = styled('div')`
   display: flex;
   justify-content: center;
-
   flex-direction: column;
-  padding: 2rem;
-  position: relative;
-  gap: 2rem;
+
+  gap: 1rem;
 
   div {
     &.true {
@@ -49,11 +47,11 @@ function Puzzles() {
   }, [wordList]);
 
   return (
-    <GameContainer type={GameType.PUZZLES} condition>
+    <Suspended condition={!!wordList}>
       <StyledSentences>
         {word && wordList && (
           <>
-            <h3>{word.word}</h3>
+            <h4>{word.word}</h4>
             <p>{word.textExampleTranslate}</p>
 
             <DragAndDrop
@@ -77,7 +75,7 @@ function Puzzles() {
               <button
                 type="button"
                 onClick={() => {
-                  if (count.current < WordBaseValues.MAXPAGE) {
+                  if (count.current < 3) {
                     count.current += 1;
                     setWord(wordList[count.current]);
                     setMiddleResult(null);
@@ -101,7 +99,7 @@ function Puzzles() {
           </>
         )}
       </StyledSentences>
-    </GameContainer>
+    </Suspended>
   );
 }
 

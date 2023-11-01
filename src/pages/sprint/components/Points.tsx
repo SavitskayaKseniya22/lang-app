@@ -7,11 +7,12 @@ const StyledPoints = styled('div')`
   justify-content: center;
   align-items: center;
   padding: 1rem;
-  gap: 1.5rem;
+  gap: 2rem;
 
   .points__total {
     font-size: 4rem;
   }
+
   .points__step {
     font-size: 1.5rem;
   }

@@ -18,7 +18,6 @@ const reorder = (list: WordForDrop[], startIndex: number, endIndex: number) => {
   const result = Array.from(list);
   const [removed] = result.splice(startIndex, 1);
   result.splice(endIndex, 0, removed);
-
   return result;
 };
 
@@ -26,25 +25,25 @@ const StyledDragContainer = styled('div')<{ $isItActive: boolean }>`
   display: flex;
   justify-content: center;
   flex-direction: column;
-  gap: 3rem;
-  padding: 1rem;
+  gap: 1rem;
   pointer-events: ${(props) => (props.$isItActive ? 'auto' : 'none')};
 
-  .list1,
-  .list2 {
+  .list_droppable,
+  .list_draggable {
     border-radius: 1.5rem;
     background-color: gainsboro;
+    min-height: 3rem;
     padding: 1rem;
-    min-height: 80px;
-
     display: flex;
-    gap: 1rem;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    font-size: smaller;
 
     li {
       border-radius: 1rem;
       background-color: white;
-      padding: 1rem;
-      font-weight: bolder;
+      padding: 0.5rem;
+      text-align: center;
     }
   }
 `;
@@ -128,7 +127,7 @@ function DragAndDrop({
             <ul
               ref={provided.innerRef}
               {...provided.droppableProps}
-              className="list1"
+              className="list_droppable"
             >
               {sentence.result.map((item, index) => (
                 <Draggable key={item.key} draggableId={item.key} index={index}>
@@ -153,7 +152,7 @@ function DragAndDrop({
             <ul
               ref={provided.innerRef}
               {...provided.droppableProps}
-              className="list2"
+              className="list_draggable"
             >
               {sentence.source.map((item, index) => (
                 <Draggable key={item.key} draggableId={item.key} index={index}>

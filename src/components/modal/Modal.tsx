@@ -5,7 +5,7 @@ import { ChildrenProps } from '../../interfaces';
 import ModalContext from './ModalContext';
 
 function ReactPortal({ children }: { children: ChildrenProps }) {
-  return createPortal(children, document.body);
+  return createPortal(children, document.getElementById('root') as HTMLElement);
 }
 
 const StyledModal = styled('div')`
