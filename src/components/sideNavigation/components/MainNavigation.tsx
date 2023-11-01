@@ -22,7 +22,6 @@ const StyledNavLink = styled(NavLink)`
   padding: 0.5rem;
   gap: 1rem;
   align-items: center;
-  font-family: 'Poppins', sans-serif;
 
   &.active {
     border-radius: 0 0 1.5rem 1.5rem;

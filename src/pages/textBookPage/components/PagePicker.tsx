@@ -2,38 +2,16 @@
 import React, { useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { useFormContext } from 'react-hook-form';
-import { checkColor, checkDisabled } from '../../../utils';
-import { ScreenSize, WordBaseValues } from '../../../interfaces';
+import { checkDisabled } from '../../../utils';
+import { WordBaseValues } from '../../../interfaces';
+import PagePickerButton from './PagePickerButton';
 
-const StyledPagePicker = styled('div')<{ $groupColor: number }>`
+const StyledPagePicker = styled('div')`
   display: flex;
   gap: 1rem;
 
-  button {
-    width: 2rem;
-    height: 2rem;
-    color: white;
-    background-color: ${(props) => checkColor(props.$groupColor)};
-
-    &:disabled {
-      background-color: rgba(42, 157, 144, 0.2);
-    }
-
-    &.unclickable {
-      cursor: auto;
-    }
-  }
-
   input {
     display: none;
-  }
-
-  @media ${ScreenSize.TABLET} {
-    button {
-      width: 2.5rem;
-      height: 2.5rem;
-      font-size: 1rem;
-    }
   }
 `;
 
@@ -58,55 +36,59 @@ function PagePicker() {
   }, [pageValue]);
 
   return (
-    <StyledPagePicker $groupColor={groupValue}>
+    <StyledPagePicker>
       <input
         {...register('page')}
         type="text"
         value={borderValues.current.prev}
       />
-      <button
-        disabled={checkDisabled(pageValue, WordBaseValues.MINPAGE)}
-        type="button"
-        onClick={() => {
+      <PagePickerButton
+        $groupColor={groupValue}
+        isDisabled={checkDisabled(pageValue, WordBaseValues.MINPAGE)}
+        handleClick={() => {
           setValue('page', WordBaseValues.MINPAGE);
         }}
       >
         <i className="fa-solid fa-backward-fast" />
-      </button>
+      </PagePickerButton>
 
-      <button
-        disabled={checkDisabled(pageValue, borderValues.current.prev)}
-        type="button"
-        onClick={() => {
+      <PagePickerButton
+        $groupColor={groupValue}
+        isDisabled={checkDisabled(pageValue, borderValues.current.prev)}
+        handleClick={() => {
           setValue('page', borderValues.current.prev);
         }}
       >
         <i className="fa-solid fa-backward" />
-      </button>
+      </PagePickerButton>
 
-      <button type="button" className="unclickable">
+      <PagePickerButton
+        $groupColor={groupValue}
+        isDisabled
+        handleClick={() => {}}
+      >
         {pageValue}
-      </button>
+      </PagePickerButton>
 
-      <button
-        disabled={checkDisabled(pageValue, borderValues.current.next)}
-        type="button"
-        onClick={() => {
+      <PagePickerButton
+        $groupColor={groupValue}
+        isDisabled={checkDisabled(pageValue, borderValues.current.next)}
+        handleClick={() => {
           setValue('page', borderValues.current.next);
         }}
       >
         <i className="fa-solid fa-forward" />
-      </button>
+      </PagePickerButton>
 
-      <button
-        disabled={checkDisabled(pageValue, WordBaseValues.MAXPAGE)}
-        type="button"
-        onClick={() => {
+      <PagePickerButton
+        $groupColor={groupValue}
+        isDisabled={checkDisabled(pageValue, WordBaseValues.MAXPAGE)}
+        handleClick={() => {
           setValue('page', WordBaseValues.MAXPAGE);
         }}
       >
         <i className="fa-solid fa-forward-fast" />
-      </button>
+      </PagePickerButton>
     </StyledPagePicker>
   );
 }

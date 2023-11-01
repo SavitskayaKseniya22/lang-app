@@ -10,6 +10,10 @@ const GlobalStyle = createGlobalStyle`
     scroll-behavior: smooth;
   }
 
+  body {
+    font-family: 'Poppins', sans-serif;
+  }
+
   * {
     box-sizing: border-box;
   }
@@ -19,6 +23,7 @@ const GlobalStyle = createGlobalStyle`
   body {
     margin: 0;
   }
+
 
   ul {
     list-style: none;

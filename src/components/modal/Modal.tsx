@@ -15,22 +15,22 @@ const StyledModal = styled('div')`
   position: fixed;
   top: 0;
   left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   .modal__container {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: white;
-    color: black;
-    padding: 1rem;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
+    background-color: white;
+    padding: 1rem;
     gap: 0.5rem;
-    min-width: 300px;
     min-height: 250px;
+    min-width: 250px;
+    height: auto;
+    width: auto;
 
     .modal-container__button_close {
       align-self: flex-end;

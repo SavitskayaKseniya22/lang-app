@@ -1,17 +1,56 @@
 /* eslint-disable jsx-a11y/media-has-caption */
-
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { WordType } from '../../../interfaces';
+import { ScreenSize, WordType } from '../../../interfaces';
 import Suspended from '../../../components/Suspended';
 
 const StyledWordDetailed = styled('div')`
-  padding: 1.5rem;
+  gap: 2rem;
   display: flex;
-  gap: 1rem;
+  flex-direction: column;
   justify-content: center;
-  text-align: center;
+  max-width: 280px;
+
+  image {
+    width: 100%;
+  }
+
+  @media ${ScreenSize.LAPTOPS} {
+    max-width: 450px;
+  }
+`;
+
+const StyledWordDetailedTitle = styled('div')`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   flex-wrap: wrap;
+  gap: 1rem;
+
+  p {
+    color: rgb(233, 196, 106);
+  }
+`;
+
+const StyledWordDetailedContent = styled('ul')`
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+
+  li {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    h4 {
+      color: rgb(231, 111, 81);
+      font-weight: bold;
+    }
+  }
+
+  @media ${ScreenSize.LAPTOPS} {
+    flex-direction: row;
+  }
 `;
 
 function WordDetailed({ wordData }: { wordData: WordType }) {
@@ -45,20 +84,23 @@ function WordDetailed({ wordData }: { wordData: WordType }) {
           controls
           src={`https://raw.githubusercontent.com/irinainina/rslang/rslang-data/data/${wordData.audio}`}
         />
-        <div className="word__content">
-          <h3>{wordData.word}</h3>
-          <h4>{wordData.transcription}</h4>
-          <h3>{wordData.wordTranslate}</h3>
-        </div>
-        <dl>
-          <dt>Meaning - Значение</dt>
-          <dd>{wordData.textMeaning}</dd>
-          <dd>{wordData.textMeaningTranslate}</dd>
-
-          <dt>Example - Пример использования</dt>
-          <dd>{wordData.textExample}</dd>
-          <dd>{wordData.textExampleTranslate}</dd>
-        </dl>
+        <StyledWordDetailedTitle>
+          <h4>{wordData.word}</h4>
+          <p>{wordData.transcription}</p>
+          <h5>{wordData.wordTranslate}</h5>
+        </StyledWordDetailedTitle>
+        <StyledWordDetailedContent>
+          <li>
+            <h4>Meanings</h4>
+            <p>{wordData.textMeaning}</p>
+            <p>{wordData.textMeaningTranslate}</p>
+          </li>
+          <li>
+            <h4>Examples</h4>
+            <p>{wordData.textExample}</p>
+            <p>{wordData.textExampleTranslate}</p>
+          </li>
+        </StyledWordDetailedContent>
       </StyledWordDetailed>
     </Suspended>
   );

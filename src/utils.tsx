@@ -22,7 +22,7 @@ export function capitalize(string: string) {
 }
 
 export function checkDisabled(number: number, ref: number) {
-  return number === ref || undefined;
+  return number === ref || false;
 }
 
 export function getRandom(min: number, max: number) {

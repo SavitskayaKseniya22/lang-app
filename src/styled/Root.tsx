@@ -3,7 +3,6 @@ import { ScreenSize } from '../interfaces';
 
 const root = css`
   #root {
-    font-family: 'Poppins', sans-serif;
     min-height: 100vh;
     max-width: 100vw;
     display: flex;
