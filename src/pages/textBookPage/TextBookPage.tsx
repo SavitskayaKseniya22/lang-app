@@ -1,13 +1,14 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import React from 'react';
+import React, { useContext } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
 import PagePicker from './components/PagePicker';
 import GroupSelect from './components/GroupSelect';
 import { useGetAllWordsQuery } from '../../store/words/wordsApi';
 import WordList from './components/WordList';
 import { DefaultTextBookValues, ScreenSize } from '../../interfaces';
+import ModalContext from '../../components/modal/ModalContext';
+import GamesPanel from './components/GamesPanel';
 
 const StyledTextBook = styled('div')`
   display: flex;
@@ -62,6 +63,8 @@ function TextBookPage() {
     refetchOnMountOrArgChange: true,
   });
 
+  const { setContent } = useContext(ModalContext);
+
   return (
     <StyledTextBook>
       <WordList data={data} />
@@ -72,7 +75,19 @@ function TextBookPage() {
             <GroupSelect />
           </StyledTextBookForm>
         </FormProvider>
-        <Link to="/games">Practice this set of words</Link>
+        <button
+          type="button"
+          onClick={() => {
+            setContent(
+              <GamesPanel
+                group={methods.getValues().group}
+                page={methods.getValues().page}
+              />
+            );
+          }}
+        >
+          Practice this set of words
+        </button>
       </StyledTextBookSettings>
     </StyledTextBook>
   );

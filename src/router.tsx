@@ -19,13 +19,14 @@ import SidePanel from './components/sideNavigation/SidePanel';
 import Footer from './components/footer/Footer';
 import GameLayout from './pages/game/components/GameLayout';
 import GroupPicker from './pages/game/components/GroupPicker';
+import ModalProvider from './components/modal/ModalProvider';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" errorElement={<ErrorPage />} id="root" element={<Outlet />}>
       <Route
         element={
-          <>
+          <ModalProvider>
             <SidePanel />
             <Outlet />
             <Footer />
@@ -41,7 +42,7 @@ const router = createBrowserRouter(
               pauseOnHover
               theme="light"
             />
-          </>
+          </ModalProvider>
         }
       >
         <Route index element={<MainPage />} />

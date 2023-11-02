@@ -91,14 +91,14 @@ export interface PointsType {
 }
 
 export type GameResultType = {
-  answers: AnswerType[];
+  answers: { correct: WordType[]; wrong: WordType[] };
   points: PointsType;
   streak: number;
 };
 
 export interface ResultStatsType {
-  correct: AnswerType[];
-  wrong: AnswerType[];
+  correct: WordType[];
+  wrong: WordType[];
   percent: number;
   message: string;
 }
@@ -111,11 +111,6 @@ export interface ActiveWordTypes {
 export interface ActiveWordsTypes {
   first: ActiveWordTypes;
   second: ActiveWordTypes;
-}
-
-export interface AnswerType {
-  word: WordType;
-  answer: boolean;
 }
 
 export type ChildrenProps = string | JSX.Element | JSX.Element[];
@@ -153,4 +148,9 @@ export enum ScreenSize {
   TABLET = '(min-width: 768px)',
   LAPTOPS = '(min-width: 1024px)',
   LAPTOPL = '(min-width: 1920px)',
+}
+
+export enum GameDuration {
+  SHORT = 'short',
+  LONG = 'long',
 }
