@@ -18,11 +18,11 @@ const StyledPoints = styled('div')`
   }
 `;
 
-function Points({ value }: { value: PointsType }) {
+function Points({ step, total }: PointsType) {
   return (
     <StyledPoints>
-      <p className="points__step">{`+${value.step}`}</p>
-      <p className="points__total">{value.total}</p>
+      <p className="points__step">{`+${step}`}</p>
+      <p className="points__total">{total}</p>
     </StyledPoints>
   );
 }

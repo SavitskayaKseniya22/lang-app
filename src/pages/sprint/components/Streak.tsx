@@ -37,9 +37,9 @@ const StyledStreak = styled('ul')<{ $fullfilled: number }>`
   }
 `;
 
-function Streak({ value }: { value: number }) {
+function Streak({ streak }: { streak: number }) {
   return (
-    <StyledStreak $fullfilled={value}>
+    <StyledStreak $fullfilled={streak}>
       {makeEmptyArrayWithIds(3).map((item) => (
         <li key={item.key} />
       ))}

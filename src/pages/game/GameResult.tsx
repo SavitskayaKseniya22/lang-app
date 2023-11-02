@@ -1,17 +1,18 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
+import styled from 'styled-components';
 import { GameResultType, ResultStatsType } from '../../interfaces';
 import { getPercent, getResultMessage } from '../../utils';
+import WordList from '../textBookPage/components/WordList';
 
 export const isGameResultState = (
   state: undefined | null | GameResultType
 ): state is GameResultType => (state as GameResultType).answers !== undefined;
 
 export function makeResult(state: GameResultType): ResultStatsType {
-  const correct = state.answers.filter((item) => item.answer);
-  const wrong = state.answers.filter((item) => !item.answer);
+  const { correct, wrong } = state.answers;
 
-  const percent = getPercent(state.answers.length, correct.length);
+  const percent = getPercent(correct.length + wrong.length, correct.length);
 
   return {
     correct,
@@ -21,6 +22,27 @@ export function makeResult(state: GameResultType): ResultStatsType {
   };
 }
 
+const StyledGameResult = styled('main')`
+  padding: 1rem;
+  flex-grow: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+`;
+
+const StyledGameResultContent = styled('ul')`
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  justify-content: space-between;
+`;
+
+const StyledGameResultContentItem = styled('li')`
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+`;
+
 function GameResult() {
   const { state } = useLocation();
 
@@ -28,37 +50,25 @@ function GameResult() {
     const { correct, wrong, percent, message } = makeResult(state);
 
     return (
-      <div>
+      <StyledGameResult>
         <h2>{message}</h2>
         <h3>{`${percent}% correct answers`}</h3>
 
-        <ul>
-          <li>
-            <h3>{`Correct answers (${correct.length}):`}</h3>
-            <ul>
-              {correct.map((item) => (
-                <li
-                  key={item.word.id}
-                >{`${item.word.word} - ${item.word.wordTranslate}`}</li>
-              ))}
-            </ul>
-          </li>
-          <li>
-            <h3>{`Wrong answers (${wrong.length}):`}</h3>
-            <ul>
-              {wrong.map((item) => (
-                <li
-                  key={item.word.id}
-                >{`${item.word.word} - ${item.word.wordTranslate}`}</li>
-              ))}
-            </ul>
-          </li>
-        </ul>
-      </div>
+        <StyledGameResultContent>
+          <StyledGameResultContentItem>
+            <h4>{`Correct (${correct.length}):`}</h4>
+            <WordList data={correct} />
+          </StyledGameResultContentItem>
+          <StyledGameResultContentItem>
+            <h4>{`Wrong (${wrong.length}):`}</h4>
+            <WordList data={wrong} />
+          </StyledGameResultContentItem>
+        </StyledGameResultContent>
+      </StyledGameResult>
     );
   }
 
-  return <div>No result data found</div>;
+  return <StyledGameResult>No result data found</StyledGameResult>;
 }
 
 export default GameResult;

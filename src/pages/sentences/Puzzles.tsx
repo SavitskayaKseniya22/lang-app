@@ -80,7 +80,7 @@ function Puzzles() {
                     setWord(wordList[count.current]);
                     setMiddleResult(null);
                   } else {
-                    navigate('result');
+                    navigate('/result');
                   }
                 }}
               >

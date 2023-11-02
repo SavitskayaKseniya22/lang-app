@@ -1,20 +1,29 @@
+/* eslint-disable no-nested-ternary */
 /* eslint-disable jsx-a11y/media-has-caption */
 /* eslint-disable react/jsx-props-no-spreading */
 
-import React, { SyntheticEvent, useCallback, useEffect, useState } from 'react';
+import React, {
+  SyntheticEvent,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { useGetAllWordsQuery } from '../../store/words/wordsApi';
 import {
   ActiveWordsTypes,
   DefaultTextBookValues,
+  GameDuration,
   GameResultType,
   StepValues,
   StreakValues,
   TextBookValuesTypes,
   WordBaseValues,
+  WordType,
 } from '../../interfaces';
-import { getActiveWordsArgs, isAnswerCorrect } from '../../utils';
+import { getActiveWordsArgs, checkIfAnswerCorrect } from '../../utils';
 import Timer from './components/Timer';
 import Streak from './components/Streak';
 import Points from './components/Points';
@@ -28,21 +37,55 @@ const StyledSprint = styled('div')`
   flex-direction: column;
 `;
 
+export function updateSprintResult(
+  result: GameResultType,
+  isAnswerCorrect: boolean,
+  word: WordType
+) {
+  const res = { ...result };
+
+  const total = isAnswerCorrect ? res.total + res.step : res.total;
+
+  const step = isAnswerCorrect
+    ? res.streak === StreakValues.MAX
+      ? res.step + StepValues.MIN
+      : res.step
+    : StepValues.MIN;
+
+  const streak =
+    (res.streak === StreakValues.MAX && isAnswerCorrect) || !isAnswerCorrect
+      ? (res.streak = StreakValues.MIN)
+      : res.streak + 1;
+
+  const { correct, wrong } = res.answers;
+
+  const answers = isAnswerCorrect
+    ? { wrong, correct: [...correct, word] }
+    : { correct, wrong: [...wrong, word] };
+
+  return {
+    answers,
+    step,
+    total,
+    streak,
+  };
+}
+
 function Sprint() {
   const navigate = useNavigate();
-  const { state } = useLocation();
-  const { group } = useParams();
+  const { group, page, duration } = useLocation().state;
+
+  const { group: groupParam } = useParams();
 
   const [args, setArgs] = useState<TextBookValuesTypes>(
-    state || { group, page: WordBaseValues.MINPAGE } || DefaultTextBookValues
+    { group, page } || { group: groupParam, page: WordBaseValues.MINPAGE } ||
+      DefaultTextBookValues
   );
 
-  const [result, setResult] = useState({
-    answers: [],
-    points: {
-      step: StepValues.MIN,
-      total: 0,
-    },
+  const result = useRef({
+    answers: { correct: [], wrong: [] },
+    step: StepValues.MIN,
+    total: 0,
     streak: StreakValues.MIN,
   } as GameResultType);
 
@@ -64,45 +107,17 @@ function Sprint() {
     if (gameData && activeWords) {
       const { first, second } = activeWords;
 
-      const answer = isAnswerCorrect(value, first, second);
+      const isAnswerCorrect = checkIfAnswerCorrect(value, first, second);
 
-      setResult((res) => {
-        const total = answer
-          ? res.points.total + res.points.step
-          : res.points.total;
-
-        const step =
-          // eslint-disable-next-line no-nested-ternary
-          answer
-            ? res.streak === StreakValues.MAX
-              ? res.points.step + StepValues.MIN
-              : res.points.step
-            : StepValues.MIN;
-
-        const streak =
-          (res.streak === StreakValues.MAX && answer) || !answer
-            ? (res.streak = StreakValues.MIN)
-            : res.streak + +answer;
-
-        return {
-          answers: [
-            ...result.answers,
-            {
-              word: first.word,
-              answer,
-            },
-          ],
-          points: {
-            step,
-            total,
-          },
-          streak,
-        };
-      });
+      result.current = updateSprintResult(
+        result.current,
+        isAnswerCorrect,
+        first.word
+      );
 
       if (first.index < WordBaseValues.MAXWORD) {
         setActiveWords(getActiveWordsArgs(gameData, first.index + 1));
-      } else {
+      } else if (duration === GameDuration.LONG) {
         setArgs({
           page:
             args.page < WordBaseValues.MAXPAGE
@@ -110,20 +125,24 @@ function Sprint() {
               : WordBaseValues.MINPAGE,
           group: args.group,
         });
+      } else {
+        navigate(`/result`, { state: result.current });
       }
     }
   };
 
   const doAfterTimer = useCallback(() => {
-    navigate(`/result`, { state: result });
-  }, [navigate, result]);
+    navigate(`/result`, { state: result.current });
+  }, [navigate]);
 
   return (
     <Suspended condition={!!activeWords}>
       <StyledSprint>
-        <Timer duration={999} doAfterTimer={doAfterTimer} />
-        <Points value={result.points} />
-        <Streak value={result.streak} />
+        {duration === GameDuration.LONG && (
+          <Timer duration={999} doAfterTimer={doAfterTimer} />
+        )}
+        <Points step={result.current.step} total={result.current.total} />
+        <Streak streak={result.current.streak} />
         <ActiveWordsList words={activeWords} />
         <SprintRound handleChange={handleChange} />
       </StyledSprint>

@@ -92,7 +92,8 @@ export interface PointsType {
 
 export type GameResultType = {
   answers: { correct: WordType[]; wrong: WordType[] };
-  points: PointsType;
+  step: number;
+  total: number;
   streak: number;
 };
 

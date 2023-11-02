@@ -60,7 +60,7 @@ export function getActiveWordsArgs(data: WordType[], basicIndex: number) {
   };
 }
 
-export function isAnswerCorrect(
+export function checkIfAnswerCorrect(
   value: string,
   firstWord: ActiveWordTypes,
   secondWord: ActiveWordTypes
