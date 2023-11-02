@@ -47,10 +47,7 @@ const router = createBrowserRouter(
         <Route index element={<MainPage />} />
         <Route path="/text-book" element={<TextBookPage />} />
         <Route path="/sprint" element={<GameLayout type={GameType.SPRINT} />}>
-          <Route
-            index
-            element={<GroupPicker initValues={{ page: 0, group: 0 }} />}
-          />
+          <Route index element={<GroupPicker />} />
           <Route path=":group">
             <Route index element={<Sprint />} />
           </Route>
@@ -62,10 +59,7 @@ const router = createBrowserRouter(
           path="/audiocall"
           element={<GameLayout type={GameType.AUDIOCALL} />}
         >
-          <Route
-            index
-            element={<GroupPicker initValues={{ page: 0, group: 0 }} />}
-          />
+          <Route index element={<GroupPicker />} />
           <Route path=":group">
             <Route index element={<Audiocall />} />
           </Route>

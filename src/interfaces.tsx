@@ -122,7 +122,7 @@ export type ChildrenProps = string | JSX.Element | JSX.Element[];
 
 export interface WordForDrop {
   key: string;
-  word: string;
+  element: string | number;
 }
 
 export interface DropData {

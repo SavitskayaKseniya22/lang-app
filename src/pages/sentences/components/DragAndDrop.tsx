@@ -12,7 +12,7 @@ import {
 import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { WordForDrop, DropData } from '../../../interfaces';
-import { makeWordList } from '../../../utils';
+import { makeStringArrayWithIds } from '../../../utils';
 
 const reorder = (list: WordForDrop[], startIndex: number, endIndex: number) => {
   const result = Array.from(list);
@@ -59,7 +59,7 @@ function DragAndDrop({
 }) {
   const updater = useCallback(
     () => ({
-      source: makeWordList(source),
+      source: makeStringArrayWithIds(source),
       result: [],
     }),
     [source]
@@ -72,7 +72,7 @@ function DragAndDrop({
   }, [source, updater]);
 
   useEffect(() => {
-    returnResult(sentence.result.map((item) => item.word).join(' '));
+    returnResult(sentence.result.map((item) => item.element).join(' '));
   }, [sentence, returnResult]);
 
   function onDragEnd(result: DropResult) {
@@ -137,7 +137,7 @@ function DragAndDrop({
                       {...provided.draggableProps}
                       {...provided.dragHandleProps}
                     >
-                      {item.word}
+                      {item.element}
                     </li>
                   )}
                 </Draggable>
@@ -172,7 +172,7 @@ function DragAndDrop({
                         });
                       }}
                     >
-                      {item.word}
+                      {item.element}
                     </li>
                   )}
                 </Draggable>

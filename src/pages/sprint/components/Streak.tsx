@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { makeEmptyArrayWithIds } from '../../../utils';
 
 const StyledStreak = styled('ul')<{ $fullfilled: number }>`
   display: flex;
@@ -39,8 +40,8 @@ const StyledStreak = styled('ul')<{ $fullfilled: number }>`
 function Streak({ value }: { value: number }) {
   return (
     <StyledStreak $fullfilled={value}>
-      {[0, 1, 2].map((item) => (
-        <li key={item} />
+      {makeEmptyArrayWithIds(3).map((item) => (
+        <li key={item.key} />
       ))}
     </StyledStreak>
   );

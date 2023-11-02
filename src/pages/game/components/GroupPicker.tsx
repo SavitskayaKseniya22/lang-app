@@ -3,6 +3,7 @@ import React from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { makeEmptyArrayWithIds } from '../../../utils';
 
 const StyledGroupPicker = styled('div')`
   padding: 1rem;
@@ -46,23 +47,16 @@ const StyledGroupPicker = styled('div')`
   }
 `;
 
-function GroupPicker({
-  initValues,
-}: {
-  initValues: {
-    page: number;
-    group: number;
-  };
-}) {
+function GroupPicker() {
   const { register, handleSubmit } = useForm({
-    defaultValues: { group: initValues.group.toString() },
+    defaultValues: { group: '0' },
   });
 
   const navigate = useNavigate();
 
   const onSubmit: SubmitHandler<{ group: string }> = (data) => {
     navigate(data.group, {
-      state: { group: data.group, page: initValues.page },
+      state: { group: data.group, page: 0 },
     });
   };
 
@@ -71,15 +65,15 @@ function GroupPicker({
       <h3>Select difficulty:</h3>
       <form onSubmit={handleSubmit(onSubmit)}>
         <ul>
-          {new Array(6).fill(0).map((item, i) => (
-            <li key={Math.random()}>
+          {makeEmptyArrayWithIds(6).map((item) => (
+            <li key={item.key}>
               <input
                 {...register('group')}
                 type="radio"
-                value={i}
-                id={`group-${i}`}
+                value={item.element}
+                id={`group-${item.key}`}
               />
-              <label htmlFor={`group-${i}`}>{i}</label>
+              <label htmlFor={`group-${item.key}`}>{item.element}</label>
             </li>
           ))}
         </ul>

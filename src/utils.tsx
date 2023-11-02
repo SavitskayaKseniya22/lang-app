@@ -80,13 +80,17 @@ export function shuffle(array: WordForDrop[]) {
   return arrayCopy;
 }
 
-export function makeWordList(string: string) {
-  const res = [] as WordForDrop[];
-  string.split(' ').forEach((word) => {
-    res.push({
-      key: Math.random().toString(),
-      word,
-    });
-  });
-  return shuffle(res);
+export function convertArray(array: Array<string | number>) {
+  return array.map((item, i) => ({
+    element: item || i,
+    key: Math.random().toString(),
+  }));
+}
+
+export function makeStringArrayWithIds(string: string) {
+  return convertArray(string.split(' '));
+}
+
+export function makeEmptyArrayWithIds(length: number) {
+  return convertArray(new Array(length).fill(0));
 }
