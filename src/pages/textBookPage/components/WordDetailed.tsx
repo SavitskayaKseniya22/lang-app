@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { ScreenSize, WordType } from '../../../interfaces';
 import Suspended from '../../../components/Suspended';
+import { StyledParagraph, StyledSpan } from '../../../styled/SharedStyles';
 
 const StyledWordDetailed = styled('div')`
   gap: 2rem;
@@ -26,10 +27,6 @@ const StyledWordDetailedTitle = styled('div')`
   align-items: center;
   flex-wrap: wrap;
   gap: 1rem;
-
-  p {
-    color: rgb(233, 196, 106);
-  }
 `;
 
 const StyledWordDetailedContent = styled('ul')`
@@ -41,11 +38,6 @@ const StyledWordDetailedContent = styled('ul')`
     display: flex;
     flex-direction: column;
     gap: 1rem;
-
-    h4 {
-      color: rgb(231, 111, 81);
-      font-weight: bold;
-    }
   }
 
   @media ${ScreenSize.LAPTOPS} {
@@ -85,20 +77,20 @@ function WordDetailed({ wordData }: { wordData: WordType }) {
           src={`https://raw.githubusercontent.com/irinainina/rslang/rslang-data/data/${wordData.audio}`}
         />
         <StyledWordDetailedTitle>
-          <h4>{wordData.word}</h4>
-          <p>{wordData.transcription}</p>
+          <h3>{wordData.word}</h3>
+          <StyledSpan>{wordData.transcription}</StyledSpan>
           <h5>{wordData.wordTranslate}</h5>
         </StyledWordDetailedTitle>
         <StyledWordDetailedContent>
           <li>
             <h4>Meanings</h4>
-            <p>{wordData.textMeaning}</p>
-            <p>{wordData.textMeaningTranslate}</p>
+            <StyledParagraph>{wordData.textMeaning}</StyledParagraph>
+            <StyledParagraph>{wordData.textMeaningTranslate}</StyledParagraph>
           </li>
           <li>
             <h4>Examples</h4>
-            <p>{wordData.textExample}</p>
-            <p>{wordData.textExampleTranslate}</p>
+            <StyledParagraph>{wordData.textExample}</StyledParagraph>
+            <StyledParagraph>{wordData.textExampleTranslate}</StyledParagraph>
           </li>
         </StyledWordDetailedContent>
       </StyledWordDetailed>

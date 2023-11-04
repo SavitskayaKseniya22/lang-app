@@ -8,6 +8,11 @@ const StyledNavArrow = styled('a')`
   position: fixed;
   bottom: 1rem;
   right: 1rem;
+
+  i {
+    font-size: 2rem;
+    color: rgb(38, 70, 83);
+  }
 `;
 
 export function NavArrow() {

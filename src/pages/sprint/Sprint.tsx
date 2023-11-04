@@ -142,7 +142,7 @@ function Sprint() {
           <Timer duration={999} doAfterTimer={doAfterTimer} />
         )}
         <Points step={result.current.step} total={result.current.total} />
-        <Streak streak={result.current.streak} />
+        <Streak streak={result.current.streak} total={3} />
         <ActiveWordsList words={activeWords} />
         <SprintRound handleChange={handleChange} />
       </StyledSprint>

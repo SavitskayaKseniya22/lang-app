@@ -3,17 +3,9 @@ import { Outlet } from 'react-router-dom';
 import styled from 'styled-components';
 import { GameType } from '../../../interfaces';
 import GameTip from './GameTip';
+import { StyledMain } from '../../../styled/SharedStyles';
 
-const StyledGameLayout = styled('main')`
-  flex-grow: 11;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-direction: column;
-  padding: 1rem;
-  position: relative;
-  gap: 1rem;
-
+const StyledGameLayout = styled(StyledMain)`
   h2 {
     align-self: flex-start;
   }

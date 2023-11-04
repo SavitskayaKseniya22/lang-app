@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { makeEmptyArrayWithIds } from '../../../utils';
 
-const StyledStreak = styled('ul')<{ $fullfilled: number }>`
+const StyledStreak = styled('ul')`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -14,34 +14,21 @@ const StyledStreak = styled('ul')<{ $fullfilled: number }>`
     height: 2rem;
     border-radius: 50%;
 
-    &:nth-child(1) {
-      background-color: ${(props) =>
-        props.$fullfilled === 1 ||
-        props.$fullfilled === 2 ||
-        props.$fullfilled === 3
-          ? 'rgb(244, 162, 97)'
-          : 'rgba(233, 197, 106, 0.2)'};
+    &.fullfilled {
+      background-color: rgb(244, 162, 97);
     }
-    &:nth-child(2) {
-      background-color: ${(props) =>
-        props.$fullfilled === 2 || props.$fullfilled === 3
-          ? 'rgb(244, 162, 97)'
-          : 'rgba(233, 197, 106, 0.2)'};
-    }
-    &:nth-child(3) {
-      background-color: ${(props) =>
-        props.$fullfilled === 3
-          ? 'rgb(244, 162, 97)'
-          : 'rgba(233, 197, 106, 0.2)'};
+
+    &.empty {
+      background-color: rgba(233, 197, 106, 0.2);
     }
   }
 `;
 
-function Streak({ streak }: { streak: number }) {
+function Streak({ streak, total }: { streak: number; total: number }) {
   return (
-    <StyledStreak $fullfilled={streak}>
-      {makeEmptyArrayWithIds(3).map((item) => (
-        <li key={item.key} />
+    <StyledStreak>
+      {makeEmptyArrayWithIds(total).map((item, i) => (
+        <li key={item.key} className={i < streak ? 'fullfilled' : 'empty'} />
       ))}
     </StyledStreak>
   );

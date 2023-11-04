@@ -12,6 +12,7 @@ const StyledSidePanel = styled('nav')`
   gap: 0.5rem;
   position: sticky;
   top: 0;
+  z-index: 100;
 
   @media ${ScreenSize.TABLET} {
     gap: 2rem;

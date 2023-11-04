@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { GameResultType, ResultStatsType } from '../../interfaces';
 import { getPercent, getResultMessage } from '../../utils';
 import WordList from '../textBookPage/components/WordList';
+import { StyledMain } from '../../styled/SharedStyles';
 
 export const isGameResultState = (
   state: undefined | null | GameResultType
@@ -21,14 +22,6 @@ export function makeResult(state: GameResultType): ResultStatsType {
     message: getResultMessage(percent),
   };
 }
-
-const StyledGameResult = styled('main')`
-  padding: 1rem;
-  flex-grow: 2;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-`;
 
 const StyledGameResultContent = styled('ul')`
   display: flex;
@@ -50,7 +43,7 @@ function GameResult() {
     const { correct, wrong, percent, message } = makeResult(state);
 
     return (
-      <StyledGameResult>
+      <StyledMain>
         <h2>{message}</h2>
         <h3>{`${percent}% correct answers`}</h3>
 
@@ -64,11 +57,11 @@ function GameResult() {
             <WordList data={wrong} />
           </StyledGameResultContentItem>
         </StyledGameResultContent>
-      </StyledGameResult>
+      </StyledMain>
     );
   }
 
-  return <StyledGameResult>No result data found</StyledGameResult>;
+  return <StyledMain>No result data found</StyledMain>;
 }
 
 export default GameResult;

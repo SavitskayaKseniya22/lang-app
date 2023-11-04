@@ -6,39 +6,21 @@ import PagePicker from './components/PagePicker';
 import GroupSelect from './components/GroupSelect';
 import { useGetAllWordsQuery } from '../../store/words/wordsApi';
 import WordList from './components/WordList';
-import { DefaultTextBookValues, ScreenSize } from '../../interfaces';
+import { DefaultTextBookValues } from '../../interfaces';
 import ModalContext from '../../components/modal/ModalContext';
 import GamesPanel from './components/GamesPanel';
-
-const StyledTextBook = styled('div')`
-  display: flex;
-  flex-direction: column;
-  padding: 1rem;
-  gap: 1.5rem;
-  align-items: center;
-  justify-content: center;
-
-  @media ${ScreenSize.LAPTOPL} {
-    padding: 10rem;
-  }
-`;
+import { StyledMain } from '../../styled/SharedStyles';
 
 const StyledTextBookSettings = styled('div')`
   display: flex;
   gap: 1rem;
-  align-items: center;
+  padding: 1rem;
+  flex-direction: column;
+
   position: sticky;
   bottom: 0;
   left: 0;
   background-color: white;
-  padding: 1rem;
-  width: 100%;
-  flex-direction: column;
-
-  @media ${ScreenSize.LAPTOPS} {
-    justify-content: flex-end;
-    flex-direction: row;
-  }
 `;
 
 const StyledTextBookForm = styled('form')`
@@ -47,11 +29,6 @@ const StyledTextBookForm = styled('form')`
   align-items: center;
   flex-direction: column;
   padding: 0.5rem;
-
-  @media ${ScreenSize.LAPTOPS} {
-    justify-content: flex-end;
-    flex-direction: row;
-  }
 `;
 
 function TextBookPage() {
@@ -66,7 +43,7 @@ function TextBookPage() {
   const { setContent } = useContext(ModalContext);
 
   return (
-    <StyledTextBook>
+    <StyledMain>
       <WordList data={data} />
       <StyledTextBookSettings>
         <FormProvider {...methods}>
@@ -89,7 +66,7 @@ function TextBookPage() {
           Practice this set of words
         </button>
       </StyledTextBookSettings>
-    </StyledTextBook>
+    </StyledMain>
   );
 }
 

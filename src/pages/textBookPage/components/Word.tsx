@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import { NumberDivisibility, ScreenSize, WordType } from '../../../interfaces';
 import WordDetailed from './WordDetailed';
 import ModalContext from '../../../components/modal/ModalContext';
+import { StyledSpan } from '../../../styled/SharedStyles';
 
 const StyledWord = styled('li')<{ $type: NumberDivisibility }>`
   cursor: pointer;
@@ -22,13 +23,6 @@ const StyledWord = styled('li')<{ $type: NumberDivisibility }>`
     props.$type === NumberDivisibility.ODD
       ? 'rgba(233, 197, 106, 0.2)'
       : 'rgba(42, 157, 144, 0.2)'};
-
-  p {
-    color: ${(props) =>
-      props.$type === NumberDivisibility.ODD
-        ? 'rgb(42, 157, 143)'
-        : 'rgb(233, 196, 106)'};
-  }
 
   @media ${ScreenSize.TABLET} {
     padding: 1.5rem;
@@ -52,7 +46,7 @@ function Word({
       }}
     >
       <h4>{wordData.word}</h4>
-      <p>{wordData.transcription}</p>
+      <StyledSpan $type={type}>{wordData.transcription}</StyledSpan>
       <h5>{wordData.wordTranslate}</h5>
     </StyledWord>
   );

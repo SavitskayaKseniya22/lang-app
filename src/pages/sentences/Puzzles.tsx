@@ -6,6 +6,8 @@ import { useGetAllWordsQuery } from '../../store/words/wordsApi';
 import DragAndDrop from './components/DragAndDrop';
 import { getRandom } from '../../utils';
 import Suspended from '../../components/Suspended';
+import Streak from '../sprint/components/Streak';
+import { StyledParagraph } from '../../styled/SharedStyles';
 
 const StyledSentences = styled('div')`
   display: flex;
@@ -51,8 +53,9 @@ function Puzzles() {
       <StyledSentences>
         {word && wordList && (
           <>
+            <Streak streak={6} total={10} />
             <h4>{word.word}</h4>
-            <p>{word.textExampleTranslate}</p>
+            <StyledParagraph>{word.textExampleTranslate}</StyledParagraph>
 
             <DragAndDrop
               source={word.textExample}
@@ -75,7 +78,7 @@ function Puzzles() {
               <button
                 type="button"
                 onClick={() => {
-                  if (count.current < 3) {
+                  if (count.current < WordBaseValues.MAXWORD) {
                     count.current += 1;
                     setWord(wordList[count.current]);
                     setMiddleResult(null);
