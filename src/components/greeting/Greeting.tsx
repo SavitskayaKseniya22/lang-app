@@ -33,7 +33,7 @@ function Greeting() {
     <StyledGreeting>
       <span>Hello, </span>
       <span className="greeting__name">
-        {(user?.name && capitalize(user.name)) || 'Stranger'}!
+        {(user?.email && capitalize(user.email)) || 'Stranger'}!
       </span>
     </StyledGreeting>
   );

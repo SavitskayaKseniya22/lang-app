@@ -7,17 +7,18 @@ import {
   useSignInMutation,
   useSignUpMutation,
 } from '../../../store/auth/authApi';
-import { ExtendedUserCredentials } from '../../../interfaces';
+
 import { StyledAuthForm, passwordPattern } from './SignIn';
 import ModalContext from '../../modal/ModalContext';
+import { BasicUserCredentials } from '../../../interfaces';
 
 function SignUp() {
-  const { register, handleSubmit } = useForm<ExtendedUserCredentials>();
+  const { register, handleSubmit } = useForm<BasicUserCredentials>();
   const [signUp] = useSignUpMutation();
   const [signIn] = useSignInMutation();
   const { setContent } = useContext(ModalContext);
 
-  function onSubmit(data: ExtendedUserCredentials) {
+  function onSubmit(data: BasicUserCredentials) {
     signUp(data)
       .unwrap()
       .then(() => {
@@ -36,13 +37,6 @@ function SignUp() {
 
   return (
     <StyledAuthForm onSubmit={handleSubmit(onSubmit)}>
-      <input
-        {...register('name', {
-          required: true,
-        })}
-        type="name"
-        placeholder="name"
-      />
       <input
         {...register('email', {
           required: true,

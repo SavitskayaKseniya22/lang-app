@@ -1,22 +1,22 @@
 /* eslint-disable no-param-reassign */
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { AuthData } from '../../interfaces';
+import { ActiveUserTypes } from '../../interfaces';
 
 export interface AuthState {
+  user: ActiveUserTypes | undefined;
   timeOfLogin: number | undefined;
-  user: AuthData | undefined;
 }
 
 const initialState: AuthState = {
-  timeOfLogin: undefined,
   user: undefined,
+  timeOfLogin: undefined,
 };
 
 export const authSlice = createSlice({
-  name: 'authSlice',
+  name: 'auth',
   initialState,
   reducers: {
-    setUser: (state, action: PayloadAction<AuthData>) => {
+    setUser: (state, action: PayloadAction<ActiveUserTypes>) => {
       state.user = action.payload;
       state.timeOfLogin = Date.now();
     },

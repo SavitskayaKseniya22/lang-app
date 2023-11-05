@@ -1,5 +1,7 @@
+import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 import {
   ActiveWordTypes,
+  AuthErrorTypes,
   WordBaseValues,
   WordForDrop,
   WordType,
@@ -93,4 +95,12 @@ export function makeStringArrayWithIds(string: string) {
 
 export function makeEmptyArrayWithIds(length: number) {
   return convertArray(new Array(length).fill(0));
+}
+
+export function transformAuthError(response: FetchBaseQueryError) {
+  const { message } = (response.data as AuthErrorTypes).error;
+  return {
+    code: response.status,
+    message: message.toLowerCase().replaceAll('_', ' '),
+  };
 }
