@@ -16,11 +16,11 @@ const StyledTextBookSettings = styled('div')`
   gap: 1rem;
   padding: 1rem;
   flex-direction: column;
-
   position: sticky;
   bottom: 0;
   left: 0;
   background-color: white;
+  width: 100%;
 `;
 
 const StyledTextBookForm = styled('form')`

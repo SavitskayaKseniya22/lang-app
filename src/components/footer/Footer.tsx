@@ -11,7 +11,7 @@ const StyledFooter = styled('footer')`
     position: fixed;
     bottom: 0;
     left: 0;
-    z-index: 1;
+    z-index: 101;
   }
 `;
 

@@ -12,7 +12,7 @@ import {
 import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { WordForDrop, DropData } from '../../../interfaces';
-import { makeStringArrayWithIds } from '../../../utils';
+import { makeStringArrayWithIds, shuffle } from '../../../utils';
 
 const reorder = (list: WordForDrop[], startIndex: number, endIndex: number) => {
   const result = Array.from(list);
@@ -59,7 +59,7 @@ function DragAndDrop({
 }) {
   const updater = useCallback(
     () => ({
-      source: makeStringArrayWithIds(source),
+      source: shuffle(makeStringArrayWithIds(source)),
       result: [],
     }),
     [source]
