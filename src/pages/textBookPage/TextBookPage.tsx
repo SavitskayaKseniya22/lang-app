@@ -6,7 +6,7 @@ import PagePicker from './components/PagePicker';
 import GroupSelect from './components/GroupSelect';
 import { useGetAllWordsQuery } from '../../store/words/wordsApi';
 import WordList from './components/WordList';
-import { DefaultTextBookValues } from '../../interfaces';
+import { DefaultTextBookValues, WordType } from '../../interfaces';
 import ModalContext from '../../components/modal/ModalContext';
 import GamesPanel from './components/GamesPanel';
 import { StyledMain } from '../../styled/SharedStyles';
@@ -59,6 +59,7 @@ function TextBookPage() {
               <GamesPanel
                 group={methods.getValues().group}
                 page={methods.getValues().page}
+                data={data as WordType[]}
               />
             );
           }}

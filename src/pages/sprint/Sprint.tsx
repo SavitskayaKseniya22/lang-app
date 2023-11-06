@@ -73,7 +73,8 @@ export function updateSprintResult(
 
 function Sprint() {
   const navigate = useNavigate();
-  const { group, page, duration } = useLocation().state;
+  const { group, page, duration, data } = useLocation().state;
+  console.log(data);
 
   const { group: groupParam } = useParams();
 

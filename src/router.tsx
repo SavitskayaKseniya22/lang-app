@@ -20,6 +20,7 @@ import Footer from './components/footer/Footer';
 import GameLayout from './pages/game/components/GameLayout';
 import GroupPicker from './pages/game/components/GroupPicker';
 import ModalProvider from './components/modal/ModalProvider';
+import Collection from './pages/collection/Collection';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -67,6 +68,7 @@ const router = createBrowserRouter(
         </Route>
         <Route path="result" element={<GameResult />} />
         <Route path="/statistics" element={<div>d</div>} />
+        <Route path="/collection" element={<Collection />} />
         <Route path="*" element={<Page404 />} />
       </Route>
     </Route>

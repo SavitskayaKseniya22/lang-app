@@ -48,41 +48,43 @@ function MainNavigation() {
   return (
     <StyledNavigation>
       <li>
-        <StyledNavLink to="/" className="nav__link" title="Homepage">
+        <StyledNavLink to="/" title="Homepage">
           <i className="fa-solid fa-house" />
           <span>Homepage</span>
         </StyledNavLink>
       </li>
       <li>
-        <StyledNavLink to="/text-book" className="nav__link" title="Textbook">
+        <StyledNavLink to="/text-book" title="Textbook">
           <i className="fa-solid fa-book" />
           <span>Textbook</span>
         </StyledNavLink>
       </li>
       <li>
-        <StyledNavLink to="/sprint" className="nav__link" title="Sprint">
+        <StyledNavLink to="/sprint" title="Sprint">
           <i className="fa-solid fa-stopwatch" />
           <span>Sprint</span>
         </StyledNavLink>
       </li>
       <li>
-        <StyledNavLink to="/audiocall" className="nav__link" title="Audiocall">
+        <StyledNavLink to="/audiocall" title="Audiocall">
           <i className="fa-solid fa-music" />
           <span>Audiocall</span>
         </StyledNavLink>
       </li>
       <li>
-        <StyledNavLink to="/puzzles" className="nav__link" title="Puzzles">
+        <StyledNavLink to="/puzzles" title="Puzzles">
           <i className="fa-solid fa-puzzle-piece" />
           <span>Puzzles</span>
         </StyledNavLink>
       </li>
       <li>
-        <StyledNavLink
-          to="/statistics"
-          className="nav__link"
-          title="Statistics"
-        >
+        <StyledNavLink to="/collection" title="Collection">
+          <i className="fa-regular fa-folder" />
+          <span>Collection</span>
+        </StyledNavLink>
+      </li>
+      <li>
+        <StyledNavLink to="/statistics" title="Statistics">
           <i className="fa-solid fa-table" />
           <span>Statistics</span>
         </StyledNavLink>
