@@ -11,17 +11,16 @@ const StyledWordList = styled('ul')`
   align-items: center;
 `;
 
-function WordList({ data }: { data: WordType[] | undefined }) {
+function WordList({ data }: { data: WordType[] }) {
   return (
     <StyledWordList>
-      {data &&
-        data.map((word, index) => (
-          <Word
-            wordData={word}
-            key={word.id}
-            type={index % 2 ? NumberDivisibility.ODD : NumberDivisibility.EVEN}
-          />
-        ))}
+      {data.map((word, index) => (
+        <Word
+          wordData={word}
+          key={word.id}
+          type={index % 2 ? NumberDivisibility.ODD : NumberDivisibility.EVEN}
+        />
+      ))}
     </StyledWordList>
   );
 }

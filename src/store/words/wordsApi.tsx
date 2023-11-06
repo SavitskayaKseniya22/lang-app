@@ -1,5 +1,10 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { TextBookValuesTypes, WordType } from '../../interfaces';
+import {
+  TextBookValuesTypes,
+  WordBaseValues,
+  WordType,
+} from '../../interfaces';
+import { getRandom } from '../../utils';
 
 export const wordsApi = createApi({
   reducerPath: 'wordsApi',
@@ -14,7 +19,13 @@ export const wordsApi = createApi({
         method: 'GET',
       }),
     }),
+    getRandomWords: builder.query<WordType[], { group: number }>({
+      query: ({ group }) => ({
+        url: `/${group}/${getRandom(0, WordBaseValues.MAXPAGE)}.json`,
+        method: 'GET',
+      }),
+    }),
   }),
 });
 
-export const { useGetAllWordsQuery } = wordsApi;
+export const { useGetAllWordsQuery, useGetRandomWordsQuery } = wordsApi;

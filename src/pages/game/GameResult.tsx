@@ -1,14 +1,11 @@
 import React from 'react';
-import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
+import { useOutletContext } from 'react-router-dom';
 import { GameResultType, ResultStatsType } from '../../interfaces';
 import { getPercent, getResultMessage } from '../../utils';
 import WordList from '../textBookPage/components/WordList';
 import { StyledMain } from '../../styled/SharedStyles';
-
-export const isGameResultState = (
-  state: undefined | null | GameResultType
-): state is GameResultType => (state as GameResultType).answers !== undefined;
+import { OutletContextType } from '../sprint/components/ResultContext';
 
 export function makeResult(state: GameResultType): ResultStatsType {
   const { correct, wrong } = state.answers;
@@ -37,10 +34,10 @@ const StyledGameResultContentItem = styled('li')`
 `;
 
 function GameResult() {
-  const { state } = useLocation();
+  const { result } = useOutletContext<OutletContextType>();
 
-  if (state && isGameResultState(state)) {
-    const { correct, wrong, percent, message } = makeResult(state);
+  if (result.current) {
+    const { correct, wrong, percent, message } = makeResult(result.current);
 
     return (
       <StyledMain>

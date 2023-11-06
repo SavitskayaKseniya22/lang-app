@@ -1,109 +1,35 @@
-import React, { useEffect, useRef, useState } from 'react';
-import styled from 'styled-components';
-import { useNavigate } from 'react-router-dom';
-import { WordBaseValues, WordType } from '../../interfaces';
-import { useGetAllWordsQuery } from '../../store/words/wordsApi';
-import DragAndDrop from './components/DragAndDrop';
-import { getRandom } from '../../utils';
-import Suspended from '../../components/Suspended';
-import Streak from '../sprint/components/Streak';
-import { StyledParagraph } from '../../styled/SharedStyles';
-
-const StyledSentences = styled('div')`
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-
-  gap: 1rem;
-
-  div {
-    &.true {
-      color: green;
-    }
-    &.false {
-      color: red;
-    }
-  }
-`;
+import React, { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
+import { WordType } from '../../interfaces';
+import PuzzlesGame from './components/PuzzlesGame';
+import Spinner from '../../components/spinner/Spinner';
+import { useGetRandomWordsQuery } from '../../store/words/wordsApi';
 
 function Puzzles() {
-  const initData = useRef({
-    page: getRandom(0, WordBaseValues.MAXPAGE),
-    group: getRandom(0, WordBaseValues.MAXGROUP),
-  });
+  const { group, data } = useLocation().state;
 
-  const { data: wordList } = useGetAllWordsQuery(initData.current);
-  const [word, setWord] = useState<WordType | null>(null);
+  const [initData, setInitData] = useState<WordType[]>(data);
 
-  const count = useRef(0);
-  const dragResult = useRef<null | string>(null);
-
-  const [middleResult, setMiddleResult] = useState<null | boolean>(null);
-
-  const navigate = useNavigate();
+  const { data: wordList, isLoading } = useGetRandomWordsQuery(
+    { group },
+    {
+      skip: !!data,
+    }
+  );
 
   useEffect(() => {
     if (wordList) {
-      setWord(wordList[count.current]);
+      setInitData(wordList);
     }
   }, [wordList]);
 
-  return (
-    <Suspended condition={!!wordList}>
-      <StyledSentences>
-        {word && wordList && (
-          <>
-            <Streak streak={6} total={10} />
-            <h4>{word.word}</h4>
-            <StyledParagraph>{word.textExampleTranslate}</StyledParagraph>
+  if (isLoading) return <Spinner />;
 
-            <DragAndDrop
-              source={word.textExample}
-              returnResult={(value: string) => {
-                dragResult.current = value;
-              }}
-              isItActive={middleResult === null}
-            />
-            {middleResult !== null && (
-              <div
-                className={
-                  word.textExample === dragResult.current ? 'true' : 'false'
-                }
-              >
-                {word.textExample}
-              </div>
-            )}
+  if (initData && initData.length) {
+    return <PuzzlesGame data={initData} />;
+  }
 
-            {middleResult !== null ? (
-              <button
-                type="button"
-                onClick={() => {
-                  if (count.current < WordBaseValues.MAXWORD) {
-                    count.current += 1;
-                    setWord(wordList[count.current]);
-                    setMiddleResult(null);
-                  } else {
-                    navigate('/result');
-                  }
-                }}
-              >
-                Next sentence
-              </button>
-            ) : (
-              <button
-                type="button"
-                onClick={() => {
-                  setMiddleResult(word.textExample === dragResult.current);
-                }}
-              >
-                Check
-              </button>
-            )}
-          </>
-        )}
-      </StyledSentences>
-    </Suspended>
-  );
+  return <div>No data found</div>;
 }
 
 export default Puzzles;

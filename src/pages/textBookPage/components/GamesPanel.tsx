@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import ModalContext from '../../../components/modal/ModalContext';
-import { GameDuration, WordType } from '../../../interfaces';
+import { WordType } from '../../../interfaces';
 
 const StyledGamesPanel = styled('ul')`
   display: flex;
@@ -14,23 +14,15 @@ const StyledGamesPanel = styled('ul')`
   flex-grow: 2;
 `;
 
-function GamesPanel({
-  page,
-  group,
-  data,
-}: {
-  page: number;
-  group: number;
-  data: WordType[];
-}) {
+function GamesPanel({ data }: { data: WordType[] }) {
   const { setContent } = useContext(ModalContext);
 
   return (
     <StyledGamesPanel>
       <li>
         <Link
-          to={`/sprint/${group}`}
-          state={{ page, group, duration: GameDuration.SHORT, data }}
+          to="/sprint/game"
+          state={{ data }}
           onClick={() => {
             setContent(null);
           }}
@@ -40,8 +32,8 @@ function GamesPanel({
       </li>
       <li>
         <Link
-          to={`/audiocall/${group}`}
-          state={{ page, group, duration: GameDuration.SHORT, data }}
+          to="/audiocall/game"
+          state={{ data }}
           onClick={() => {
             setContent(null);
           }}
@@ -51,8 +43,8 @@ function GamesPanel({
       </li>
       <li>
         <Link
-          to="/puzzles"
-          state={{ page, group, data }}
+          to="/puzzles/game"
+          state={{ data }}
           onClick={() => {
             setContent(null);
           }}

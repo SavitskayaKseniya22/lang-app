@@ -1,7 +1,6 @@
 import React from 'react';
-import { Outlet } from 'react-router-dom';
 import styled from 'styled-components';
-import { GameType } from '../../../interfaces';
+import { ChildrenProps, GameType } from '../../../interfaces';
 import GameTip from './GameTip';
 import { StyledMain } from '../../../styled/SharedStyles';
 
@@ -11,11 +10,18 @@ const StyledGameLayout = styled(StyledMain)`
   }
 `;
 
-function GameLayout({ type }: { type: GameType }) {
+function GameLayout({
+  type,
+  children,
+}: {
+  type: GameType;
+  children: ChildrenProps;
+}) {
   return (
     <StyledGameLayout>
       <h2>{type}</h2>
-      <Outlet />
+      {children}
+
       <GameTip type={type} />
     </StyledGameLayout>
   );

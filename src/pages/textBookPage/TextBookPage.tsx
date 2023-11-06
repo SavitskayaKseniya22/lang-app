@@ -10,6 +10,7 @@ import { DefaultTextBookValues, WordType } from '../../interfaces';
 import ModalContext from '../../components/modal/ModalContext';
 import GamesPanel from './components/GamesPanel';
 import { StyledMain } from '../../styled/SharedStyles';
+import Spinner from '../../components/spinner/Spinner';
 
 const StyledTextBookSettings = styled('div')`
   display: flex;
@@ -36,39 +37,39 @@ function TextBookPage() {
     defaultValues: DefaultTextBookValues,
   });
 
-  const { data } = useGetAllWordsQuery(methods.getValues(), {
+  const { data, isLoading } = useGetAllWordsQuery(methods.getValues(), {
     refetchOnMountOrArgChange: true,
   });
 
   const { setContent } = useContext(ModalContext);
 
-  return (
-    <StyledMain>
-      <WordList data={data} />
-      <StyledTextBookSettings>
-        <FormProvider {...methods}>
-          <StyledTextBookForm onSubmit={methods.handleSubmit(() => {})}>
-            <PagePicker />
-            <GroupSelect />
-          </StyledTextBookForm>
-        </FormProvider>
-        <button
-          type="button"
-          onClick={() => {
-            setContent(
-              <GamesPanel
-                group={methods.getValues().group}
-                page={methods.getValues().page}
-                data={data as WordType[]}
-              />
-            );
-          }}
-        >
-          Practice this set of words
-        </button>
-      </StyledTextBookSettings>
-    </StyledMain>
-  );
+  if (isLoading) return <Spinner />;
+
+  if (data) {
+    return (
+      <StyledMain>
+        <WordList data={data} />
+        <StyledTextBookSettings>
+          <FormProvider {...methods}>
+            <StyledTextBookForm onSubmit={methods.handleSubmit(() => {})}>
+              <PagePicker />
+              <GroupSelect />
+            </StyledTextBookForm>
+          </FormProvider>
+          <button
+            type="button"
+            onClick={() => {
+              setContent(<GamesPanel data={data as WordType[]} />);
+            }}
+          >
+            Practice this set of words
+          </button>
+        </StyledTextBookSettings>
+      </StyledMain>
+    );
+  }
+
+  return <div>No data found</div>;
 }
 
 export default TextBookPage;

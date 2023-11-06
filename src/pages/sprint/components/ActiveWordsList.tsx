@@ -13,7 +13,7 @@ const StyledActiveWordsList = styled('ul')`
   align-items: center;
   padding: 1rem;
   gap: 1rem;
-  flex-grow: 11;
+
   text-align: center;
 
   .audible {

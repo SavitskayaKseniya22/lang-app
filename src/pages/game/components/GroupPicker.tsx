@@ -4,7 +4,6 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { makeEmptyArrayWithIds } from '../../../utils';
-import { GameDuration } from '../../../interfaces';
 
 const StyledGroupPicker = styled('div')`
   padding: 1rem;
@@ -56,8 +55,8 @@ function GroupPicker() {
   const navigate = useNavigate();
 
   const onSubmit: SubmitHandler<{ group: string }> = (data) => {
-    navigate(data.group, {
-      state: { group: data.group, page: 0, duration: GameDuration.LONG },
+    navigate('game', {
+      state: { group: data.group },
     });
   };
 
