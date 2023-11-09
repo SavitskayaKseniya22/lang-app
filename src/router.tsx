@@ -24,6 +24,7 @@ import ResultContextProvider from './pages/sprint/components/ResultContext';
 import GitHubLink from './components/sideNavigation/components/GitHubLink';
 import Profile from './pages/Profile/Profile';
 import Games from './pages/Games/Games';
+import PrivateRoute from './components/PrivateRoute';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -52,7 +53,7 @@ const router = createBrowserRouter(
         <Route index element={<MainPage />} />
         <Route path="/text-book" element={<TextBookPage />} />
 
-        <Route path="/profile">
+        <Route path="/profile" element={<PrivateRoute />}>
           <Route index element={<Profile />} />
           <Route path="statistics" element={<div>statistics</div>} />
           <Route path="collection" element={<Collection />} />
@@ -104,7 +105,6 @@ const router = createBrowserRouter(
             </Route>
           </Route>
         </Route>
-
         <Route path="*" element={<Page404 />} />
       </Route>
     </Route>
