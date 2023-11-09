@@ -1,15 +1,23 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import gitHubLogoBlack from '../../../assets/images/png/GitHub_Logo.png';
+import { ScreenSize } from '../../../interfaces';
 
 const StyledGitHubLink = styled(Link)`
   display: block;
-  width: 5rem;
   padding: 0.5rem;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  z-index: 101;
 
-  img {
-    width: 100%;
+  i {
+    color: black;
+    font-size: 2rem;
+
+    @media ${ScreenSize.TABLET} {
+      color: white;
+    }
   }
 `;
 
@@ -20,7 +28,7 @@ function GitHubLink() {
       target="blank"
       title="Developer's GitHub"
     >
-      <img src={gitHubLogoBlack} alt="gitHub" />
+      <i className="fa-brands fa-github" />
     </StyledGitHubLink>
   );
 }

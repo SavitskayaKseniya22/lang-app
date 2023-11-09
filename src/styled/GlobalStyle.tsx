@@ -35,12 +35,16 @@ const GlobalStyle = createGlobalStyle`
     cursor: pointer;
     background-color: transparent;
     font-family: inherit;
+    font-size:inherit;
+    line-height: 1;
   }
 
   a {
     text-decoration: none;
     font-family: inherit;
     color:inherit;
+    font-size:inherit;
+    line-height: 1;
   }
 
 `;

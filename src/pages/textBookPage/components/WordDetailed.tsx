@@ -5,6 +5,7 @@ import { ScreenSize, WordType } from '../../../interfaces';
 import Suspended from '../../../components/Suspended';
 import { StyledParagraph, StyledSpan } from '../../../styled/SharedStyles';
 import IsItCollectionedCheckbox from './IsItCollectionedCheckbox';
+import { fetchAndCreateReactImage } from '../../../utils';
 
 const StyledWordDetailed = styled('div')`
   gap: 2rem;
@@ -50,23 +51,9 @@ function WordDetailed({ wordData }: { wordData: WordType }) {
   const [image, setImage] = useState<React.ReactElement | null>();
 
   useEffect(() => {
-    fetch(
-      `https://raw.githubusercontent.com/irinainina/rslang/rslang-data/data/${wordData.image}`
-    )
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-
-        return response.blob();
-      })
-      .then((response) => {
-        const imageTemp = React.createElement('img', {
-          src: URL.createObjectURL(response),
-        });
-
-        setImage(imageTemp);
-      });
+    fetchAndCreateReactImage(wordData.image).then((imageTemp) => {
+      setImage(imageTemp);
+    });
   }, [wordData.image]);
 
   return (

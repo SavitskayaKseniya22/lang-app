@@ -13,11 +13,9 @@ const root = ReactDOM.createRoot(
 );
 
 root.render(
-  <React.StrictMode>
-    <Suspense fallback={<Spinner />}>
-      <Provider store={store}>
-        <App />
-      </Provider>
-    </Suspense>
-  </React.StrictMode>
+  <Suspense fallback={<Spinner />}>
+    <Provider store={store}>
+      <App />
+    </Provider>
+  </Suspense>
 );

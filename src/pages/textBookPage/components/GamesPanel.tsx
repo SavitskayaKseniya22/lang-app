@@ -21,7 +21,7 @@ function GamesPanel({ data }: { data: WordType[] }) {
     <StyledGamesPanel>
       <li>
         <Link
-          to="/sprint/game"
+          to="/games/sprint/game"
           state={{ data }}
           onClick={() => {
             setContent(null);
@@ -32,7 +32,7 @@ function GamesPanel({ data }: { data: WordType[] }) {
       </li>
       <li>
         <Link
-          to="/audiocall/game"
+          to="/games/audiocall/game"
           state={{ data }}
           onClick={() => {
             setContent(null);
@@ -43,7 +43,7 @@ function GamesPanel({ data }: { data: WordType[] }) {
       </li>
       <li>
         <Link
-          to="/puzzles/game"
+          to="/games/puzzles/game"
           state={{ data }}
           onClick={() => {
             setContent(null);

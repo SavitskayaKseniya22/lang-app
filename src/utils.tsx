@@ -1,4 +1,5 @@
 import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
+import React from 'react';
 import {
   ActiveWordTypes,
   AuthErrorTypes,
@@ -103,4 +104,22 @@ export function transformAuthError(response: FetchBaseQueryError) {
     code: response.status,
     message: message.toLowerCase().replaceAll('_', ' '),
   };
+}
+
+export function fetchAndCreateReactImage(partOfUrl: string) {
+  return fetch(
+    `https://raw.githubusercontent.com/irinainina/rslang/rslang-data/data/${partOfUrl}`
+  )
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      return response.blob();
+    })
+    .then((response) =>
+      React.createElement('img', {
+        src: URL.createObjectURL(response),
+      })
+    );
 }
