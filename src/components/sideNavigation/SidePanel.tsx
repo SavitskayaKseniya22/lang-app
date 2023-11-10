@@ -8,7 +8,7 @@ const StyledSidePanel = styled('nav')`
   position: sticky;
   top: 0;
   z-index: 100;
-  min-width: 160px;
+  min-width: 180px;
 
   @media ${ScreenSize.TABLET} {
     height: 100vh;

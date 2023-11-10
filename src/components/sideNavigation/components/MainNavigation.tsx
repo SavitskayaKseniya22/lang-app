@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 import { ScreenSize } from '../../../interfaces';
 import { useAppSelector } from '../../../store/store';
-import SignInControl from '../../auth/components/SignInControl';
+import SignInControl from './SignInControl';
 
 const StyledNavigation = styled('ul')`
   display: flex;
@@ -11,49 +11,38 @@ const StyledNavigation = styled('ul')`
   justify-content: center;
   gap: 1rem;
   padding: 0 1rem 1rem 1rem;
-
-  @media ${ScreenSize.TABLET} {
-    flex-direction: column;
-    padding: 1rem 0 1rem 1rem;
-  }
-`;
-
-const StyledNavigationItem = styled('li')`
-  &.hidden_mobile {
-    display: none;
-  }
+  font-size: 1.25rem;
 
   span {
     display: none;
   }
 
-  font-size: 1.25rem;
-
   @media ${ScreenSize.TABLET} {
-    &.hidden_mobile {
-      display: block;
-      font-size: small;
-      margin-left: 1rem;
-
-      a {
-        color: rgb(42, 157, 143);
-      }
-    }
-
-    &.hidden_desktop {
-      display: none;
-    }
+    flex-direction: column;
+    padding: 1rem 0 1rem 1rem;
+    font-size: 1rem;
 
     span {
       display: inline;
     }
-
-    font-size: 1rem;
   }
 `;
 
-const StyledNavLink = styled(NavLink)`
-  color: white;
+const StyledNavigationSub = styled('ul')`
+  display: none;
+
+  @media ${ScreenSize.TABLET} {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    padding: 0.5rem 0 0.5rem 1rem;
+    gap: 0.5rem;
+    font-size: 0.8rem;
+  }
+`;
+
+const StyledNavLink = styled(NavLink)<{ $type?: 'SUB' }>`
+  color: ${(props) => (props.$type === 'SUB' ? 'rgb(42, 157, 143)' : 'white')};
   padding: 0.5rem;
   display: flex;
   gap: 1rem;
@@ -61,8 +50,10 @@ const StyledNavLink = styled(NavLink)`
 
   &.active {
     border-radius: 0 0 1.5rem 1.5rem;
-    background-color: white;
-    color: rgb(231, 111, 81);
+    background-color: ${(props) =>
+      props.$type === 'SUB' ? 'rgb(42, 157, 143)' : 'white'};
+    color: ${(props) =>
+      props.$type === 'SUB' ? 'white' : 'rgb(231, 111, 81)'};
   }
 
   @media ${ScreenSize.TABLET} {
@@ -77,72 +68,80 @@ function MainNavigation() {
 
   return (
     <StyledNavigation>
-      <StyledNavigationItem>
+      <li>
         <StyledNavLink to="/" title="Homepage">
           <i className="fa-solid fa-house" />
           <span>Homepage</span>
         </StyledNavLink>
-      </StyledNavigationItem>
-      <StyledNavigationItem>
+      </li>
+      <li>
         <StyledNavLink to="/text-book" title="Textbook">
           <i className="fa-solid fa-book" />
           <span>Textbook</span>
         </StyledNavLink>
-      </StyledNavigationItem>
-      <StyledNavigationItem>
+      </li>
+      <li>
         <StyledNavLink to="/games" title="Games">
           <i className="fa-solid fa-puzzle-piece" />
           <span>Games</span>
         </StyledNavLink>
-      </StyledNavigationItem>
-      <StyledNavigationItem className="hidden_mobile">
-        <StyledNavLink to="/games/sprint" title="Sprint">
-          <i className="fa-solid fa-stopwatch" />
-          <span>Sprint</span>
-        </StyledNavLink>
-      </StyledNavigationItem>
+        <StyledNavigationSub>
+          <li>
+            <StyledNavLink to="/games/sprint" title="Sprint" $type="SUB">
+              <i className="fa-solid fa-stopwatch" />
+              <span>Sprint</span>
+            </StyledNavLink>
+          </li>
+          <li>
+            <StyledNavLink to="/games/audiocall" title="Audiocall" $type="SUB">
+              <i className="fa-solid fa-music" />
+              <span>Audiocall</span>
+            </StyledNavLink>
+          </li>
+          <li>
+            <StyledNavLink to="/games/puzzles" title="Puzzles" $type="SUB">
+              <i className="fa-solid fa-puzzle-piece" />
+              <span>Puzzles</span>
+            </StyledNavLink>
+          </li>
+        </StyledNavigationSub>
+      </li>
 
-      <StyledNavigationItem className="hidden_mobile">
-        <StyledNavLink to="/games/audiocall" title="Audiocall">
-          <i className="fa-solid fa-music" />
-          <span>Audiocall</span>
-        </StyledNavLink>
-      </StyledNavigationItem>
-
-      <StyledNavigationItem className="hidden_mobile">
-        <StyledNavLink to="/games/puzzles" title="Puzzles">
-          <i className="fa-solid fa-puzzle-piece" />
-          <span>Puzzles</span>
-        </StyledNavLink>
-      </StyledNavigationItem>
-
-      <StyledNavigationItem>
+      <li>
         {user ? (
-          <StyledNavLink to="/profile" title="Profile">
-            <i className="fa-solid fa-user" />
-            <span>Profile</span>
-          </StyledNavLink>
+          <>
+            <StyledNavLink to="/profile" title="Profile">
+              <i className="fa-solid fa-user" />
+              <span>Profile</span>
+            </StyledNavLink>
+
+            <StyledNavigationSub>
+              <li>
+                <StyledNavLink
+                  to="/profile/collection"
+                  title="Collection"
+                  $type="SUB"
+                >
+                  <i className="fa-regular fa-folder" />
+                  <span>Collection</span>
+                </StyledNavLink>
+              </li>
+              <li>
+                <StyledNavLink
+                  to="/profile/statistics"
+                  title="Statistics"
+                  $type="SUB"
+                >
+                  <i className="fa-solid fa-table" />
+                  <span>Statistics</span>
+                </StyledNavLink>
+              </li>
+            </StyledNavigationSub>
+          </>
         ) : (
           <SignInControl />
         )}
-      </StyledNavigationItem>
-
-      {user && (
-        <>
-          <StyledNavigationItem className="hidden_mobile">
-            <StyledNavLink to="/profile/collection" title="Collection">
-              <i className="fa-regular fa-folder" />
-              <span>Collection</span>
-            </StyledNavLink>
-          </StyledNavigationItem>
-          <StyledNavigationItem className="hidden_mobile">
-            <StyledNavLink to="/profile/statistics" title="Statistics">
-              <i className="fa-solid fa-table" />
-              <span>Statistics</span>
-            </StyledNavLink>
-          </StyledNavigationItem>
-        </>
-      )}
+      </li>
     </StyledNavigation>
   );
 }
