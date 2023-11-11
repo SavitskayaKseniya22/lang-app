@@ -48,14 +48,18 @@ export function getPercent(total: number, correct: number) {
   return Math.round((correct / total || 0) * 100);
 }
 
-export function createSecondIndex(firstIndex: number) {
-  return Math.random() <= 0.6
-    ? firstIndex
-    : getRandom(WordBaseValues.MINWORD, WordBaseValues.MAXWORD);
+export function createSecondIndex(basicIndex: number, maxIndex: number) {
+  return Math.random() <= 0.5
+    ? basicIndex
+    : getRandom(WordBaseValues.MINWORD, maxIndex);
 }
 
-export function getActiveWordsArgs(data: WordType[], basicIndex: number) {
-  const secondIndex = createSecondIndex(basicIndex);
+export function getActiveWordsArgs(
+  data: WordType[],
+  basicIndex: number,
+  maxIndex: number
+) {
+  const secondIndex = createSecondIndex(basicIndex, maxIndex);
 
   return {
     first: { index: basicIndex, word: data[basicIndex] },

@@ -3,18 +3,6 @@ export interface BasicUserCredentials {
   password: string;
 }
 
-export interface ExtendedUserCredentials extends BasicUserCredentials {
-  name: string;
-}
-
-export interface AuthData {
-  message: string;
-  token: string;
-  refreshToken: string;
-  userId: string;
-  name: string;
-}
-
 export type TextBookValuesTypes = { group: number; page: number };
 
 export interface WordType {
@@ -24,7 +12,6 @@ export interface WordType {
   word: string;
   image: string;
   audio: string;
-  userWord?: UserWordInfo;
   audioMeaning: string;
   audioExample: string;
   textMeaning: string;
@@ -33,17 +20,6 @@ export interface WordType {
   wordTranslate: string;
   textMeaningTranslate: string;
   textExampleTranslate: string;
-}
-
-export interface UserWordInfo {
-  id?: string;
-  difficulty: string; // either learned or normal or difficult
-  optional: {
-    timesGuessed: number; // 3 times for a normal word to become learned, 5 times for a difficult one
-    timesMax: number; // 3 for normal ones 5 for difficult ones
-    dateEncountered: string;
-    dateLearned: string | undefined;
-  };
 }
 
 export enum GameType {
@@ -73,12 +49,6 @@ export enum StreakValues {
 export enum StepValues {
   MIN = 10,
 }
-
-export type GameProps = {
-  type: GameType;
-  page?: number;
-  group?: number;
-};
 
 export enum NumberDivisibility {
   ODD,
@@ -133,27 +103,11 @@ export interface AuthError {
   error: string;
 }
 
-export function isAuthError(x: unknown): x is AuthError {
-  return Boolean(
-    typeof x === 'object' &&
-      x &&
-      'data' in x &&
-      typeof x.data === 'string' &&
-      'originalStatus' in x &&
-      typeof x.originalStatus === 'number'
-  );
-}
-
 export enum ScreenSize {
   MOBILE = '(min-width: 320px)',
   TABLET = '(min-width: 768px)',
   LAPTOPS = '(min-width: 1024px)',
   LAPTOPL = '(min-width: 1920px)',
-}
-
-export enum GameDuration {
-  SHORT = 'short',
-  LONG = 'long',
 }
 
 export interface AuthErrorTypes {
@@ -214,12 +168,33 @@ export interface ActiveUserTypes {
   profilePicture: string;
 }
 
-export interface ChangePasswordArgsTypes {
-  idToken: string;
-  password: string;
+export interface CollectionLikeObjectType {
+  difficult: { [id: string]: WordType };
+  learned: { [id: string]: WordType };
+  selected: { [id: string]: WordType };
 }
 
-export interface ChangeEmailArgsTypes {
-  idToken: string;
-  email: string;
+export interface CollectionLikeArraysType {
+  difficult: WordType[];
+  learned: WordType[];
+  selected: WordType[];
 }
+
+export interface UserWordsData {
+  id: string;
+  collections: CollectionLikeObjectType;
+}
+
+export interface Users {
+  [id: string]: UserWordsData;
+}
+
+export enum CollectionType {
+  DIFFICULT = 'difficult',
+  LEARNED = 'learned',
+  SELECTED = 'selected',
+}
+
+export type UserIdType = { userId: string };
+
+export type WordIdType = { wordId: string };

@@ -4,8 +4,8 @@ import styled from 'styled-components';
 import { ScreenSize, WordType } from '../../../interfaces';
 import Suspended from '../../../components/Suspended';
 import { StyledParagraph, StyledSpan } from '../../../styled/SharedStyles';
-import IsItCollectionedCheckbox from './IsItCollectionedCheckbox';
 import { fetchAndCreateReactImage } from '../../../utils';
+import CollectionControlPanel from './CollectionControlPanel';
 
 const StyledWordDetailed = styled('div')`
   gap: 2rem;
@@ -59,7 +59,7 @@ function WordDetailed({ wordData }: { wordData: WordType }) {
   return (
     <Suspended condition={!!image}>
       <StyledWordDetailed>
-        <IsItCollectionedCheckbox wordData={wordData} />
+        <CollectionControlPanel wordData={wordData} />
         {image}
         <audio
           controls

@@ -7,6 +7,7 @@ import {
   AuthErrorTypes,
   ActiveUserListDataTypes,
   BasicUserCredentials,
+  ActiveUserTypes,
 } from '../../interfaces';
 import { transformAuthError } from '../../utils';
 import { setUser, resetUser } from './authSlice';
@@ -17,8 +18,8 @@ export const authApi = createApi({
     baseUrl: 'https://identitytoolkit.googleapis.com/v1/accounts',
   }),
   endpoints: (builder) => ({
-    signUp: builder.mutation({
-      query: ({ email, password }: BasicUserCredentials) => ({
+    signUp: builder.mutation<ActiveUserTypes, BasicUserCredentials>({
+      query: ({ email, password }) => ({
         url: `:signUp?key=${firebaseConfig.apiKey}`,
         method: 'POST',
         body: {
@@ -40,8 +41,8 @@ export const authApi = createApi({
         }
       },
     }),
-    signIn: builder.mutation({
-      query: ({ email, password }: BasicUserCredentials) => ({
+    signIn: builder.mutation<ActiveUserTypes, BasicUserCredentials>({
+      query: ({ email, password }) => ({
         url: `:signInWithPassword?key=${firebaseConfig.apiKey}`,
         method: 'POST',
         body: {

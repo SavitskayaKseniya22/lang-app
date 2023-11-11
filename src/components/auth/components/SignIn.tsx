@@ -3,6 +3,7 @@ import React, { useContext } from 'react';
 import { useForm } from 'react-hook-form';
 import styled from 'styled-components';
 import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 import { useSignInMutation } from '../../../store/auth/authApi';
 import { BasicUserCredentials } from '../../../interfaces';
 import ModalContext from '../../modal/ModalContext';
@@ -35,12 +36,15 @@ function SignIn() {
   const { register, handleSubmit } = useForm<BasicUserCredentials>();
   const [signIn] = useSignInMutation();
   const { setContent } = useContext(ModalContext);
+  const navigate = useNavigate();
 
   function onSubmit(data: BasicUserCredentials) {
     signIn(data)
       .unwrap()
+
       .then(() => {
         setContent(null);
+        navigate('/profile');
       })
       .catch((err) => {
         if ('data' in err) {

@@ -10,13 +10,16 @@ import { OutletContextType } from './components/ResultContext';
 import StyledSprint from './components/StyledSprint';
 
 function SprintShortGame({ data }: { data: WordType[] }) {
+  console.log(data);
   const { result, updateResult } = useOutletContext<OutletContextType>();
 
   const navigate = useNavigate();
 
   const [activeWords, setActiveWords] = useState<ActiveWordsTypes>(
-    getActiveWordsArgs(data, WordBaseValues.MINWORD)
+    getActiveWordsArgs(data, WordBaseValues.MINWORD, data.length - 1)
   );
+
+  console.log(activeWords);
 
   const handleChange = (e: SyntheticEvent) => {
     const { value } = e.target as HTMLInputElement;
@@ -27,8 +30,10 @@ function SprintShortGame({ data }: { data: WordType[] }) {
 
     updateResult(isAnswerCorrect, first.word);
 
-    if (first.index < WordBaseValues.MAXWORD) {
-      setActiveWords(getActiveWordsArgs(data, first.index + 1));
+    if (first.index < data.length - 1) {
+      setActiveWords(
+        getActiveWordsArgs(data, first.index + 1, data.length - 1)
+      );
     } else {
       navigate(`result`);
     }

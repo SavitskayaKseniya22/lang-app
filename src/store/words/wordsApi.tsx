@@ -10,7 +10,7 @@ export const wordsApi = createApi({
   reducerPath: 'wordsApi',
   baseQuery: fetchBaseQuery({
     baseUrl:
-      'https://lang--app-default-rtdb.europe-west1.firebasedatabase.app/',
+      'https://lang--app-default-rtdb.europe-west1.firebasedatabase.app/words',
   }),
   endpoints: (builder) => ({
     getAllWords: builder.query<WordType[], TextBookValuesTypes>({

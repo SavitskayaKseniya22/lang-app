@@ -38,7 +38,9 @@ function SprintLongGame({
 
   useEffect(() => {
     if (data) {
-      setActiveWords(getActiveWordsArgs(data, WordBaseValues.MINWORD));
+      setActiveWords(
+        getActiveWordsArgs(data, WordBaseValues.MINWORD, WordBaseValues.MAXWORD)
+      );
     }
   }, [data]);
 
@@ -53,7 +55,9 @@ function SprintLongGame({
       updateResult(isAnswerCorrect, first.word);
 
       if (first.index < WordBaseValues.MAXWORD) {
-        setActiveWords(getActiveWordsArgs(data, first.index + 1));
+        setActiveWords(
+          getActiveWordsArgs(data, first.index + 1, WordBaseValues.MAXWORD)
+        );
       } else {
         setArgs({
           page:
