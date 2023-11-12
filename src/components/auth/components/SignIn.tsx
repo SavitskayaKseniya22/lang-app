@@ -1,78 +1,35 @@
-/* eslint-disable react/jsx-props-no-spreading */
-import React, { useContext } from 'react';
-import { useForm } from 'react-hook-form';
-import styled from 'styled-components';
+import React, { useCallback, useContext } from 'react';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import { useSignInMutation } from '../../../store/auth/authApi';
 import { BasicUserCredentials } from '../../../interfaces';
 import ModalContext from '../../modal/ModalContext';
-
-export const passwordPattern =
-  /(?=.*[+-_@$!%*?&#.,;:[\]{}])(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])[0-9a-zA-Z+-_@$!%*?&#.,;:[\]{}]{8,}/g;
-
-export const StyledAuthForm = styled('form')`
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  align-items: center;
-  max-width: 300px;
-
-  input {
-    width: 100%;
-    padding: 0.5rem;
-    border: none;
-    background-color: rgb(244, 162, 97);
-    text-align: center;
-    font-size: 1.25rem;
-  }
-
-  button {
-    font-size: 1.25rem;
-  }
-`;
+import AuthForm from './AuthForm';
 
 function SignIn() {
-  const { register, handleSubmit } = useForm<BasicUserCredentials>();
   const [signIn] = useSignInMutation();
   const { setContent } = useContext(ModalContext);
   const navigate = useNavigate();
 
-  function onSubmit(data: BasicUserCredentials) {
-    signIn(data)
-      .unwrap()
+  const onSubmit = useCallback(
+    (data: BasicUserCredentials) => {
+      signIn(data)
+        .unwrap()
 
-      .then(() => {
-        setContent(null);
-        navigate('/profile');
-      })
-      .catch((err) => {
-        if ('data' in err) {
-          toast.error(err.data);
-        }
-      });
-  }
-
-  return (
-    <StyledAuthForm onSubmit={handleSubmit(onSubmit)}>
-      <input
-        {...register('email', {
-          required: true,
-        })}
-        type="email"
-        placeholder="email"
-      />
-      <input
-        {...register('password', {
-          required: true,
-          pattern: passwordPattern,
-        })}
-        type="password"
-        placeholder="password"
-      />
-      <button type="submit">Sign in</button>
-    </StyledAuthForm>
+        .then(() => {
+          setContent(null);
+          navigate('/profile');
+        })
+        .catch((err) => {
+          if ('data' in err) {
+            toast.error(err.data);
+          }
+        });
+    },
+    [navigate, setContent, signIn]
   );
+
+  return <AuthForm onSubmit={onSubmit} />;
 }
 
 export default SignIn;

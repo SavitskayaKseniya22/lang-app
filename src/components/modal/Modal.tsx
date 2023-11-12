@@ -8,34 +8,35 @@ function ReactPortal({ children }: { children: ChildrenProps }) {
   return createPortal(children, document.getElementById('root') as HTMLElement);
 }
 
-const StyledModal = styled('div')`
+const StyledModalOuterContainer = styled('div')`
   width: 100vw;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 0.6);
+  background-color: rgba(0, 0, 0, 0.7);
   position: fixed;
   top: 0;
   left: 0;
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 130;
+`;
 
-  .modal__container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-    background-color: white;
-    padding: 1rem;
-    gap: 0.5rem;
-    min-height: 250px;
-    min-width: 250px;
-    height: auto;
-    width: auto;
+const StyledModalInnerContainer = styled('div')`
+  background-color: white;
+  min-height: 300px;
+  min-width: 300px;
+  max-height: 80vh;
+  max-width: 70vw;
+  display: flex;
+`;
 
-    .modal-container__button_close {
-      align-self: flex-end;
-    }
-  }
+const StyledModalButton = styled('button')`
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  color: white;
+  font-size: 2rem;
+  z-index: 150;
 `;
 
 function Modal() {
@@ -44,27 +45,24 @@ function Modal() {
 
   return (
     <ReactPortal>
-      <StyledModal
+      <StyledModalOuterContainer
         onClick={(e) => {
           if (e.currentTarget === e.target) {
             setContent(null);
           }
         }}
       >
-        <div className="modal__container">
-          <button
-            type="button"
-            onClick={() => {
-              setContent(null);
-            }}
-            className="modal-container__button_close"
-            title="close"
-          >
-            <i className="fa-solid fa-xmark" />
-          </button>
-          {content}
-        </div>
-      </StyledModal>
+        <StyledModalButton
+          type="button"
+          onClick={() => {
+            setContent(null);
+          }}
+          title="Close"
+        >
+          <i className="fa-solid fa-xmark" />
+        </StyledModalButton>
+        <StyledModalInnerContainer>{content}</StyledModalInnerContainer>
+      </StyledModalOuterContainer>
     </ReactPortal>
   );
 }
