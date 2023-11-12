@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { makeEmptyArrayWithIds } from '../../../utils';
 
-const StyledGroupPicker = styled('div')`
+const StyledGroupPicker = styled('form')`
   padding: 1rem;
   display: flex;
   flex-direction: column;

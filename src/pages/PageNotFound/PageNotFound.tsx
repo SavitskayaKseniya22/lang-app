@@ -1,12 +1,12 @@
 import React from 'react';
 import { StyledMain } from '../../styled/SharedStyles';
 
-function ErrorPage() {
+function PageNotFound() {
   return (
     <StyledMain>
-      <h3>Something went wrong. Please reload the page.</h3>
+      <h3>404</h3>
     </StyledMain>
   );
 }
 
-export default ErrorPage;
+export default PageNotFound;

@@ -6,14 +6,14 @@ import {
   createRoutesFromElements,
 } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
-import Page404 from './pages/404Page/Page404';
+import PageNotFound from './pages/PageNotFound/PageNotFound';
 import ErrorPage from './pages/errorPage/ErrorPage';
 import MainPage from './pages/mainPage/MainPage';
 import TextBookPage from './pages/textBookPage/TextBookPage';
 import Sprint from './pages/sprint/Sprint';
 import Audiocall from './pages/audiocall/Audiocall';
 import { GameType } from './interfaces';
-import GameResult from './pages/game/GameResult';
+import GameResult from './pages/game/components/GameResult';
 import Puzzles from './pages/sentences/Puzzles';
 import SidePanel from './components/sideNavigation/SidePanel';
 import GameLayout from './pages/game/components/GameLayout';
@@ -105,7 +105,7 @@ const router = createBrowserRouter(
             </Route>
           </Route>
         </Route>
-        <Route path="*" element={<Page404 />} />
+        <Route path="*" element={<PageNotFound />} />
       </Route>
     </Route>
   )

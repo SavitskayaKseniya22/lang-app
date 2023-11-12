@@ -1,7 +1,7 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
-import SprintShortGame from './SprintShortGame';
-import SprintLongGame from './SprintLongGame';
+import SprintShortGame from './components/SprintShortGame';
+import SprintLongGame from './components/SprintLongGame';
 
 function Sprint() {
   const { group, data } = useLocation().state;

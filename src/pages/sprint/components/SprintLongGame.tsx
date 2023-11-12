@@ -1,21 +1,21 @@
 import React, { SyntheticEvent, useCallback, useEffect, useState } from 'react';
 import { useNavigate, useOutletContext } from 'react-router-dom';
-import { useGetAllWordsQuery } from '../../store/words/wordsApi';
+import { useGetAllWordsQuery } from '../../../store/words/wordsApi';
 import {
   ActiveWordsTypes,
   DefaultTextBookValues,
   TextBookValuesTypes,
   WordBaseValues,
-} from '../../interfaces';
-import { getActiveWordsArgs, checkIfAnswerCorrect } from '../../utils';
-import Timer from './components/Timer';
-import Streak from './components/Streak';
-import Points from './components/Points';
-import SprintRound from './components/SprintRound';
-import ActiveWordsList from './components/ActiveWordsList';
-import { OutletContextType } from './components/ResultContext';
-import Spinner from '../../components/spinner/Spinner';
-import StyledSprint from './components/StyledSprint';
+} from '../../../interfaces';
+import { getActiveWordsArgs, checkIfAnswerCorrect } from '../../../utils';
+import Timer from '../../game/components/Timer';
+import Streak from './Streak';
+import Points from './Points';
+import SprintRound from './SprintRound';
+import ActiveWordsList from './ActiveWordsList';
+import { OutletContextType } from './ResultContext';
+import Spinner from '../../../components/spinner/Spinner';
+import StyledSprint from './StyledSprint';
 
 function SprintLongGame({
   group = DefaultTextBookValues.group,

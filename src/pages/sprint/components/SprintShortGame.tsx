@@ -1,16 +1,19 @@
 import React, { SyntheticEvent, useState } from 'react';
 import { useNavigate, useOutletContext } from 'react-router-dom';
-import { ActiveWordsTypes, WordBaseValues, WordType } from '../../interfaces';
-import { getActiveWordsArgs, checkIfAnswerCorrect } from '../../utils';
-import Streak from './components/Streak';
-import Points from './components/Points';
-import SprintRound from './components/SprintRound';
-import ActiveWordsList from './components/ActiveWordsList';
-import { OutletContextType } from './components/ResultContext';
-import StyledSprint from './components/StyledSprint';
+import {
+  ActiveWordsTypes,
+  WordBaseValues,
+  WordType,
+} from '../../../interfaces';
+import { getActiveWordsArgs, checkIfAnswerCorrect } from '../../../utils';
+import Streak from './Streak';
+import Points from './Points';
+import SprintRound from './SprintRound';
+import ActiveWordsList from './ActiveWordsList';
+import { OutletContextType } from './ResultContext';
+import StyledSprint from './StyledSprint';
 
 function SprintShortGame({ data }: { data: WordType[] }) {
-  console.log(data);
   const { result, updateResult } = useOutletContext<OutletContextType>();
 
   const navigate = useNavigate();
@@ -18,8 +21,6 @@ function SprintShortGame({ data }: { data: WordType[] }) {
   const [activeWords, setActiveWords] = useState<ActiveWordsTypes>(
     getActiveWordsArgs(data, WordBaseValues.MINWORD, data.length - 1)
   );
-
-  console.log(activeWords);
 
   const handleChange = (e: SyntheticEvent) => {
     const { value } = e.target as HTMLInputElement;

@@ -5,6 +5,7 @@ import GameTip from './GameTip';
 import { StyledMain } from '../../../styled/SharedStyles';
 
 const StyledGameLayout = styled(StyledMain)`
+  justify-content: space-between;
   h2 {
     align-self: flex-start;
   }

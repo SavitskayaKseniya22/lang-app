@@ -20,7 +20,7 @@ export const StyledMain = styled('main')`
   gap: 1rem;
   flex-grow: 2;
   min-width: 320px;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   position: relative;
 `;
