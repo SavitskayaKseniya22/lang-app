@@ -1,26 +1,19 @@
 /* eslint-disable jsx-a11y/media-has-caption */
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { ScreenSize, WordType } from '../../../interfaces';
+import { WordType } from '../../../interfaces';
 import Suspended from '../../../components/Suspended';
 import { StyledParagraph, StyledSpan } from '../../../styled/SharedStyles';
 import { fetchAndCreateReactImage } from '../../../utils';
 import CollectionControlPanel from './CollectionControlPanel';
 
 const StyledWordDetailed = styled('div')`
-  gap: 2rem;
+  gap: 1rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  max-width: 280px;
-
-  image {
-    width: 100%;
-  }
-
-  @media ${ScreenSize.LAPTOPS} {
-    max-width: 450px;
-  }
+  padding: 0.5rem;
+  width: 100%;
 `;
 
 const StyledWordDetailedTitle = styled('div')`
@@ -34,16 +27,12 @@ const StyledWordDetailedTitle = styled('div')`
 const StyledWordDetailedContent = styled('ul')`
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 0.5rem;
 
   li {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
-  }
-
-  @media ${ScreenSize.LAPTOPS} {
-    flex-direction: row;
+    gap: 0.5rem;
   }
 `;
 

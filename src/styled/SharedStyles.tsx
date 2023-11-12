@@ -27,12 +27,11 @@ export const StyledMain = styled('main')`
 
 export const StyledParagraph = styled('p')<{ $type?: NumberDivisibility }>`
   font-weight: 300;
-  line-height: 150%;
 `;
 
 export const StyledSpan = styled('span')<{ $type?: NumberDivisibility }>`
   font-weight: 300;
-  line-height: 150%;
+
   color: ${(props) =>
     props.$type === NumberDivisibility.ODD
       ? 'rgb(42, 157, 143)'

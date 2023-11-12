@@ -1,25 +1,15 @@
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
-import styled from 'styled-components';
 import ModalContext from '../../../components/modal/ModalContext';
 import { WordType } from '../../../interfaces';
-
-const StyledGamesPanel = styled('ul')`
-  display: flex;
-  flex-direction: column;
-  padding: 1rem;
-  gap: 1.5rem;
-  align-items: center;
-  justify-content: center;
-  flex-grow: 2;
-`;
+import { StyledGameItem, StyledGameList } from '../../Games/Games';
 
 function GamesPanel({ data }: { data: WordType[] }) {
   const { setContent } = useContext(ModalContext);
 
   return (
-    <StyledGamesPanel>
-      <li>
+    <StyledGameList>
+      <StyledGameItem>
         <Link
           to="/games/sprint/game"
           state={{ data }}
@@ -27,10 +17,10 @@ function GamesPanel({ data }: { data: WordType[] }) {
             setContent(null);
           }}
         >
-          Sprint
+          <h4>Sprint</h4>
         </Link>
-      </li>
-      <li>
+      </StyledGameItem>
+      <StyledGameItem>
         <Link
           to="/games/audiocall/game"
           state={{ data }}
@@ -38,10 +28,10 @@ function GamesPanel({ data }: { data: WordType[] }) {
             setContent(null);
           }}
         >
-          Audiocall
+          <h4>Audiocall</h4>
         </Link>
-      </li>
-      <li>
+      </StyledGameItem>
+      <StyledGameItem>
         <Link
           to="/games/puzzles/game"
           state={{ data }}
@@ -49,10 +39,10 @@ function GamesPanel({ data }: { data: WordType[] }) {
             setContent(null);
           }}
         >
-          Puzzles
+          <h4>Puzzles</h4>
         </Link>
-      </li>
-    </StyledGamesPanel>
+      </StyledGameItem>
+    </StyledGameList>
   );
 }
 

@@ -49,7 +49,7 @@ const StyledNavLink = styled(NavLink)<{ $type?: 'SUB' }>`
   align-items: center;
 
   &.active {
-    border-radius: 0 0 1.5rem 1.5rem;
+    border-radius: 0 0 0.5rem 0.5rem;
     background-color: ${(props) =>
       props.$type === 'SUB' ? 'rgb(42, 157, 143)' : 'white'};
     color: ${(props) =>
@@ -58,7 +58,7 @@ const StyledNavLink = styled(NavLink)<{ $type?: 'SUB' }>`
 
   @media ${ScreenSize.TABLET} {
     &.active {
-      border-radius: 1.5rem 0 0 1.5rem;
+      border-radius: 0.5rem 0 0 0.5rem;
     }
   }
 `;

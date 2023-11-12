@@ -1,12 +1,22 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import { useForm } from 'react-hook-form';
+import styled from 'styled-components';
 import { CollectionType, WordType } from '../../../interfaces';
 import { useAppSelector } from '../../../store/store';
 import {
   useAddWordToCollectionMutation,
   useRemoveFromCollectionMutation,
 } from '../../../store/userData/UserDataApi';
+
+const StyledCollectionControl = styled('label')`
+  display: flex;
+  text-align: center;
+
+  input {
+    display: none;
+  }
+`;
 
 function CollectionControl({
   wordData,
@@ -34,34 +44,32 @@ function CollectionControl({
   const isItChecked = watch(type);
 
   return (
-    <form>
-      <label htmlFor={type}>
-        {isItChecked ? `Remove from ${type}` : `Add to ${type}`}
-        <input
-          {...register(type, {
-            onChange: (e) => {
-              if (e.target.checked) {
-                addWordToCollection({
-                  userId: user!.localId,
-                  wordData,
-                  wordId: wordData.id,
-                  collectionType: type,
-                });
-              } else {
-                removeFromCollection({
-                  userId: user!.localId,
-                  wordId: wordData.id,
-                  collectionType: type,
-                });
-              }
-            },
-          })}
-          type="checkbox"
-          placeholder="email"
-          id={type}
-        />
-      </label>
-    </form>
+    <StyledCollectionControl htmlFor={type}>
+      {isItChecked ? `Remove from ${type}` : `Add to ${type}`}
+      <input
+        {...register(type, {
+          onChange: (e) => {
+            if (e.target.checked) {
+              addWordToCollection({
+                userId: user!.localId,
+                wordData,
+                wordId: wordData.id,
+                collectionType: type,
+              });
+            } else {
+              removeFromCollection({
+                userId: user!.localId,
+                wordId: wordData.id,
+                collectionType: type,
+              });
+            }
+          },
+        })}
+        type="checkbox"
+        placeholder="email"
+        id={type}
+      />
+    </StyledCollectionControl>
   );
 }
 

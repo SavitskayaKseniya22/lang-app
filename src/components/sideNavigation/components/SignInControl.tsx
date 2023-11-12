@@ -8,14 +8,14 @@ import { ScreenSize } from '../../../interfaces';
 const StyledSignInControl = styled('button')`
   padding: 0.5rem;
   background-color: white;
-  border-radius: 0 0 1.5rem 1.5rem;
+  border-radius: 0 0 0.5rem 0.5rem;
   display: flex;
   gap: 1rem;
   align-items: center;
   width: 100%;
 
   @media ${ScreenSize.TABLET} {
-    border-radius: 1.5rem 0 0 1.5rem;
+    border-radius: 0.5rem 0 0 0.5rem;
   }
 `;
 

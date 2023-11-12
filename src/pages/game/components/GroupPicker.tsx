@@ -7,23 +7,11 @@ import { makeEmptyArrayWithIds } from '../../../utils';
 
 const StyledGroupPicker = styled('div')`
   padding: 1rem;
-  font-size: 1.5rem;
-  text-align: center;
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 1.5rem;
   align-items: center;
-
-  label {
-    cursor: pointer;
-    width: 2rem;
-    height: 2rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: white;
-    background-color: rgb(42, 157, 143);
-  }
 
   input {
     display: none;
@@ -34,16 +22,22 @@ const StyledGroupPicker = styled('div')`
     }
   }
 
-  form {
+  label {
+    cursor: pointer;
+    width: 2rem;
+    height: 2rem;
     display: flex;
-    flex-direction: column;
-    gap: 1rem;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    background-color: rgb(42, 157, 143);
+    font-size: 1.25rem;
+  }
 
-    ul {
-      display: flex;
-      flex-direction: row;
-      gap: 0.5rem;
-    }
+  ul {
+    display: flex;
+    flex-direction: row;
+    gap: 0.5rem;
   }
 `;
 
@@ -61,24 +55,23 @@ function GroupPicker() {
   };
 
   return (
-    <StyledGroupPicker>
+    <StyledGroupPicker onSubmit={handleSubmit(onSubmit)}>
       <h3>Select difficulty:</h3>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <ul>
-          {makeEmptyArrayWithIds(6).map((item) => (
-            <li key={item.key}>
-              <input
-                {...register('group')}
-                type="radio"
-                value={item.element}
-                id={`group-${item.key}`}
-              />
-              <label htmlFor={`group-${item.key}`}>{item.element}</label>
-            </li>
-          ))}
-        </ul>
-        <button type="submit">Start the game</button>
-      </form>
+      <ul>
+        {makeEmptyArrayWithIds(6).map((item) => (
+          <li key={item.key}>
+            <input
+              {...register('group')}
+              type="radio"
+              value={item.element}
+              id={`group-${item.key}`}
+            />
+            <label htmlFor={`group-${item.key}`}>{item.element}</label>
+          </li>
+        ))}
+      </ul>
+
+      <button type="submit">Start the game</button>
     </StyledGroupPicker>
   );
 }

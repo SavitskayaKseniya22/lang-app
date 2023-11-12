@@ -1,8 +1,15 @@
 import React from 'react';
+import styled from 'styled-components';
 import { CollectionType, WordType } from '../../../interfaces';
 import { useAppSelector } from '../../../store/store';
 import { useGetUserCollectionQuery } from '../../../store/userData/UserDataApi';
 import CollectionControl from './CollectionControl';
+
+const StyledCollectionControlPanel = styled('form')`
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+`;
 
 function CollectionControlPanel({ wordData }: { wordData: WordType }) {
   const { user } = useAppSelector((state) => state.persist.auth);
@@ -18,7 +25,7 @@ function CollectionControlPanel({ wordData }: { wordData: WordType }) {
 
   if (isSuccess) {
     return (
-      <>
+      <StyledCollectionControlPanel>
         <CollectionControl
           wordData={wordData}
           type={CollectionType.SELECTED}
@@ -36,7 +43,7 @@ function CollectionControlPanel({ wordData }: { wordData: WordType }) {
           type={CollectionType.DIFFICULT}
           collection={data?.difficult}
         />
-      </>
+      </StyledCollectionControlPanel>
     );
   }
 

@@ -15,7 +15,6 @@ function SignIn() {
     (data: BasicUserCredentials) => {
       signIn(data)
         .unwrap()
-
         .then(() => {
           setContent(null);
           navigate('/profile');
