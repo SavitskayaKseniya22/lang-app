@@ -6,6 +6,7 @@ import { StyledParagraph, StyledSpan } from '../../../styled/SharedStyles';
 import { fetchAndCreateReactImage } from '../../../utils';
 import CollectionControlPanel from './CollectionControlPanel';
 import Spinner from '../../../components/spinner/Spinner';
+import { useAppSelector } from '../../../store/store';
 
 const StyledWordDetailed = styled('div')`
   gap: 1rem;
@@ -38,6 +39,7 @@ const StyledWordDetailedContent = styled('ul')`
 
 function WordDetailed({ wordData }: { wordData: WordType }) {
   const [image, setImage] = useState<React.ReactElement | null>();
+  const { user } = useAppSelector((state) => state.persist.auth);
 
   useEffect(() => {
     fetchAndCreateReactImage(wordData.image).then((imageTemp) => {
@@ -51,7 +53,9 @@ function WordDetailed({ wordData }: { wordData: WordType }) {
 
   return (
     <StyledWordDetailed>
-      <CollectionControlPanel wordData={wordData} />
+      {user && (
+        <CollectionControlPanel wordData={wordData} userId={user.localId} />
+      )}
       {image}
       <audio
         controls

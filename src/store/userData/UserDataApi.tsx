@@ -21,6 +21,10 @@ export const userDataApi = createApi({
         url: `/${userId}.json`,
         body: {
           userId,
+          results: {
+            words: [],
+            games: [],
+          },
           collections: {
             [CollectionType.DIFFICULT]: {},
             [CollectionType.LEARNED]: {},
@@ -36,7 +40,7 @@ export const userDataApi = createApi({
         url: `/${userId}/collections/.json`,
         method: 'GET',
       }),
-
+      keepUnusedDataFor: 0,
       providesTags: ['Collection'],
     }),
 
@@ -72,15 +76,14 @@ export const userDataApi = createApi({
 
     addWordToCollection: builder.mutation<
       WordType,
-      UserIdType &
-        WordIdType & {
-          wordData: WordType;
-          collectionType: CollectionType;
-        }
+      UserIdType & {
+        wordData: { [wordId: string]: WordType };
+        collectionType: CollectionType;
+      }
     >({
-      query: ({ wordId, wordData, userId, collectionType }) => ({
-        url: `/${userId}/collections/${collectionType}/${wordId}.json`,
-        method: 'PUT',
+      query: ({ wordData, userId, collectionType }) => ({
+        url: `/${userId}/collections/${collectionType}/.json`,
+        method: 'PATCH',
         body: wordData,
       }),
       invalidatesTags: ['Collection'],

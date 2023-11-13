@@ -16,6 +16,7 @@ import collectionReducer from './collection/collectionSlice';
 import { authApi } from './auth/authApi';
 import { wordsApi } from './words/wordsApi';
 import { userDataApi } from './userData/UserDataApi';
+import { resultsApi } from './results/resultsApi';
 
 const persistConfig = {
   key: 'lang-app-root',
@@ -35,6 +36,7 @@ const rootReducer = combineReducers({
   [authApi.reducerPath]: authApi.reducer,
   [wordsApi.reducerPath]: wordsApi.reducer,
   [userDataApi.reducerPath]: userDataApi.reducer,
+  [resultsApi.reducerPath]: resultsApi.reducer,
 });
 
 export const store = configureStore({
@@ -47,7 +49,8 @@ export const store = configureStore({
     })
       .concat(authApi.middleware)
       .concat(wordsApi.middleware)
-      .concat(userDataApi.middleware),
+      .concat(userDataApi.middleware)
+      .concat(resultsApi.middleware),
 });
 
 export const persistor = persistStore(store);

@@ -168,31 +168,40 @@ export interface ActiveUserTypes {
   profilePicture: string;
 }
 
-export interface CollectionLikeObjectType {
-  difficult: { [id: string]: WordType };
-  learned: { [id: string]: WordType };
-  selected: { [id: string]: WordType };
+export interface WordWithIdType {
+  [wordId: string]: WordType & {
+    guessed?: number;
+  };
 }
-
-export interface CollectionLikeArraysType {
-  difficult: WordType[];
-  learned: WordType[];
-  selected: WordType[];
-}
-
-export interface UserWordsData {
-  id: string;
-  collections: CollectionLikeObjectType;
-}
-
-export interface Users {
-  [id: string]: UserWordsData;
-}
-
 export enum CollectionType {
   DIFFICULT = 'difficult',
   LEARNED = 'learned',
   SELECTED = 'selected',
+}
+
+export interface CollectionLikeObjectType {
+  [CollectionType.LEARNED]: WordWithIdType;
+  [CollectionType.DIFFICULT]: WordWithIdType;
+  [CollectionType.SELECTED]: WordWithIdType;
+}
+
+export interface CollectionLikeArraysType {
+  [CollectionType.DIFFICULT]: WordType[];
+  [CollectionType.LEARNED]: WordType[];
+  [CollectionType.SELECTED]: WordType[];
+}
+
+export interface UserWordsData {
+  userId: string;
+  collections: CollectionLikeObjectType;
+  results: {
+    words: WordWithIdType;
+    games: WordWithIdType;
+  };
+}
+
+export interface Users {
+  [userId: string]: UserWordsData;
 }
 
 export type UserIdType = { userId: string };

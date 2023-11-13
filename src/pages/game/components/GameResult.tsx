@@ -6,6 +6,8 @@ import { getPercent, getResultMessage } from '../../../utils';
 import WordList from '../../textBookPage/components/WordList';
 import { StyledMain } from '../../../styled/SharedStyles';
 import { OutletContextType } from '../../sprint/components/ResultContext';
+import { useAppSelector } from '../../../store/store';
+import GameResultDetailed from './GameResultDetailed';
 
 export function makeResult(state: GameResultType): ResultStatsType {
   const { correct, wrong } = state.answers;
@@ -35,7 +37,7 @@ const StyledGameResultContentItem = styled('li')`
 
 function GameResult() {
   const { result } = useOutletContext<OutletContextType>();
-  console.log(result, result.current);
+  const { user } = useAppSelector((state) => state.persist.auth);
 
   if (result.current) {
     const { correct, wrong, percent, message } = makeResult(result.current);
@@ -44,6 +46,10 @@ function GameResult() {
       <StyledMain>
         <h2>{message}</h2>
         <h3>{`${percent}% correct answers`}</h3>
+
+        {user && (
+          <GameResultDetailed userId={user.localId} result={result.current} />
+        )}
 
         <StyledGameResultContent>
           <StyledGameResultContentItem>

@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import { CollectionType, WordType } from '../../../interfaces';
-import { useAppSelector } from '../../../store/store';
 import { useGetUserCollectionQuery } from '../../../store/userData/UserDataApi';
 import CollectionControl from './CollectionControl';
 
@@ -11,37 +10,39 @@ const StyledCollectionControlPanel = styled('form')`
   gap: 1rem;
 `;
 
-function CollectionControlPanel({ wordData }: { wordData: WordType }) {
-  const { user } = useAppSelector((state) => state.persist.auth);
-
-  const { data, isSuccess } = useGetUserCollectionQuery(
-    {
-      userId: user?.localId || 'no-user',
-    },
-    {
-      skip: !user,
-    }
-  );
+function CollectionControlPanel({
+  wordData,
+  userId,
+}: {
+  wordData: WordType;
+  userId: string;
+}) {
+  const { data, isSuccess } = useGetUserCollectionQuery({
+    userId,
+  });
 
   if (isSuccess) {
     return (
       <StyledCollectionControlPanel>
         <CollectionControl
           wordData={wordData}
-          type={CollectionType.SELECTED}
-          collection={data?.selected}
+          collectionType={CollectionType.SELECTED}
+          collection={data}
+          userId={userId}
         />
 
         <CollectionControl
           wordData={wordData}
-          type={CollectionType.LEARNED}
-          collection={data?.learned}
+          collectionType={CollectionType.LEARNED}
+          collection={data}
+          userId={userId}
         />
 
         <CollectionControl
           wordData={wordData}
-          type={CollectionType.DIFFICULT}
-          collection={data?.difficult}
+          collectionType={CollectionType.DIFFICULT}
+          collection={data}
+          userId={userId}
         />
       </StyledCollectionControlPanel>
     );

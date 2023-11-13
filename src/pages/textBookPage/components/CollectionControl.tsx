@@ -2,72 +2,133 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import styled from 'styled-components';
-import { CollectionType, WordType } from '../../../interfaces';
-import { useAppSelector } from '../../../store/store';
+import {
+  CollectionLikeObjectType,
+  CollectionType,
+  WordType,
+} from '../../../interfaces';
 import {
   useAddWordToCollectionMutation,
   useRemoveFromCollectionMutation,
 } from '../../../store/userData/UserDataApi';
+import { useAddToUserWordsMutation } from '../../../store/results/resultsApi';
 
 const StyledCollectionControl = styled('label')`
   display: flex;
   text-align: center;
-
-  input {
-    display: none;
-  }
 `;
 
 function CollectionControl({
   wordData,
-  type,
-  collection = {},
+  collectionType,
+  collection,
+  userId,
 }: {
   wordData: WordType;
-  type: CollectionType;
-  collection: { [id: string]: WordType };
+  collectionType: CollectionType;
+  collection: CollectionLikeObjectType;
+  userId: string;
 }) {
-  const { user } = useAppSelector((state) => state.persist.auth);
   const [addWordToCollection] = useAddWordToCollectionMutation();
   const [removeFromCollection] = useRemoveFromCollectionMutation();
+  const [addToUserWords] = useAddToUserWordsMutation();
 
-  const isItInCollection = wordData.id in collection;
+  const isItInCollection =
+    (collection &&
+      collection[collectionType] &&
+      wordData.id in collection[collectionType]) ||
+    false;
+
+  const isItDifficult =
+    (collection &&
+      collection[CollectionType.DIFFICULT] &&
+      wordData.id in collection[CollectionType.DIFFICULT]) ||
+    false;
+
+  const isItLearned =
+    (collection &&
+      collection[CollectionType.LEARNED] &&
+      wordData.id in collection[CollectionType.LEARNED]) ||
+    false;
 
   const { register, watch } = useForm<{
     [type: string]: boolean;
   }>({
     defaultValues: {
-      [type]: isItInCollection,
+      [collectionType]: isItInCollection,
     },
   });
 
-  const isItChecked = watch(type);
+  const isItChecked = watch(collectionType);
 
   return (
-    <StyledCollectionControl htmlFor={type}>
-      {isItChecked ? `Remove from ${type}` : `Add to ${type}`}
+    <StyledCollectionControl htmlFor={collectionType}>
+      {isItChecked
+        ? `Remove from ${collectionType}`
+        : `Add to ${collectionType}`}
       <input
-        {...register(type, {
+        {...register(collectionType, {
           onChange: (e) => {
             if (e.target.checked) {
               addWordToCollection({
-                userId: user!.localId,
-                wordData,
-                wordId: wordData.id,
-                collectionType: type,
+                userId,
+                wordData: { [wordData.id]: wordData },
+                collectionType,
               });
+
+              if (collectionType === CollectionType.LEARNED) {
+                addToUserWords({
+                  userId,
+                  data: {
+                    [wordData.id]: {
+                      ...wordData,
+                      guessed: isItDifficult ? 5 : 3,
+                    },
+                  },
+                });
+              }
+
+              if (collectionType === CollectionType.DIFFICULT && isItLearned) {
+                addToUserWords({
+                  userId,
+                  data: {
+                    [wordData.id]: {
+                      ...wordData,
+                      guessed: 5,
+                    },
+                  },
+                });
+              }
             } else {
               removeFromCollection({
-                userId: user!.localId,
+                userId,
                 wordId: wordData.id,
-                collectionType: type,
+                collectionType,
               });
+
+              if (collectionType === CollectionType.LEARNED) {
+                addToUserWords({
+                  userId,
+                  data: { [wordData.id]: { ...wordData, guessed: 0 } },
+                });
+              }
+
+              if (collectionType === CollectionType.DIFFICULT) {
+                addToUserWords({
+                  userId,
+                  data: {
+                    [wordData.id]: {
+                      ...wordData,
+                      guessed: isItLearned ? 3 : 0,
+                    },
+                  },
+                });
+              }
             }
           },
         })}
         type="checkbox"
-        placeholder="email"
-        id={type}
+        id={collectionType}
       />
     </StyledCollectionControl>
   );
