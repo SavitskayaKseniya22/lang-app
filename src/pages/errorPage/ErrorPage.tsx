@@ -4,7 +4,9 @@ import { StyledMain } from '../../styled/SharedStyles';
 function ErrorPage() {
   return (
     <StyledMain>
-      <h3>Something went wrong. Please reload the page.</h3>
+      <h3>
+        Something went wrong. Please reload the page or return to the Main Page.
+      </h3>
     </StyledMain>
   );
 }

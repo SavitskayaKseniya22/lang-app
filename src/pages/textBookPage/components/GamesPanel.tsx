@@ -1,14 +1,20 @@
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
+import styled from 'styled-components';
 import ModalContext from '../../../components/modal/ModalContext';
 import { WordType } from '../../../interfaces';
 import { StyledGameItem, StyledGameList } from '../../Games/Games';
+
+const StyledGamePanel = styled(StyledGameList)`
+  background-color: white;
+  margin: 1rem;
+`;
 
 function GamesPanel({ data }: { data: WordType[] }) {
   const { setContent } = useContext(ModalContext);
 
   return (
-    <StyledGameList>
+    <StyledGamePanel>
       <StyledGameItem>
         <Link
           to="/games/sprint/game"
@@ -42,7 +48,7 @@ function GamesPanel({ data }: { data: WordType[] }) {
           <h4>Puzzles</h4>
         </Link>
       </StyledGameItem>
-    </StyledGameList>
+    </StyledGamePanel>
   );
 }
 

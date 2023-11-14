@@ -6,9 +6,10 @@ import SignUp from './components/SignUp';
 const StyledAuthContainer = styled('div')`
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 2rem;
   padding: 1rem;
-  width: 100%;
+  background-color: white;
+  margin: 1rem;
 `;
 
 function Auth() {

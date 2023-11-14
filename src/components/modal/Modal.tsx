@@ -21,15 +21,6 @@ const StyledModalOuterContainer = styled('div')`
   z-index: 130;
 `;
 
-const StyledModalInnerContainer = styled('div')`
-  background-color: white;
-  min-height: 300px;
-  min-width: 300px;
-  max-height: 80vh;
-  max-width: 70vw;
-  display: flex;
-`;
-
 const StyledModalButton = styled('button')`
   position: absolute;
   top: 1rem;
@@ -41,6 +32,7 @@ const StyledModalButton = styled('button')`
 
 function Modal() {
   const { content, setContent } = useContext(ModalContext);
+
   if (!content) return null;
 
   return (
@@ -61,7 +53,7 @@ function Modal() {
         >
           <i className="fa-solid fa-xmark" />
         </StyledModalButton>
-        <StyledModalInnerContainer>{content}</StyledModalInnerContainer>
+        {content}
       </StyledModalOuterContainer>
     </ReactPortal>
   );
