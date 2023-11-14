@@ -1,35 +1,35 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useLocation } from 'react-router-dom';
-import { WordType } from '../../interfaces';
+
 import PuzzlesGame from './components/PuzzlesGame';
 import Spinner from '../../components/spinner/Spinner';
 import { useGetRandomWordsQuery } from '../../store/words/wordsApi';
+import { StyledMain } from '../../styled/SharedStyles';
 
 function Puzzles() {
-  const { group, data } = useLocation().state;
+  const { state } = useLocation();
 
-  const [initData, setInitData] = useState<WordType[]>(data);
-
-  const { data: wordList, isLoading } = useGetRandomWordsQuery(
-    { group },
+  const { data, isLoading, isSuccess } = useGetRandomWordsQuery(
+    { group: state?.group || 0 },
     {
-      skip: !!data,
+      skip: state && state.data,
     }
   );
 
-  useEffect(() => {
-    if (wordList) {
-      setInitData(wordList);
-    }
-  }, [wordList]);
-
   if (isLoading) return <Spinner />;
 
-  if (initData && initData.length) {
-    return <PuzzlesGame data={initData} />;
+  if (isSuccess && data && data.length) {
+    return <PuzzlesGame data={data} />;
+  }
+  if (state && state.data && state.data.length) {
+    return <PuzzlesGame data={state.data} />;
   }
 
-  return <div>No data found</div>;
+  return (
+    <StyledMain>
+      <h3>No data found. Please reload the page or return to the Main Page.</h3>
+    </StyledMain>
+  );
 }
 
 export default Puzzles;
