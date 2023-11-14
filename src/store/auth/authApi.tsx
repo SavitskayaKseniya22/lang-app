@@ -1,16 +1,13 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { toast } from 'react-toastify';
-
 import { firebaseConfig } from '../../firebase';
-
 import {
   AuthErrorTypes,
-  ActiveUserListDataTypes,
   BasicUserCredentials,
   ActiveUserTypes,
 } from '../../interfaces';
 import { transformAuthError } from '../../utils';
-import { setUser, resetUser } from './authSlice';
+import { setUser } from './authSlice';
 
 export const authApi = createApi({
   reducerPath: 'authApi',
@@ -65,33 +62,7 @@ export const authApi = createApi({
         }
       },
     }),
-    getUserData: builder.mutation({
-      query: (idToken: string) => ({
-        url: `:lookup?key=${firebaseConfig.apiKey}`,
-        method: 'POST',
-        body: {
-          idToken,
-        },
-      }),
-      transformErrorResponse: (response) => transformAuthError(response),
-      transformResponse: (response) =>
-        (response as ActiveUserListDataTypes).users[0],
-      async onQueryStarted(id, { dispatch, queryFulfilled }) {
-        try {
-          await queryFulfilled;
-
-          toast.success('data uploaded');
-        } catch (err) {
-          if (err && typeof err === 'object' && 'error' in err) {
-            const { message, code } = (err as AuthErrorTypes).error;
-            toast.error(`${code}: ${message}`);
-            dispatch(resetUser());
-          }
-        }
-      },
-    }),
   }),
 });
 
-export const { useSignUpMutation, useSignInMutation, useGetUserDataMutation } =
-  authApi;
+export const { useSignUpMutation, useSignInMutation } = authApi;

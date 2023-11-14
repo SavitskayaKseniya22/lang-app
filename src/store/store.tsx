@@ -12,7 +12,7 @@ import {
 } from 'redux-persist';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 import authReducer from './auth/authSlice';
-import collectionReducer from './collection/collectionSlice';
+
 import { authApi } from './auth/authApi';
 import { wordsApi } from './words/wordsApi';
 import { userDataApi } from './userData/UserDataApi';
@@ -27,7 +27,6 @@ const persistedReducer = persistReducer(
   persistConfig,
   combineReducers({
     auth: authReducer,
-    collection: collectionReducer,
   })
 );
 
