@@ -69,7 +69,7 @@ export interface PointsType {
   total: number;
 }
 
-export type GameResultType = {
+export type SprintResultType = {
   answers: { correct: WordType[]; wrong: WordType[] };
   step: number;
   total: number;

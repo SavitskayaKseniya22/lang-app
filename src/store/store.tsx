@@ -12,6 +12,7 @@ import {
 } from 'redux-persist';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 import authReducer from './auth/authSlice';
+import resultsReducer from './ResultSlice';
 import { authApi } from './auth/authApi';
 import { wordsApi } from './wordsApi';
 import { userWordsApi } from './userWordsApi';
@@ -32,8 +33,8 @@ const rootReducer = combineReducers({
   persist: persistedReducer,
   [authApi.reducerPath]: authApi.reducer,
   [wordsApi.reducerPath]: wordsApi.reducer,
-
   [userWordsApi.reducerPath]: userWordsApi.reducer,
+  resultsReducer,
 });
 
 export const store = configureStore({

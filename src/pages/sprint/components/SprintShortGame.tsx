@@ -1,5 +1,5 @@
 import React, { SyntheticEvent, useState } from 'react';
-import { useNavigate, useOutletContext } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import {
   ActiveWordsTypes,
   WordBaseValues,
@@ -10,14 +10,14 @@ import Streak from './Streak';
 import Points from './Points';
 import SprintRound from './SprintRound';
 import ActiveWordsList from './ActiveWordsList';
-import { OutletContextType } from './ResultContext';
 import StyledSprint from './StyledSprint';
+import { useAppDispatch, useAppSelector } from '../../../store/store';
+import { updateSprintResult } from '../../../store/ResultSlice';
 
 function SprintShortGame({ data }: { data: WordType[] }) {
-  const { result, updateResult } = useOutletContext<OutletContextType>();
-
   const navigate = useNavigate();
-
+  const dispatch = useAppDispatch();
+  const { sprint } = useAppSelector((state) => state.resultsReducer);
   const [activeWords, setActiveWords] = useState<ActiveWordsTypes>(
     getActiveWordsArgs(data, WordBaseValues.MINWORD, data.length - 1)
   );
@@ -29,7 +29,7 @@ function SprintShortGame({ data }: { data: WordType[] }) {
 
     const isAnswerCorrect = checkIfAnswerCorrect(value, first, second);
 
-    updateResult(isAnswerCorrect, first.word);
+    dispatch(updateSprintResult({ isAnswerCorrect, word: first.word }));
 
     if (first.index < data.length - 1) {
       setActiveWords(
@@ -42,8 +42,8 @@ function SprintShortGame({ data }: { data: WordType[] }) {
 
   return (
     <StyledSprint>
-      <Points step={result.current.step} total={result.current.total} />
-      <Streak streak={result.current.streak} total={3} />
+      <Points step={sprint.step} total={sprint.total} />
+      <Streak streak={sprint.streak} total={3} />
       <ActiveWordsList words={activeWords} />
       <SprintRound handleChange={handleChange} />
     </StyledSprint>

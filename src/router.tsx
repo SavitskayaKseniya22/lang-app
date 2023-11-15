@@ -20,7 +20,7 @@ import GameLayout from './pages/game/components/GameLayout';
 import GroupPicker from './pages/game/components/GroupPicker';
 import ModalProvider from './components/modal/ModalProvider';
 import Collection from './pages/collection/Collection';
-import ResultContextProvider from './pages/sprint/components/ResultContext';
+
 import GitHubLink from './components/sideNavigation/components/GitHubLink';
 import Profile from './pages/Profile/Profile';
 import Games from './pages/Games/Games';
@@ -70,7 +70,7 @@ const router = createBrowserRouter(
                 </GameLayout>
               }
             />
-            <Route path="game" element={<ResultContextProvider />}>
+            <Route path="game">
               <Route index element={<Sprint />} />
               <Route path="result" element={<GameResult />} />
             </Route>
@@ -85,7 +85,7 @@ const router = createBrowserRouter(
                 </GameLayout>
               }
             />
-            <Route path="game" element={<ResultContextProvider />}>
+            <Route path="game">
               <Route index element={<Puzzles />} />
               <Route path="result" element={<div>result</div>} />
             </Route>

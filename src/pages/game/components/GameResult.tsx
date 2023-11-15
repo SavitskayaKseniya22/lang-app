@@ -1,15 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
-import { useOutletContext } from 'react-router-dom';
-import { GameResultType, ResultStatsType } from '../../../interfaces';
+import { SprintResultType, ResultStatsType } from '../../../interfaces';
 import { getPercent, getResultMessage } from '../../../utils';
 import WordList from '../../textBookPage/components/WordList';
 import { StyledMain } from '../../../styled/SharedStyles';
-import { OutletContextType } from '../../sprint/components/ResultContext';
 import { useAppSelector } from '../../../store/store';
 import GameResultDetailed from './GameResultDetailed';
 
-export function makeResult(state: GameResultType): ResultStatsType {
+export function makeResult(state: SprintResultType): ResultStatsType {
   const { correct, wrong } = state.answers;
 
   const percent = getPercent(correct.length + wrong.length, correct.length);
@@ -36,20 +34,18 @@ const StyledGameResultContentItem = styled('li')`
 `;
 
 function GameResult() {
-  const { result } = useOutletContext<OutletContextType>();
+  const { sprint } = useAppSelector((state) => state.resultsReducer);
   const { user } = useAppSelector((state) => state.persist.auth);
 
-  if (result.current) {
-    const { correct, wrong, percent, message } = makeResult(result.current);
+  if (sprint) {
+    const { correct, wrong, percent, message } = makeResult(sprint);
 
     return (
       <StyledMain>
         <h2>{message}</h2>
         <h3>{`${percent}% correct answers`}</h3>
 
-        {user && (
-          <GameResultDetailed userId={user.localId} result={result.current} />
-        )}
+        {user && <GameResultDetailed userId={user.localId} result={sprint} />}
 
         <StyledGameResultContent>
           <StyledGameResultContentItem>
