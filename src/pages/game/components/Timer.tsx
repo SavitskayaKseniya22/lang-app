@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 
 const StyledTimer = styled('div')`
@@ -26,20 +26,23 @@ function Timer({
 }) {
   const [timer, setTimer] = useState(duration);
 
-  if (!timer) {
-    // check double render
-    doAfterTimer();
-  }
+  const intervalRef = useRef<NodeJS.Timer>();
 
   useEffect(() => {
-    const interval = setInterval(() => {
+    if (timer === 0) {
+      clearInterval(intervalRef.current);
+      doAfterTimer();
+    }
+  }, [doAfterTimer, timer]);
+
+  useEffect(() => {
+    intervalRef.current = setInterval(() => {
       setTimer((seconds) => seconds - 1);
     }, 1000);
 
     return () => {
-      clearInterval(interval);
+      clearInterval(intervalRef.current);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return <StyledTimer>{timer}</StyledTimer>;

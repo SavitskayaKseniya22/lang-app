@@ -76,10 +76,10 @@ function SprintLongGame({
 
   if (isLoading) return <Spinner />;
 
-  if (data && data.length && activeWords) {
+  if (data !== null && activeWords) {
     return (
       <StyledSprint>
-        <Timer duration={999} doAfterTimer={doAfterTimer} />
+        <Timer duration={60} doAfterTimer={doAfterTimer} />
         <Points step={result.current.step} total={result.current.total} />
         <Streak streak={result.current.streak} total={3} />
         <ActiveWordsList words={activeWords} />
