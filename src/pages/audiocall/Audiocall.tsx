@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
-import { useGetAllWordsQuery } from '../../store/words/wordsApi';
+import { useGetAllWordsQuery } from '../../store/wordsApi';
 import Timer from '../game/components/Timer';
 
 const StyledAudiocall = styled('div')`

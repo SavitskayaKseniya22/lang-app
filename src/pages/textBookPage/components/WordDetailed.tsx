@@ -7,6 +7,8 @@ import { fetchAndCreateReactImage } from '../../../utils';
 import CollectionControlPanel from './CollectionControlPanel';
 import Spinner from '../../../components/spinner/Spinner';
 import { useAppSelector } from '../../../store/store';
+import { useGetUserWordQuery } from '../../../store/userWordsApi';
+import WordProgress from './WordProgress';
 
 const StyledWordDetailed = styled('div')`
   gap: 1rem;
@@ -63,6 +65,18 @@ function WordDetailed({ wordData }: { wordData: WordType }) {
   const { user } = useAppSelector((state) => state.persist.auth);
 
   const {
+    data: wordDataDetailed,
+    isSuccess,
+    isLoading,
+  } = useGetUserWordQuery(
+    {
+      userId: user!.localId,
+      wordId: wordData.id,
+    },
+    { skip: !user }
+  );
+
+  const {
     word,
     transcription,
     textExample,
@@ -78,14 +92,21 @@ function WordDetailed({ wordData }: { wordData: WordType }) {
     });
   }, [wordData.image]);
 
-  if (!image) {
+  if (!image || isLoading) {
     return <Spinner />;
   }
 
   return (
     <StyledWordDetailed>
-      {user && (
-        <CollectionControlPanel wordData={wordData} userId={user.localId} />
+      {user && isSuccess && (
+        <CollectionControlPanel
+          wordData={wordData}
+          wordDataDetailed={wordDataDetailed}
+        />
+      )}
+
+      {user && isSuccess && (
+        <WordProgress wordDataDetailed={wordDataDetailed} />
       )}
 
       <StyledWordDetailedMedia>

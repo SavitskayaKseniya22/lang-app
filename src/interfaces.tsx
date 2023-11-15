@@ -3,24 +3,33 @@ export interface BasicUserCredentials {
   password: string;
 }
 
-export type TextBookValuesTypes = { group: number; page: number };
-
-export interface WordType {
-  id: string;
-  group: number;
-  page: number;
-  word: string;
-  image: string;
-  audio: string;
-  audioMeaning: string;
-  audioExample: string;
-  textMeaning: string;
-  textExample: string;
-  transcription: string;
-  wordTranslate: string;
-  textMeaningTranslate: string;
-  textExampleTranslate: string;
+export interface AuthErrorTypes {
+  error: {
+    errors: [
+      {
+        domain: string;
+        reason: string;
+        message: string;
+      },
+    ];
+    code: number;
+    message: string;
+  };
 }
+
+export interface ActiveUserTypes {
+  kind: string;
+  localId: string;
+  email: string;
+  displayName: string;
+  idToken: string;
+  registered: boolean;
+  refreshToken: string;
+  expiresIn: string;
+  profilePicture: string;
+}
+
+export type TextBookValuesTypes = { group: number; page: number };
 
 export enum GameType {
   SPRINT = 'Sprint',
@@ -67,6 +76,23 @@ export type GameResultType = {
   streak: number;
 };
 
+export interface WordType {
+  id: string;
+  group: number;
+  page: number;
+  word: string;
+  image: string;
+  audio: string;
+  audioMeaning: string;
+  audioExample: string;
+  textMeaning: string;
+  textExample: string;
+  transcription: string;
+  wordTranslate: string;
+  textMeaningTranslate: string;
+  textExampleTranslate: string;
+}
+
 export interface ResultStatsType {
   correct: WordType[];
   wrong: WordType[];
@@ -110,62 +136,33 @@ export enum ScreenSize {
   LAPTOPL = '(min-width: 1920px)',
 }
 
-export interface AuthErrorTypes {
-  error: {
-    errors: [
-      {
-        domain: string;
-        reason: string;
-        message: string;
-      },
-    ];
-    code: number;
-    message: string;
-  };
-}
-
-export interface ActiveUserTypes {
-  kind: string;
-  localId: string;
-  email: string;
-  displayName: string;
-  idToken: string;
-  registered: boolean;
-  refreshToken: string;
-  expiresIn: string;
-  profilePicture: string;
-}
+export type WordWithIdDataType = WordType & {
+  guessed?: number;
+  difficult?: boolean;
+  learned?: boolean;
+  selected?: boolean;
+};
 
 export interface WordWithIdType {
-  [wordId: string]: WordType & {
-    guessed?: number;
-  };
+  [wordId: string]: WordWithIdDataType;
 }
+
 export enum CollectionType {
   DIFFICULT = 'difficult',
   LEARNED = 'learned',
   SELECTED = 'selected',
 }
 
-export interface CollectionLikeObjectType {
-  [CollectionType.LEARNED]: WordWithIdType;
-  [CollectionType.DIFFICULT]: WordWithIdType;
-  [CollectionType.SELECTED]: WordWithIdType;
-}
-
 export interface CollectionLikeArraysType {
-  [CollectionType.DIFFICULT]: WordType[];
-  [CollectionType.LEARNED]: WordType[];
-  [CollectionType.SELECTED]: WordType[];
+  [CollectionType.DIFFICULT]: WordWithIdDataType[];
+  [CollectionType.LEARNED]: WordWithIdDataType[];
+  [CollectionType.SELECTED]: WordWithIdDataType[];
+  all: WordWithIdDataType[];
 }
 
 export interface UserWordsData {
   userId: string;
-  collections: CollectionLikeObjectType;
-  results: {
-    words: WordWithIdType;
-    games: WordWithIdType;
-  };
+  words: WordWithIdType;
 }
 
 export interface Users {

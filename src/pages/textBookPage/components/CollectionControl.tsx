@@ -3,15 +3,12 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import styled from 'styled-components';
 import {
-  CollectionLikeObjectType,
   CollectionType,
   WordType,
+  WordWithIdDataType,
 } from '../../../interfaces';
-import {
-  useAddWordToCollectionMutation,
-  useRemoveFromCollectionMutation,
-} from '../../../store/userData/UserDataApi';
-import { useAddToUserWordsMutation } from '../../../store/results/resultsApi';
+import { useUpdateUserWordMutation } from '../../../store/userWordsApi';
+import { useAppSelector } from '../../../store/store';
 
 const StyledCollectionControl = styled('label')`
   display: flex;
@@ -21,35 +18,23 @@ const StyledCollectionControl = styled('label')`
 function CollectionControl({
   wordData,
   collectionType,
-  collection,
-  userId,
+  wordDataDetailed,
 }: {
   wordData: WordType;
   collectionType: CollectionType;
-  collection: CollectionLikeObjectType;
-  userId: string;
+  wordDataDetailed: WordWithIdDataType | null;
 }) {
-  const [addWordToCollection] = useAddWordToCollectionMutation();
-  const [removeFromCollection] = useRemoveFromCollectionMutation();
-  const [addToUserWords] = useAddToUserWordsMutation();
+  const { user } = useAppSelector((state) => state.persist.auth);
+  const [updateUserWord] = useUpdateUserWordMutation();
 
   const isItInCollection =
-    (collection &&
-      collection[collectionType] &&
-      wordData.id in collection[collectionType]) ||
-    false;
+    (wordDataDetailed && wordDataDetailed[collectionType]) || false;
 
   const isItDifficult =
-    (collection &&
-      collection[CollectionType.DIFFICULT] &&
-      wordData.id in collection[CollectionType.DIFFICULT]) ||
-    false;
+    (wordDataDetailed && wordDataDetailed[CollectionType.DIFFICULT]) || false;
 
   const isItLearned =
-    (collection &&
-      collection[CollectionType.LEARNED] &&
-      wordData.id in collection[CollectionType.LEARNED]) ||
-    false;
+    (wordDataDetailed && wordDataDetailed[CollectionType.LEARNED]) || false;
 
   const { register, watch } = useForm<{
     [type: string]: boolean;
@@ -69,62 +54,46 @@ function CollectionControl({
       <input
         {...register(collectionType, {
           onChange: (e) => {
-            if (e.target.checked) {
-              addWordToCollection({
-                userId,
-                wordData: { [wordData.id]: wordData },
-                collectionType,
-              });
+            const data = wordDataDetailed
+              ? { ...wordDataDetailed }
+              : { ...wordData };
 
+            if (e.target.checked) {
+              if (collectionType === CollectionType.SELECTED) {
+                Object.assign(data, { selected: true });
+              }
               if (collectionType === CollectionType.LEARNED) {
-                addToUserWords({
-                  userId,
-                  data: {
-                    [wordData.id]: {
-                      ...wordData,
-                      guessed: isItDifficult ? 5 : 3,
-                    },
-                  },
+                Object.assign(data, {
+                  learned: true,
+                  guessed: isItDifficult ? 5 : 3,
                 });
               }
-
-              if (collectionType === CollectionType.DIFFICULT && isItLearned) {
-                addToUserWords({
-                  userId,
-                  data: {
-                    [wordData.id]: {
-                      ...wordData,
-                      guessed: 5,
-                    },
-                  },
+              if (collectionType === CollectionType.DIFFICULT) {
+                const addition = isItLearned ? { guessed: 5 } : {};
+                Object.assign(data, {
+                  difficult: true,
+                  ...addition,
                 });
               }
             } else {
-              removeFromCollection({
-                userId,
-                wordId: wordData.id,
-                collectionType,
-              });
-
-              if (collectionType === CollectionType.LEARNED) {
-                addToUserWords({
-                  userId,
-                  data: { [wordData.id]: { ...wordData, guessed: 0 } },
-                });
+              if (collectionType === CollectionType.SELECTED) {
+                Object.assign(data, { selected: false });
               }
-
+              if (collectionType === CollectionType.LEARNED) {
+                Object.assign(data, { learned: false, guessed: 0 });
+              }
               if (collectionType === CollectionType.DIFFICULT) {
-                addToUserWords({
-                  userId,
-                  data: {
-                    [wordData.id]: {
-                      ...wordData,
-                      guessed: isItLearned ? 3 : 0,
-                    },
-                  },
+                Object.assign(data, {
+                  difficult: false,
+                  guessed: isItLearned ? 3 : 0,
                 });
               }
             }
+            updateUserWord({
+              userId: user!.localId,
+              wordId: wordData.id,
+              data,
+            });
           },
         })}
         type="checkbox"

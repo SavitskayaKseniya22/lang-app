@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom';
 
 import PuzzlesGame from './components/PuzzlesGame';
 import Spinner from '../../components/spinner/Spinner';
-import { useGetRandomWordsQuery } from '../../store/words/wordsApi';
+import { useGetRandomWordsQuery } from '../../store/wordsApi';
 import { StyledMain } from '../../styled/SharedStyles';
 
 function Puzzles() {

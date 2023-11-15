@@ -1,7 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
-import { CollectionType, WordType } from '../../../interfaces';
-import { useGetUserCollectionQuery } from '../../../store/userData/UserDataApi';
+import {
+  CollectionType,
+  WordType,
+  WordWithIdDataType,
+} from '../../../interfaces';
 import CollectionControl from './CollectionControl';
 
 const StyledCollectionControlPanel = styled('form')`
@@ -12,43 +15,32 @@ const StyledCollectionControlPanel = styled('form')`
 
 function CollectionControlPanel({
   wordData,
-  userId,
+
+  wordDataDetailed,
 }: {
   wordData: WordType;
-  userId: string;
+
+  wordDataDetailed: WordWithIdDataType | null;
 }) {
-  const { data, isSuccess } = useGetUserCollectionQuery({
-    userId,
-  });
-
-  if (isSuccess) {
-    return (
-      <StyledCollectionControlPanel>
-        <CollectionControl
-          wordData={wordData}
-          collectionType={CollectionType.SELECTED}
-          collection={data}
-          userId={userId}
-        />
-
-        <CollectionControl
-          wordData={wordData}
-          collectionType={CollectionType.LEARNED}
-          collection={data}
-          userId={userId}
-        />
-
-        <CollectionControl
-          wordData={wordData}
-          collectionType={CollectionType.DIFFICULT}
-          collection={data}
-          userId={userId}
-        />
-      </StyledCollectionControlPanel>
-    );
-  }
-
-  return null;
+  return (
+    <StyledCollectionControlPanel>
+      <CollectionControl
+        wordData={wordData}
+        collectionType={CollectionType.SELECTED}
+        wordDataDetailed={wordDataDetailed}
+      />
+      <CollectionControl
+        wordData={wordData}
+        collectionType={CollectionType.LEARNED}
+        wordDataDetailed={wordDataDetailed}
+      />
+      <CollectionControl
+        wordData={wordData}
+        collectionType={CollectionType.DIFFICULT}
+        wordDataDetailed={wordDataDetailed}
+      />
+    </StyledCollectionControlPanel>
+  );
 }
 
 export default CollectionControlPanel;

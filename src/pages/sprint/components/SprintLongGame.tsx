@@ -1,6 +1,6 @@
 import React, { SyntheticEvent, useCallback, useEffect, useState } from 'react';
 import { useNavigate, useOutletContext } from 'react-router-dom';
-import { useGetAllWordsQuery } from '../../../store/words/wordsApi';
+import { useGetAllWordsQuery } from '../../../store/wordsApi';
 import {
   ActiveWordsTypes,
   DefaultTextBookValues,

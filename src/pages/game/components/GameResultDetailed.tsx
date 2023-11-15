@@ -1,18 +1,9 @@
 import React, { useEffect, useState } from 'react';
+import { GameResultType, WordWithIdType } from '../../../interfaces';
 import {
   useAddToUserWordsMutation,
   useGetUserWordsQuery,
-  useSetUserWordsMutation,
-} from '../../../store/results/resultsApi';
-import {
-  useAddWordToCollectionMutation,
-  useGetUserCollectionQuery,
-} from '../../../store/userData/UserDataApi';
-import {
-  CollectionType,
-  GameResultType,
-  WordWithIdType,
-} from '../../../interfaces';
+} from '../../../store/userWordsApi';
 
 function GameResultDetailed({
   userId,
@@ -22,22 +13,15 @@ function GameResultDetailed({
   result: GameResultType;
 }) {
   const { correct, wrong } = result.answers;
-  const [newWords, setNewWords] = useState<null | number>(null);
-  const [newLearned, setNewLearned] = useState<WordWithIdType>({});
+  const [newWords, setNewWords] = useState(0);
+  const [newLearned, setNewLearned] = useState(0);
 
-  const [setUserWords] = useSetUserWordsMutation();
+  const { data: userWords, isSuccess } = useGetUserWordsQuery({ userId });
+
   const [addToUserWords] = useAddToUserWordsMutation();
-  const [addWordToCollection] = useAddWordToCollectionMutation();
-
-  const { data: userWords, isSuccess: isGetUserWordsSuccess } =
-    useGetUserWordsQuery({ userId });
-
-  const { data: userCollection } = useGetUserCollectionQuery({
-    userId,
-  });
 
   useEffect(() => {
-    if (isGetUserWordsSuccess) {
+    if (isSuccess) {
       if (!userWords) {
         const resultForSave: WordWithIdType = {};
 
@@ -49,52 +33,37 @@ function GameResultDetailed({
           resultForSave[word.id] = { ...word, guessed: 0 };
         });
 
-        setUserWords({ userId, data: resultForSave });
+        addToUserWords({ userId, data: resultForSave });
         setNewWords(correct.length + wrong.length);
-      }
-
-      if (userCollection && userWords) {
+      } else {
         const resultForSave: WordWithIdType = {};
 
         wrong.forEach((word) => {
-          resultForSave[word.id] = { ...word, guessed: 0 };
+          const prevData = userWords[word.id] || word;
+          resultForSave[word.id] = { ...prevData, guessed: 0 };
         });
 
         correct.forEach((word) => {
-          const max = Object.keys(
-            userCollection[CollectionType.DIFFICULT] || []
-          ).includes(word.id)
-            ? 5
-            : 3;
+          const prevData = userWords[word.id] || word;
+
+          const max = userWords[word.id]?.difficult ? 5 : 3;
 
           const prevGuessed = userWords[word.id]?.guessed || 0;
 
           const guessed =
             prevGuessed + 1 <= max ? prevGuessed + 1 : prevGuessed;
 
+          const learned = max === prevGuessed + 1 && max !== prevGuessed;
+
           resultForSave[word.id] = {
-            ...word,
+            ...prevData,
             guessed,
+            learned,
           };
 
-          const learned: WordWithIdType = {};
-
-          if (max === prevGuessed + 1 && max !== prevGuessed) {
-            learned[word.id] = {
-              ...word,
-              guessed,
-            };
-            if (Object.keys(learned).length) {
-              addWordToCollection({
-                userId,
-                wordData: learned,
-                collectionType: CollectionType.LEARNED,
-              });
-            }
+          if (learned) {
+            setNewLearned((a) => a + 1);
           }
-
-          setNewLearned(learned);
-          // add to learned col
         });
 
         addToUserWords({ userId, data: resultForSave });
@@ -106,40 +75,14 @@ function GameResultDetailed({
         );
       }
     }
-  }, [
-    addToUserWords,
-    addWordToCollection,
-    correct,
-    isGetUserWordsSuccess,
-    setUserWords,
-    userCollection,
-    userId,
-    userWords,
-    wrong,
-  ]);
+  }, [addToUserWords, correct, isSuccess, userId, userWords, wrong]);
 
   return (
     <div>
       {`${newWords} new words encountered`}
-      {`${Object.keys(newLearned).length} new words learned`}
+      {`${newLearned} new words learned`}
     </div>
   );
 }
 
 export default GameResultDetailed;
-
-// если userWords нет
-
-/// / просто пройти по словам и проставить guessed 0 и 1, записать userWords как есть
-
-// если есть
-
-// ошибочные просто записать в слова с guessed 0
-// правильным добавить +1 к guessed. сравнить с необходимым кол-вом попыток исходя из сложности и перенести в изученые
-
-// вывести сколько новых слов
-
-/// вывести сколько слов стало изученными
-
-// сделать изученным- добавить в коллекцию+добавить в юзервордс с максимальным знакомб
-// удалить из учуенных - удалить из коллекции и обнулить слово

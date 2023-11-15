@@ -7,8 +7,8 @@ import {
 } from '../../../store/auth/authApi';
 import ModalContext from '../../modal/ModalContext';
 import { BasicUserCredentials } from '../../../interfaces';
-import { useCreateUserDataMutation } from '../../../store/userData/UserDataApi';
 import AuthForm from './AuthForm';
+import { useCreateUserDataMutation } from '../../../store/userWordsApi';
 
 function SignUp() {
   const [signUp] = useSignUpMutation();

@@ -1,10 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import {
-  TextBookValuesTypes,
-  WordBaseValues,
-  WordType,
-} from '../../interfaces';
-import { getRandom } from '../../utils';
+import { TextBookValuesTypes, WordBaseValues, WordType } from '../interfaces';
+import { getRandom } from '../utils';
 
 export const wordsApi = createApi({
   reducerPath: 'wordsApi',
@@ -13,13 +9,13 @@ export const wordsApi = createApi({
       'https://lang--app-default-rtdb.europe-west1.firebasedatabase.app/words',
   }),
   endpoints: (builder) => ({
-    getAllWords: builder.query<WordType[], TextBookValuesTypes>({
+    getAllWords: builder.query<WordType[] | null, TextBookValuesTypes>({
       query: ({ group, page }) => ({
         url: `/${group}/${page}.json`,
         method: 'GET',
       }),
     }),
-    getRandomWords: builder.query<WordType[], { group: number }>({
+    getRandomWords: builder.query<WordType[] | null, { group: number }>({
       query: ({ group }) => ({
         url: `/${group}/${getRandom(0, WordBaseValues.MAXPAGE)}.json`,
         method: 'GET',

@@ -4,7 +4,7 @@ import { FormProvider, useForm } from 'react-hook-form';
 import styled from 'styled-components';
 import PagePicker from './components/PagePicker';
 import GroupSelect from './components/GroupSelect';
-import { useGetAllWordsQuery } from '../../store/words/wordsApi';
+import { useGetAllWordsQuery } from '../../store/wordsApi';
 import WordList from './components/WordList';
 import { DefaultTextBookValues, WordType } from '../../interfaces';
 import ModalContext from '../../components/modal/ModalContext';
