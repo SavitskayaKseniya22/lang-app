@@ -123,3 +123,28 @@ export function fetchAndCreateReactImage(partOfUrl: string) {
       })
     );
 }
+
+export function checkPartition(val: 0 | 1 | 2, sentence: string) {
+  const length = sentence?.split(' ').length;
+
+  if ((val === 0 && length < 4) || (val === 1 && length < 6)) {
+    return length;
+  }
+
+  return {
+    0: 4,
+    1: 6,
+    2: length,
+  }[val];
+}
+
+export function divideSentence(sentence: string, value: number) {
+  const arr = sentence.split(' ');
+  const maxWordsInPart = Math.round(arr.length / value);
+  let dividedSentence: string[] = [];
+  while (arr.length >= maxWordsInPart) {
+    const part = arr.splice(0, maxWordsInPart);
+    dividedSentence = dividedSentence.concat(part.join(' '));
+  }
+  return dividedSentence.concat(arr);
+}

@@ -41,7 +41,7 @@ const StyledGroupPicker = styled('form')`
   }
 `;
 
-function GroupPicker() {
+function GroupPicker({ value }: { value: number }) {
   const { register, handleSubmit } = useForm({
     defaultValues: { group: '0' },
   });
@@ -58,7 +58,7 @@ function GroupPicker() {
     <StyledGroupPicker onSubmit={handleSubmit(onSubmit)}>
       <h3>Select difficulty:</h3>
       <ul>
-        {makeEmptyArrayWithIds(6).map((item) => (
+        {makeEmptyArrayWithIds(value).map((item) => (
           <li key={item.key}>
             <input
               {...register('group')}

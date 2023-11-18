@@ -5,8 +5,9 @@ import { WordType, WordBaseValues } from '../../../interfaces';
 import { StyledMain, StyledParagraph } from '../../../styled/SharedStyles';
 import Streak from '../../sprint/components/Streak';
 import DragAndDrop from './DragAndDrop';
+import { checkPartition, divideSentence } from '../../../utils';
 
-const StyledSentences = styled(StyledMain)`
+const StyledPuzzlesGame = styled(StyledMain)`
   justify-content: center;
 
   div {
@@ -19,10 +20,19 @@ const StyledSentences = styled(StyledMain)`
   }
 `;
 
-function PuzzlesGame({ data }: { data: WordType[] }) {
+function PuzzlesGame({
+  data,
+  difficulty,
+}: {
+  data: WordType[];
+  difficulty: 0 | 1 | 2;
+}) {
   const count = useRef(WordBaseValues.MINPAGE);
 
   const [word, setWord] = useState<WordType>(data[count.current]);
+  const [sentence, setSentence] = useState<string>(
+    data[count.current].textExample
+  );
 
   const dragResult = useRef<null | string>(null);
 
@@ -31,7 +41,7 @@ function PuzzlesGame({ data }: { data: WordType[] }) {
   const navigate = useNavigate();
 
   return (
-    <StyledSentences>
+    <StyledPuzzlesGame>
       {word && data.length && (
         <>
           <Streak streak={6} total={10} />
@@ -39,19 +49,19 @@ function PuzzlesGame({ data }: { data: WordType[] }) {
           <StyledParagraph>{word.textExampleTranslate}</StyledParagraph>
 
           <DragAndDrop
-            source={word.textExample}
+            source={divideSentence(
+              sentence,
+              checkPartition(difficulty, sentence)
+            )}
             returnResult={(value: string) => {
               dragResult.current = value;
             }}
             isItActive={middleResult === null}
           />
+
           {middleResult !== null && (
-            <div
-              className={
-                word.textExample === dragResult.current ? 'true' : 'false'
-              }
-            >
-              {word.textExample}
+            <div className={sentence === dragResult.current ? 'true' : 'false'}>
+              {sentence}
             </div>
           )}
 
@@ -62,6 +72,7 @@ function PuzzlesGame({ data }: { data: WordType[] }) {
                 if (count.current < WordBaseValues.MAXWORD) {
                   count.current += 1;
                   setWord(data[count.current]);
+                  setSentence(data[count.current].textExample);
                   setMiddleResult(null);
                 } else {
                   navigate('/result');
@@ -74,7 +85,7 @@ function PuzzlesGame({ data }: { data: WordType[] }) {
             <button
               type="button"
               onClick={() => {
-                setMiddleResult(word.textExample === dragResult.current);
+                setMiddleResult(sentence === dragResult.current);
               }}
             >
               Check
@@ -82,7 +93,7 @@ function PuzzlesGame({ data }: { data: WordType[] }) {
           )}
         </>
       )}
-    </StyledSentences>
+    </StyledPuzzlesGame>
   );
 }
 

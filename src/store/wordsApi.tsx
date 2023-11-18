@@ -15,11 +15,15 @@ export const wordsApi = createApi({
         method: 'GET',
       }),
     }),
-    getRandomWords: builder.query<WordType[] | null, { group: number }>({
-      query: ({ group }) => ({
-        url: `/${group}/${getRandom(0, WordBaseValues.MAXPAGE)}.json`,
+    getRandomWords: builder.query<WordType[] | null, void>({
+      query: () => ({
+        url: `/${getRandom(0, WordBaseValues.MINGROUP)}/${getRandom(
+          0,
+          WordBaseValues.MAXPAGE
+        )}.json`,
         method: 'GET',
       }),
+      keepUnusedDataFor: 0,
     }),
   }),
 });

@@ -66,7 +66,7 @@ const router = createBrowserRouter(
               index
               element={
                 <GameLayout type={GameType.SPRINT}>
-                  <GroupPicker />
+                  <GroupPicker value={6} />
                 </GameLayout>
               }
             />
@@ -81,7 +81,7 @@ const router = createBrowserRouter(
               index
               element={
                 <GameLayout type={GameType.PUZZLES}>
-                  <GroupPicker />
+                  <GroupPicker value={3} />
                 </GameLayout>
               }
             />
@@ -96,7 +96,7 @@ const router = createBrowserRouter(
               index
               element={
                 <GameLayout type={GameType.AUDIOCALL}>
-                  <GroupPicker />
+                  <GroupPicker value={6} />
                 </GameLayout>
               }
             />
