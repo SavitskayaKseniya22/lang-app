@@ -4,7 +4,6 @@ import {
   ActiveWordTypes,
   AuthErrorTypes,
   WordBaseValues,
-  WordForDrop,
   WordType,
 } from './interfaces';
 
@@ -74,7 +73,7 @@ export function checkIfAnswerCorrect(
   );
 }
 
-export function shuffle(array: WordForDrop[]) {
+export function shuffle<T>(array: Array<T>): Array<T> {
   const arrayCopy = [...array];
   for (let i = array.length - 1; i > 0; i -= 1) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -92,6 +91,13 @@ export function convertArray(array: Array<string | number>) {
 
 export function makeStringArrayWithIds(string: string) {
   return convertArray(string.split(' '));
+}
+
+export function getRandomItemsFromArray<T>(
+  array: Array<T>,
+  value: number
+): Array<T> {
+  return shuffle(array).slice(0, value);
 }
 
 export function makeEmptyArrayWithIds(length: number) {
@@ -125,21 +131,21 @@ export function fetchAndCreateReactImage(partOfUrl: string) {
 }
 
 export function checkPartition({
-  val,
+  value,
   sentence,
 }: {
-  val: string;
+  value: string;
   sentence: string;
 }) {
   const length = sentence?.split(' ').length;
 
   const table = [4, 6, length];
 
-  if ((+val === 0 && length < 4) || (+val === 1 && length < 6)) {
+  if ((+value === 0 && length < 4) || (+value === 1 && length < 6)) {
     return length;
   }
 
-  return table[+val] || 6;
+  return table[+value] || 6;
 }
 
 export function divideSentence(sentence: string, value: number) {
@@ -151,4 +157,39 @@ export function divideSentence(sentence: string, value: number) {
     dividedSentence = dividedSentence.concat(part.join(' '));
   }
   return dividedSentence.concat(arr);
+}
+
+export class DataQueue {
+  elements: WordType[] = [];
+
+  head: number = 0;
+
+  tail: number;
+
+  constructor(elements: WordType[]) {
+    this.elements = elements;
+    this.tail = elements.length;
+  }
+
+  next() {
+    const item = this.elements[this.head];
+    this.head += 1;
+    return item;
+  }
+
+  peek() {
+    return this.elements[this.head];
+  }
+
+  get length() {
+    return this.tail - this.head;
+  }
+
+  get isEmpty() {
+    return this.length === 0;
+  }
+}
+
+export function checkStepValue(dif: string) {
+  return [5, 10, 15][+dif] || 5;
 }

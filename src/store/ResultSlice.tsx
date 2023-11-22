@@ -42,7 +42,7 @@ export function updateResultData(
   };
 }
 
-const initResultValue = {
+const initSprintResultValue = {
   answers: { correct: [], wrong: [] },
   step: StepValues.MIN,
   total: 0,
@@ -51,10 +51,18 @@ const initResultValue = {
 
 export interface ResultsState {
   sprint: SprintResultType;
+  puzzles: { middleResult: boolean; step: number; total: number };
 }
 
+const initPuzzlesResultValue = {
+  middleResult: false,
+  step: 5,
+  total: 0,
+};
+
 const initialState: ResultsState = {
-  sprint: initResultValue,
+  sprint: initSprintResultValue,
+  puzzles: initPuzzlesResultValue,
 };
 
 export const resultsSlice = createSlice({
@@ -77,12 +85,35 @@ export const resultsSlice = createSlice({
     },
 
     resetSprintResult: (state) => {
-      state.sprint = initResultValue;
+      state.sprint = initSprintResultValue;
+    },
+
+    setPuzzlesResult: (state, action: PayloadAction<{ step: number }>) => {
+      state.puzzles = { ...initPuzzlesResultValue, ...action.payload };
+    },
+
+    updatePuzzlesMiddleResult: (state, action: PayloadAction<boolean>) => {
+      state.puzzles.middleResult = action.payload;
+    },
+
+    updatePuzzlesTotalResult: (state) => {
+      if (state.puzzles.middleResult) {
+        state.puzzles.total += state.puzzles.step;
+      } else {
+        state.puzzles.total -= 1;
+      }
+      state.puzzles.middleResult = false;
     },
   },
 });
 
-export const { setSprintResult, resetSprintResult, updateSprintResult } =
-  resultsSlice.actions;
+export const {
+  setSprintResult,
+  resetSprintResult,
+  updateSprintResult,
+  updatePuzzlesMiddleResult,
+  updatePuzzlesTotalResult,
+  setPuzzlesResult,
+} = resultsSlice.actions;
 
 export default resultsSlice.reducer;

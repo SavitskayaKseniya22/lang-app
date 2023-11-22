@@ -25,6 +25,7 @@ import PrivateRoute from './components/PrivateRoute';
 import GameStartScreen, {
   GameInitialData,
 } from './pages/sentences/components/GameStartScreen';
+import PuzzleResult from './pages/sentences/components/PuzzleResult';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -86,7 +87,7 @@ const router = createBrowserRouter(
               }
             />
             <Route path="game" element={<Puzzles />} />
-            <Route path="result" element={<div>result</div>} />
+            <Route path="result" element={<PuzzleResult />} />
           </Route>
 
           <Route path="audiocall">

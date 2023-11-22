@@ -1,97 +1,79 @@
-import React, { useRef, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { WordType, WordBaseValues } from '../../../interfaces';
+import { WordType } from '../../../interfaces';
 import { StyledMain, StyledParagraph } from '../../../styled/SharedStyles';
-import Streak from '../../sprint/components/Streak';
 import DragAndDrop from './DragAndDrop';
-import { checkPartition, divideSentence } from '../../../utils';
+import StopWatch from '../../game/components/StopWatch';
+import { DataQueue } from '../../../utils';
+import { useAppDispatch, useAppSelector } from '../../../store/store';
+import Points from '../../sprint/components/Points';
+import { updatePuzzlesTotalResult } from '../../../store/ResultSlice';
 
 const StyledPuzzlesGame = styled(StyledMain)`
   justify-content: center;
 
   div {
-    &.true {
+    &.correct {
       color: green;
     }
-    &.false {
+    &.wrong {
       color: red;
     }
   }
 `;
 
-function PuzzlesGame({
-  data,
-  difficulty,
-}: {
-  data: WordType[];
-  difficulty: 0 | 1 | 2;
-}) {
-  const count = useRef(WordBaseValues.MINPAGE);
+function PuzzlesGame({ data }: { data: DataQueue }) {
+  const updater = useCallback(() => data.next(), [data]);
 
-  const [word, setWord] = useState<WordType>(data[count.current]);
-  const [sentence, setSentence] = useState<string>(
-    data[count.current].textExample
-  );
+  const [word, setWord] = useState<WordType>(updater);
 
-  const dragResult = useRef<null | string>(null);
+  const { puzzles } = useAppSelector((state) => state.resultsReducer);
 
   const [middleResult, setMiddleResult] = useState<null | boolean>(null);
 
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
   return (
     <StyledPuzzlesGame>
-      {word && data.length && (
+      <StopWatch doAfterTimer={() => {}} />
+      <Points step={puzzles.step} total={puzzles.total} />
+      <h4>
+        {word.word} - {word.wordTranslate}
+      </h4>
+      <StyledParagraph>{word.textExampleTranslate}</StyledParagraph>
+      <DragAndDrop word={word} isItActive={middleResult === null} />
+
+      {middleResult !== null ? (
         <>
-          <Streak streak={6} total={10} />
-          <h4>{word.word}</h4>
-          <StyledParagraph>{word.textExampleTranslate}</StyledParagraph>
-
-          <DragAndDrop
-            source={divideSentence(
-              sentence,
-              checkPartition(difficulty, sentence)
-            )}
-            returnResult={(value: string) => {
-              dragResult.current = value;
+          <div className={middleResult ? 'correct' : 'wrong'}>
+            {word.textExample}
+          </div>
+          <button
+            type="button"
+            onClick={() => {
+              if (data.isEmpty) {
+                navigate('/games/puzzles/result');
+              } else {
+                setWord(updater);
+                setMiddleResult(null);
+              }
             }}
-            isItActive={middleResult === null}
-          />
-
-          {middleResult !== null && (
-            <div className={sentence === dragResult.current ? 'true' : 'false'}>
-              {sentence}
-            </div>
-          )}
-
-          {middleResult !== null ? (
-            <button
-              type="button"
-              onClick={() => {
-                if (count.current < WordBaseValues.MAXWORD) {
-                  count.current += 1;
-                  setWord(data[count.current]);
-                  setSentence(data[count.current].textExample);
-                  setMiddleResult(null);
-                } else {
-                  navigate('/result');
-                }
-              }}
-            >
-              Next sentence
-            </button>
-          ) : (
-            <button
-              type="button"
-              onClick={() => {
-                setMiddleResult(sentence === dragResult.current);
-              }}
-            >
-              Check
-            </button>
-          )}
+          >
+            Next sentence
+          </button>
         </>
+      ) : (
+        <button
+          type="button"
+          onClick={() => {
+            setMiddleResult(puzzles.middleResult);
+            dispatch(updatePuzzlesTotalResult());
+          }}
+        >
+          Check
+        </button>
       )}
     </StyledPuzzlesGame>
   );

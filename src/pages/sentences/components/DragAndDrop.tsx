@@ -9,10 +9,18 @@ import {
   Droppable,
   Draggable,
 } from '@hello-pangea/dnd';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { WordForDrop, DropData } from '../../../interfaces';
-import { convertArray, shuffle } from '../../../utils';
+import { WordForDrop, DropData, WordType } from '../../../interfaces';
+import {
+  checkPartition,
+  convertArray,
+  divideSentence,
+  shuffle,
+} from '../../../utils';
+import { GameContext } from './GameStartScreen';
+import { useAppDispatch } from '../../../store/store';
+import { updatePuzzlesMiddleResult } from '../../../store/ResultSlice';
 
 const reorder = (list: WordForDrop[], startIndex: number, endIndex: number) => {
   const result = Array.from(list);
@@ -27,6 +35,11 @@ const StyledDragContainer = styled('div')<{ $isItActive: boolean }>`
   flex-direction: column;
   gap: 1rem;
   pointer-events: ${(props) => (props.$isItActive ? 'auto' : 'none')};
+
+  mask-image: ${(props) =>
+    props.$isItActive
+      ? 'unset'
+      : 'linear-gradient(rgba(0, 0, 0, 1), transparent)'};
 
   .list_droppable,
   .list_draggable {
@@ -49,66 +62,85 @@ const StyledDragContainer = styled('div')<{ $isItActive: boolean }>`
 `;
 
 function DragAndDrop({
-  source,
-  returnResult,
+  word,
   isItActive,
 }: {
-  source: string[];
-  returnResult: (value: string) => void;
+  word: WordType;
   isItActive: boolean;
 }) {
+  const { initial } = useContext(GameContext);
+  const difficulty = initial.group || '0';
+
+  const dispatch = useAppDispatch();
+
   const updater = useCallback(
     () => ({
-      source: shuffle(convertArray(source)),
+      source: shuffle(
+        convertArray(
+          divideSentence(
+            word.textExample,
+            checkPartition({ value: difficulty, sentence: word.textExample })
+          )
+        )
+      ),
       result: [],
     }),
-    [source]
+    [difficulty, word.textExample]
   );
 
   const [sentence, setSentence] = useState<DropData>(updater);
 
   useEffect(() => {
     setSentence(updater);
-  }, [source, updater]);
+  }, [word, updater, dispatch]);
 
   useEffect(() => {
-    returnResult(sentence.result.map((item) => item.element).join(' '));
-  }, [sentence, returnResult]);
+    if (!sentence.source.length) {
+      dispatch(
+        updatePuzzlesMiddleResult(
+          word.textExample ===
+            sentence.result.map((item) => item.element).join(' ')
+        )
+      );
+    }
+  }, [dispatch, sentence, word.textExample]);
 
   function onDragEnd(result: DropResult) {
     if (!result.destination) {
       return;
     }
 
-    if (result.source.droppableId === result.destination.droppableId) {
-      const { droppableId } = result.source;
+    const { source, destination } = result;
+
+    if (source.droppableId === destination.droppableId) {
+      const { droppableId } = source;
       const items = reorder(
         sentence[droppableId as 'source' | 'result'],
-        result.source.index,
-        result.destination.index
+        source.index,
+        destination.index
       );
       setSentence({ ...sentence, [droppableId]: items });
     }
 
-    if (result.source.droppableId !== result.destination.droppableId) {
-      if (result.source.droppableId === 'source') {
+    if (source.droppableId !== destination.droppableId) {
+      if (source.droppableId === 'source') {
         const changedSource = [...sentence.source];
-        const [removed] = changedSource.splice(result.source.index, 1);
+        const [removed] = changedSource.splice(source.index, 1);
 
         const changedResult = [...sentence.result];
-        changedResult.splice(result.destination.index, 0, removed);
+        changedResult.splice(destination.index, 0, removed);
 
         setSentence({
           ...sentence,
           source: changedSource,
           result: changedResult,
         });
-      } else if (result.source.droppableId === 'result') {
+      } else if (source.droppableId === 'result') {
         const changedResult = [...sentence.result];
-        const [removed] = changedResult.splice(result.source.index, 1);
+        const [removed] = changedResult.splice(source.index, 1);
 
         const changedSource = [...sentence.source];
-        changedSource.splice(result.destination.index, 0, removed);
+        changedSource.splice(destination.index, 0, removed);
 
         setSentence({
           ...sentence,

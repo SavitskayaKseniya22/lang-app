@@ -1,26 +1,44 @@
-import React from 'react';
-import { useLocation } from 'react-router-dom';
+import React, { useContext, useEffect } from 'react';
 import PuzzlesGame from './components/PuzzlesGame';
 import Spinner from '../../components/spinner/Spinner';
 import { useGetRandomWordsQuery } from '../../store/wordsApi';
 import { StyledMain } from '../../styled/SharedStyles';
+import { GameContext } from './components/GameStartScreen';
+import {
+  DataQueue,
+  checkStepValue,
+  getRandomItemsFromArray,
+} from '../../utils';
+import { setPuzzlesResult } from '../../store/ResultSlice';
+import { useAppDispatch } from '../../store/store';
 
 function Puzzles() {
-  const { state } = useLocation();
-
-  const difficulty = state?.group || 1;
+  const { initial } = useContext(GameContext);
 
   const { data, isLoading, isSuccess } = useGetRandomWordsQuery(undefined, {
-    skip: state && state.data,
+    skip: !!initial.data,
   });
+
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(setPuzzlesResult({ step: checkStepValue(initial.group) }));
+  }, [dispatch, initial.group]);
 
   if (isLoading) return <Spinner />;
 
-  if (isSuccess && data && data.length) {
-    return <PuzzlesGame data={data} difficulty={difficulty} />;
+  if (initial.data) {
+    return (
+      <PuzzlesGame
+        data={new DataQueue(getRandomItemsFromArray(initial.data, 10))}
+      />
+    );
   }
-  if (state && state.data && state.data.length) {
-    return <PuzzlesGame data={state.data} difficulty={difficulty} />;
+
+  if (data && isSuccess) {
+    return (
+      <PuzzlesGame data={new DataQueue(getRandomItemsFromArray(data, 10))} />
+    );
   }
 
   return (
