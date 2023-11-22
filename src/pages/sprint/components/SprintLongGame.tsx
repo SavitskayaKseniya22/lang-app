@@ -71,7 +71,7 @@ function SprintLongGame({
   };
 
   const doAfterTimer = useCallback(() => {
-    navigate(`result`);
+    navigate(`/games/sprint/result`);
   }, [navigate]);
 
   if (isLoading) return <Spinner />;

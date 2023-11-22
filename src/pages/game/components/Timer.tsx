@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 
-const StyledTimer = styled('div')`
+export const StyledTimer = styled('div')`
   display: flex;
   justify-content: center;
   align-items: center;

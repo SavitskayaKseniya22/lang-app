@@ -12,19 +12,19 @@ import MainPage from './pages/mainPage/MainPage';
 import TextBookPage from './pages/textBookPage/TextBookPage';
 import Sprint from './pages/sprint/Sprint';
 import Audiocall from './pages/audiocall/Audiocall';
-import { GameType } from './interfaces';
+import { GameDifficultyType, GameType } from './interfaces';
 import GameResult from './pages/game/components/GameResult';
 import Puzzles from './pages/sentences/Puzzles';
 import SidePanel from './components/sideNavigation/SidePanel';
-import GameLayout from './pages/game/components/GameLayout';
-import GroupPicker from './pages/game/components/GroupPicker';
 import ModalProvider from './components/modal/ModalProvider';
 import Collection from './pages/collection/Collection';
-
 import GitHubLink from './components/sideNavigation/components/GitHubLink';
 import Profile from './pages/Profile/Profile';
 import Games from './pages/Games/Games';
 import PrivateRoute from './components/PrivateRoute';
+import GameStartScreen, {
+  GameInitialData,
+} from './pages/sentences/components/GameStartScreen';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -61,43 +61,42 @@ const router = createBrowserRouter(
 
         <Route path="/games">
           <Route index element={<Games />} />
-          <Route path="sprint">
+          <Route path="sprint" element={<GameInitialData />}>
             <Route
               index
               element={
-                <GameLayout type={GameType.SPRINT}>
-                  <GroupPicker value={6} />
-                </GameLayout>
+                <GameStartScreen
+                  value={GameDifficultyType.SPRINT}
+                  type={GameType.SPRINT}
+                />
               }
             />
-            <Route path="game">
-              <Route index element={<Sprint />} />
-              <Route path="result" element={<GameResult />} />
-            </Route>
+            <Route path="game" element={<Sprint />} />
+            <Route path="result" element={<GameResult />} />
           </Route>
 
-          <Route path="puzzles">
+          <Route path="puzzles" element={<GameInitialData />}>
             <Route
               index
               element={
-                <GameLayout type={GameType.PUZZLES}>
-                  <GroupPicker value={3} />
-                </GameLayout>
+                <GameStartScreen
+                  value={GameDifficultyType.PUZZLES}
+                  type={GameType.PUZZLES}
+                />
               }
             />
-            <Route path="game">
-              <Route index element={<Puzzles />} />
-              <Route path="result" element={<div>result</div>} />
-            </Route>
+            <Route path="game" element={<Puzzles />} />
+            <Route path="result" element={<div>result</div>} />
           </Route>
 
           <Route path="audiocall">
             <Route
               index
               element={
-                <GameLayout type={GameType.AUDIOCALL}>
-                  <GroupPicker value={6} />
-                </GameLayout>
+                <GameStartScreen
+                  value={GameDifficultyType.AUDIOCALL}
+                  type={GameType.AUDIOCALL}
+                />
               }
             />
             <Route path=":group">

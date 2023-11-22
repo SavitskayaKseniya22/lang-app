@@ -36,7 +36,7 @@ function SprintShortGame({ data }: { data: WordType[] }) {
         getActiveWordsArgs(data, first.index + 1, data.length - 1)
       );
     } else {
-      navigate(`result`);
+      navigate(`/games/sprint/result`);
     }
   };
 

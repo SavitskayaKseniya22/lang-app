@@ -27,7 +27,7 @@ function GameTip({ type }: { type: GameType }) {
     ],
     Puzzles: [
       'Make sentences from a set of words.',
-      'The number of points awarded depends on the length of the word.',
+      'The number of points awarded depends on the selected difficulty and time spent.',
       'Use the hint if you need help. This will subtract one point from the final result.',
     ],
   };

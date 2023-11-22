@@ -124,18 +124,22 @@ export function fetchAndCreateReactImage(partOfUrl: string) {
     );
 }
 
-export function checkPartition(val: 0 | 1 | 2, sentence: string) {
+export function checkPartition({
+  val,
+  sentence,
+}: {
+  val: string;
+  sentence: string;
+}) {
   const length = sentence?.split(' ').length;
 
-  if ((val === 0 && length < 4) || (val === 1 && length < 6)) {
+  const table = [4, 6, length];
+
+  if ((+val === 0 && length < 4) || (+val === 1 && length < 6)) {
     return length;
   }
 
-  return {
-    0: 4,
-    1: 6,
-    2: length,
-  }[val];
+  return table[+val] || 6;
 }
 
 export function divideSentence(sentence: string, value: number) {

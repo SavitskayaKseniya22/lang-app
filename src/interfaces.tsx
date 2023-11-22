@@ -36,6 +36,13 @@ export enum GameType {
   AUDIOCALL = 'Audiocall',
   PUZZLES = 'Puzzles',
 }
+
+export enum GameDifficultyType {
+  SPRINT = 6,
+  AUDIOCALL = 6,
+  PUZZLES = 3,
+}
+
 export enum WordBaseValues {
   MINGROUP = 0,
   MAXGROUP = 5,

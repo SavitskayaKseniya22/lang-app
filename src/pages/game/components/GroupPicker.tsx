@@ -1,9 +1,10 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
-import { SubmitHandler, useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
+
 import styled from 'styled-components';
 import { makeEmptyArrayWithIds } from '../../../utils';
+import { GameDifficultyType } from '../../../interfaces';
 
 const StyledGroupPicker = styled('form')`
   padding: 1rem;
@@ -41,18 +42,16 @@ const StyledGroupPicker = styled('form')`
   }
 `;
 
-function GroupPicker({ value }: { value: number }) {
+function GroupPicker({
+  value,
+  onSubmit,
+}: {
+  value: GameDifficultyType;
+  onSubmit: ({ group }: { group: string }) => void;
+}) {
   const { register, handleSubmit } = useForm({
     defaultValues: { group: '0' },
   });
-
-  const navigate = useNavigate();
-
-  const onSubmit: SubmitHandler<{ group: string }> = (data) => {
-    navigate('game', {
-      state: { group: data.group },
-    });
-  };
 
   return (
     <StyledGroupPicker onSubmit={handleSubmit(onSubmit)}>
