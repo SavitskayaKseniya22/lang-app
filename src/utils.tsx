@@ -1,11 +1,6 @@
 import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 import React from 'react';
-import {
-  ActiveWordTypes,
-  AuthErrorTypes,
-  WordBaseValues,
-  WordType,
-} from './interfaces';
+import { AuthErrorTypes, WordBaseValues, WordType } from './interfaces';
 
 export function checkColor($groupColor: number) {
   const colors = [
@@ -49,27 +44,14 @@ export function createSecondIndex(basicIndex: number, maxIndex: number) {
     : getRandom(WordBaseValues.MINWORD, maxIndex);
 }
 
-export function getActiveWordsArgs(
-  data: WordType[],
-  basicIndex: number,
-  maxIndex: number
-) {
-  const secondIndex = createSecondIndex(basicIndex, maxIndex);
-
-  return {
-    first: { index: basicIndex, word: data[basicIndex] },
-    second: { index: secondIndex, word: data[secondIndex] },
-  };
-}
-
 export function checkIfAnswerCorrect(
   value: string,
-  firstWord: ActiveWordTypes,
-  secondWord: ActiveWordTypes
+  firstWord: WordType,
+  secondWord: WordType
 ) {
   return (
-    (value === 'true' && firstWord.word.id === secondWord.word.id) ||
-    (value === 'false' && firstWord.word.id !== secondWord.word.id)
+    (value === 'true' && firstWord.id === secondWord.id) ||
+    (value === 'false' && firstWord.id !== secondWord.id)
   );
 }
 
@@ -179,6 +161,14 @@ export class DataQueue {
 
   peek() {
     return this.elements[this.head];
+  }
+
+  nextPair() {
+    const first = this.elements[this.head];
+    const secondIndex = createSecondIndex(this.head, this.tail - 1);
+    const second = this.elements[secondIndex];
+    this.head += 1;
+    return { first, second };
   }
 
   get length() {

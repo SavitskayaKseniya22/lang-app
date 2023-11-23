@@ -15,6 +15,7 @@ export const wordsApi = createApi({
         method: 'GET',
       }),
     }),
+
     getRandomWords: builder.query<WordType[] | null, void>({
       query: () => ({
         url: `/${getRandom(0, WordBaseValues.MINGROUP)}/${getRandom(

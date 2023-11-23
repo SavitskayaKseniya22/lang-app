@@ -6,14 +6,11 @@ import React, { useRef } from 'react';
 import styled from 'styled-components';
 import { ActiveWordsTypes } from '../../../interfaces';
 
-const StyledActiveWordsList = styled('ul')`
+const StyledActiveWordsList = styled('div')`
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
   padding: 1rem;
   gap: 1rem;
-
   text-align: center;
 
   .audible {
@@ -22,36 +19,31 @@ const StyledActiveWordsList = styled('ul')`
 
   audio {
     display: none;
-    color: red;
   }
 `;
 
-function ActiveWordsList({ words }: { words: ActiveWordsTypes | null }) {
+function ActiveWordsList({ words }: { words: ActiveWordsTypes }) {
   const audioRef = useRef<HTMLAudioElement>(null);
 
   return (
     <StyledActiveWordsList>
-      {words && (
-        <>
-          <li
-            title="listen"
-            className="audible"
-            onClick={() => {
-              audioRef.current?.play();
-            }}
-          >
-            <h2>{words.first.word.word}</h2>
-          </li>
-          <li>
-            <h4>{words.second.word.wordTranslate}</h4>
-          </li>
-          <audio
-            ref={audioRef}
-            controls
-            src={`https://raw.githubusercontent.com/irinainina/rslang/rslang-data/data/${words.first.word.audio}`}
-          />
-        </>
-      )}
+      <h2
+        title="listen"
+        className="audible"
+        onClick={() => {
+          audioRef.current?.play();
+        }}
+      >
+        {words.first.word}
+      </h2>
+      <i className="fa-solid fa-arrows-up-down" />
+      <h3>{words.second.wordTranslate}</h3>
+
+      <audio
+        ref={audioRef}
+        controls
+        src={`https://raw.githubusercontent.com/irinainina/rslang/rslang-data/data/${words.first.audio}`}
+      />
     </StyledActiveWordsList>
   );
 }

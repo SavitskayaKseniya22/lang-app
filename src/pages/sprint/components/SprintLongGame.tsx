@@ -1,22 +1,21 @@
-import React, { SyntheticEvent, useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useGetAllWordsQuery } from '../../../store/wordsApi';
 import {
   ActiveWordsTypes,
   DefaultTextBookValues,
-  TextBookValuesTypes,
   WordBaseValues,
 } from '../../../interfaces';
-import { getActiveWordsArgs, checkIfAnswerCorrect } from '../../../utils';
+import { DataQueue, checkIfAnswerCorrect } from '../../../utils';
 import Timer from '../../game/components/Timer';
 import Streak from './Streak';
 import Points from './Points';
 import SprintRound from './SprintRound';
 import ActiveWordsList from './ActiveWordsList';
 import Spinner from '../../../components/spinner/Spinner';
-import StyledSprint from './StyledSprint';
 import { useAppDispatch, useAppSelector } from '../../../store/store';
 import { updateSprintResult } from '../../../store/ResultSlice';
+import { StyledMain } from '../../../styled/SharedStyles';
 
 function SprintLongGame({
   group = DefaultTextBookValues.group,
@@ -24,48 +23,44 @@ function SprintLongGame({
   group: number;
 }) {
   const navigate = useNavigate();
-  const [activeWords, setActiveWords] = useState<ActiveWordsTypes | null>(null);
   const dispatch = useAppDispatch();
   const { sprint } = useAppSelector((state) => state.resultsReducer);
-  const [args, setArgs] = useState<TextBookValuesTypes>({
-    group,
-    page: DefaultTextBookValues.page,
-  });
+  const pageRef = useRef(DefaultTextBookValues.page);
 
-  const { currentData: data, isLoading } = useGetAllWordsQuery(args, {
-    refetchOnMountOrArgChange: true,
-  });
+  const data = useRef<null | DataQueue>(null);
+
+  const [activeWords, setActiveWords] = useState<ActiveWordsTypes | null>(null);
+
+  const { currentData, isLoading } = useGetAllWordsQuery(
+    { group, page: pageRef.current },
+    {
+      refetchOnMountOrArgChange: true,
+    }
+  );
 
   useEffect(() => {
-    if (data) {
-      setActiveWords(
-        getActiveWordsArgs(data, WordBaseValues.MINWORD, WordBaseValues.MAXWORD)
-      );
+    if (currentData) {
+      const dataQueue = new DataQueue(currentData);
+      data.current = dataQueue;
+      setActiveWords(dataQueue.nextPair());
     }
-  }, [data]);
+  }, [currentData]);
 
-  const handleChange = (e: SyntheticEvent) => {
-    const { value } = e.target as HTMLInputElement;
-
-    if (data && activeWords) {
+  const handleClick = (value: string) => {
+    if (data.current && activeWords) {
       const { first, second } = activeWords;
 
       const isAnswerCorrect = checkIfAnswerCorrect(value, first, second);
 
-      dispatch(updateSprintResult({ isAnswerCorrect, word: first.word }));
+      dispatch(updateSprintResult({ isAnswerCorrect, word: first }));
 
-      if (first.index < WordBaseValues.MAXWORD) {
-        setActiveWords(
-          getActiveWordsArgs(data, first.index + 1, WordBaseValues.MAXWORD)
-        );
+      if (data.current.isEmpty) {
+        pageRef.current =
+          pageRef.current < WordBaseValues.MAXPAGE
+            ? pageRef.current + 1
+            : WordBaseValues.MINPAGE;
       } else {
-        setArgs({
-          page:
-            args.page < WordBaseValues.MAXPAGE
-              ? args.page + 1
-              : WordBaseValues.MINPAGE,
-          group: args.group,
-        });
+        setActiveWords(data.current.nextPair());
       }
     }
   };
@@ -76,15 +71,15 @@ function SprintLongGame({
 
   if (isLoading) return <Spinner />;
 
-  if (data !== null && activeWords) {
+  if (data.current && activeWords) {
     return (
-      <StyledSprint>
+      <StyledMain>
         <Timer duration={60} doAfterTimer={doAfterTimer} />
         <Points step={sprint.step} total={sprint.total} />
         <Streak streak={sprint.streak} total={3} />
         <ActiveWordsList words={activeWords} />
-        <SprintRound handleChange={handleChange} />
-      </StyledSprint>
+        <SprintRound handleClick={handleClick} />
+      </StyledMain>
     );
   }
 

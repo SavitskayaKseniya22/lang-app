@@ -31,8 +31,14 @@ export function updateResultData(
   const { correct, wrong } = res.answers;
 
   const answers = isAnswerCorrect
-    ? { wrong, correct: [...correct, word] }
-    : { correct, wrong: [...wrong, word] };
+    ? {
+        wrong,
+        correct: [...correct, word],
+      }
+    : {
+        correct,
+        wrong: [...wrong, word],
+      };
 
   return {
     answers,

@@ -44,7 +44,7 @@ function GameResult() {
       <StyledMain>
         <h2>{message}</h2>
         <h3>{`${percent}% correct answers`}</h3>
-        <h4>{sprint.total} points</h4>
+        <h2>{sprint.total} points</h2>
 
         {user && <GameResultDetailed userId={user.localId} result={sprint} />}
 

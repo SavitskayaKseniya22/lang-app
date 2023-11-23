@@ -107,14 +107,9 @@ export interface ResultStatsType {
   message: string;
 }
 
-export interface ActiveWordTypes {
-  index: number;
-  word: WordType;
-}
-
 export interface ActiveWordsTypes {
-  first: ActiveWordTypes;
-  second: ActiveWordTypes;
+  first: WordType;
+  second: WordType;
 }
 
 export type ChildrenProps = string | JSX.Element | JSX.Element[];

@@ -78,10 +78,10 @@ function GameResultDetailed({
   }, [addToUserWords, correct, isSuccess, userId, userWords, wrong]);
 
   return (
-    <div>
-      {`${newWords} new words encountered`}
-      {`${newLearned} new words learned`}
-    </div>
+    <>
+      <h3>{`${newWords} new words encountered`}</h3>
+      <h3>{`${newLearned} new words learned`}</h3>
+    </>
   );
 }
 

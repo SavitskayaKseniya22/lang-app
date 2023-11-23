@@ -5,6 +5,7 @@ import SprintLongGame from './components/SprintLongGame';
 import { resetSprintResult } from '../../store/ResultSlice';
 import { useAppDispatch } from '../../store/store';
 import { GameContext } from '../sentences/components/GameStartScreen';
+import { DataQueue } from '../../utils';
 
 function Sprint() {
   const dispatch = useAppDispatch();
@@ -14,8 +15,8 @@ function Sprint() {
     dispatch(resetSprintResult());
   }, [dispatch]);
 
-  if (initial.data && initial.data?.length) {
-    return <SprintShortGame data={initial.data} />;
+  if (initial.data) {
+    return <SprintShortGame data={new DataQueue(initial.data)} />;
   }
 
   if (initial.group) {
