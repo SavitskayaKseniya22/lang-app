@@ -1,7 +1,8 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import styled from 'styled-components';
+import { Id, toast } from 'react-toastify';
 import { BasicUserCredentials } from '../../../interfaces';
 
 export const passwordPattern =
@@ -29,25 +30,60 @@ function AuthForm({
 }: {
   onSubmit: (data: BasicUserCredentials) => void;
 }) {
-  const { register, handleSubmit } = useForm<BasicUserCredentials>();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<BasicUserCredentials>({
+    criteriaMode: 'all',
+  });
+
+  const emailToastId = React.useRef<null | Id>(null);
+  const passwordToastId = React.useRef<null | Id>(null);
+
+  useEffect(() => {
+    if (emailToastId.current) {
+      toast.dismiss(emailToastId.current);
+    }
+
+    if (errors.email) {
+      emailToastId.current = toast.warn(errors.email.message);
+    }
+  }, [errors.email]);
+
+  useEffect(() => {
+    if (passwordToastId.current) {
+      toast.dismiss(passwordToastId.current);
+    }
+
+    if (errors.password) {
+      passwordToastId.current = toast.warn(errors.password.message);
+    }
+  }, [errors.password]);
 
   return (
-    <StyledAuthForm onSubmit={handleSubmit(onSubmit)}>
+    <StyledAuthForm onSubmit={handleSubmit(onSubmit)} noValidate>
       <StyledInput
         {...register('email', {
-          required: true,
+          required: 'Email is required.',
         })}
         type="email"
         placeholder="email"
       />
       <StyledInput
         {...register('password', {
-          required: true,
-          pattern: passwordPattern,
+          required: 'Password is required.',
+          pattern: {
+            value: passwordPattern,
+            message:
+              'The password must contain at least 8 characters, at least one letter, one capital letter, one number and one special character from `+-_@$!%*?&#.,;:[]{}`',
+          },
         })}
         type="password"
         placeholder="password"
+        title="The password must contain at least 8 characters, at least one letter, one capital letter, one number and one special character from `+-_@$!%*?&#.,;:[]{}`"
       />
+
       <button type="submit">Enter</button>
     </StyledAuthForm>
   );
