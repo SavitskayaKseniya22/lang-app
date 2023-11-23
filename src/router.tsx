@@ -24,7 +24,7 @@ import Games from './pages/Games/Games';
 import PrivateRoute from './components/PrivateRoute';
 import GameStartScreen, {
   GameInitialData,
-} from './pages/sentences/components/GameStartScreen';
+} from './pages/game/components/GameStartScreen';
 import PuzzleResult from './pages/sentences/components/PuzzleResult';
 
 const router = createBrowserRouter(
@@ -73,7 +73,7 @@ const router = createBrowserRouter(
               }
             />
             <Route path="game" element={<Sprint />} />
-            <Route path="result" element={<GameResult />} />
+            <Route path="result" element={<GameResult type="sprint" />} />
           </Route>
 
           <Route path="puzzles" element={<GameInitialData />}>

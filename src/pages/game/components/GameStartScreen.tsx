@@ -2,9 +2,9 @@ import React, { createContext, useContext, useMemo, useState } from 'react';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { GameDifficultyType, GameType, WordType } from '../../../interfaces';
-import GroupPicker from '../../game/components/GroupPicker';
+import GroupPicker from './GroupPicker';
 import { StyledMain } from '../../../styled/SharedStyles';
-import GameTip from '../../game/components/GameTip';
+import GameTip from './GameTip';
 
 interface InintialGameContextType {
   data: undefined | WordType[];

@@ -4,7 +4,6 @@ import { StyledMain } from '../../../styled/SharedStyles';
 
 function PuzzleResult() {
   const { puzzles } = useAppSelector((state) => state.resultsReducer);
-  console.log(puzzles.total);
 
   return (
     <StyledMain>

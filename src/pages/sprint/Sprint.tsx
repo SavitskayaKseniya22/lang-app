@@ -4,7 +4,7 @@ import SprintShortGame from './components/SprintShortGame';
 import SprintLongGame from './components/SprintLongGame';
 import { resetSprintResult } from '../../store/ResultSlice';
 import { useAppDispatch } from '../../store/store';
-import { GameContext } from '../sentences/components/GameStartScreen';
+import { GameContext } from '../game/components/GameStartScreen';
 import { DataQueue } from '../../utils';
 
 function Sprint() {

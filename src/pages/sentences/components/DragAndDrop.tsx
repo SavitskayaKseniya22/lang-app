@@ -18,7 +18,7 @@ import {
   divideSentence,
   shuffle,
 } from '../../../utils';
-import { GameContext } from './GameStartScreen';
+import { GameContext } from '../../game/components/GameStartScreen';
 import { useAppDispatch } from '../../../store/store';
 import { updatePuzzlesMiddleResult } from '../../../store/ResultSlice';
 

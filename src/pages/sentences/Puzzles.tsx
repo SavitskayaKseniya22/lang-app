@@ -3,7 +3,7 @@ import PuzzlesGame from './components/PuzzlesGame';
 import Spinner from '../../components/spinner/Spinner';
 import { useGetRandomWordsQuery } from '../../store/wordsApi';
 import { StyledMain } from '../../styled/SharedStyles';
-import { GameContext } from './components/GameStartScreen';
+import { GameContext } from '../game/components/GameStartScreen';
 import {
   DataQueue,
   checkStepValue,

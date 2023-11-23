@@ -1,5 +1,5 @@
 import React from 'react';
-import Streak from '../../sprint/components/Streak';
+import Streak from '../../game/components/Streak';
 import { WordWithIdDataType } from '../../../interfaces';
 
 function WordProgress({

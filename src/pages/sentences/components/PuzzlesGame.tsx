@@ -7,7 +7,7 @@ import DragAndDrop from './DragAndDrop';
 import StopWatch from '../../game/components/StopWatch';
 import { DataQueue } from '../../../utils';
 import { useAppDispatch, useAppSelector } from '../../../store/store';
-import Points from '../../sprint/components/Points';
+import Points from '../../game/components/Points';
 import { updatePuzzlesTotalResult } from '../../../store/ResultSlice';
 
 const StyledPuzzlesGame = styled(StyledMain)`

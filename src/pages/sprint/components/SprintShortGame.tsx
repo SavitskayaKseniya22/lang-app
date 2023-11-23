@@ -2,14 +2,14 @@ import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ActiveWordsTypes } from '../../../interfaces';
 import { checkIfAnswerCorrect, DataQueue } from '../../../utils';
-import Streak from './Streak';
-import Points from './Points';
+import Streak from '../../game/components/Streak';
+import Points from '../../game/components/Points';
 import SprintRound from './SprintRound';
 import ActiveWordsList from './ActiveWordsList';
 import { useAppDispatch, useAppSelector } from '../../../store/store';
 import { updateSprintResult } from '../../../store/ResultSlice';
 import { StyledMain } from '../../../styled/SharedStyles';
-import { GameContext } from '../../sentences/components/GameStartScreen';
+import { GameContext } from '../../game/components/GameStartScreen';
 
 function SprintShortGame({ data }: { data: DataQueue }) {
   const navigate = useNavigate();

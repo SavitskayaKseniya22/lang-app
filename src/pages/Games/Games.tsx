@@ -14,6 +14,7 @@ export const StyledGameList = styled('ul')`
   gap: 1rem;
   padding: 1rem;
   align-items: center;
+  background-color: white;
 `;
 
 export const StyledGameItem = styled('li')`

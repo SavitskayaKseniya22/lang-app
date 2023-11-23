@@ -33,20 +33,20 @@ const StyledGameResultContentItem = styled('li')`
   gap: 1rem;
 `;
 
-function GameResult() {
-  const { sprint } = useAppSelector((state) => state.resultsReducer);
+function GameResult({ type }: { type: 'sprint' }) {
+  const result = useAppSelector((state) => state.resultsReducer)[type];
   const { user } = useAppSelector((state) => state.persist.auth);
 
-  if (sprint) {
-    const { correct, wrong, percent, message } = makeResult(sprint);
+  if (result) {
+    const { correct, wrong, percent, message } = makeResult(result);
 
     return (
       <StyledMain>
         <h2>{message}</h2>
         <h3>{`${percent}% correct answers`}</h3>
-        <h2>{sprint.total} points</h2>
+        <h2>{result.total} points</h2>
 
-        {user && <GameResultDetailed userId={user.localId} result={sprint} />}
+        {user && <GameResultDetailed userId={user.localId} result={result} />}
 
         <StyledGameResultContent>
           <StyledGameResultContentItem>

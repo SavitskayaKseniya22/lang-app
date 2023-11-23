@@ -8,8 +8,8 @@ import {
 } from '../../../interfaces';
 import { DataQueue, checkIfAnswerCorrect } from '../../../utils';
 import Timer from '../../game/components/Timer';
-import Streak from './Streak';
-import Points from './Points';
+import Streak from '../../game/components/Streak';
+import Points from '../../game/components/Points';
 import SprintRound from './SprintRound';
 import ActiveWordsList from './ActiveWordsList';
 import Spinner from '../../../components/spinner/Spinner';
