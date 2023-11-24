@@ -1,7 +1,9 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { toast } from 'react-toastify';
 import {
   CollectionLikeArraysType,
   CollectionType,
+  FirebaseErrorTypes,
   UserIdType,
   WordIdType,
   WordWithIdDataType,
@@ -26,6 +28,16 @@ export const userWordsApi = createApi({
         },
         method: 'PUT',
       }),
+      async onQueryStarted(id, { queryFulfilled }) {
+        try {
+          await queryFulfilled;
+        } catch (err) {
+          if (err && typeof err === 'object' && 'error' in err) {
+            const { message, code } = (err as FirebaseErrorTypes).error;
+            toast.error(`${code}: ${message}`);
+          }
+        }
+      },
     }),
 
     getUserWords: builder.query<WordWithIdType | null, UserIdType>({
@@ -35,6 +47,16 @@ export const userWordsApi = createApi({
         method: 'GET',
       }),
       keepUnusedDataFor: 0,
+      async onQueryStarted(id, { queryFulfilled }) {
+        try {
+          await queryFulfilled;
+        } catch (err) {
+          if (err && typeof err === 'object' && 'error' in err) {
+            const { message, code } = (err as FirebaseErrorTypes).error;
+            toast.error(`${code}: ${message}`);
+          }
+        }
+      },
     }),
 
     getUserWord: builder.query<
@@ -48,6 +70,16 @@ export const userWordsApi = createApi({
       }),
       keepUnusedDataFor: 0,
       providesTags: ['UserWord'],
+      async onQueryStarted(id, { queryFulfilled }) {
+        try {
+          await queryFulfilled;
+        } catch (err) {
+          if (err && typeof err === 'object' && 'error' in err) {
+            const { message, code } = (err as FirebaseErrorTypes).error;
+            toast.error(`${code}: ${message}`);
+          }
+        }
+      },
     }),
 
     getUserWordsCollections: builder.query<
@@ -61,6 +93,16 @@ export const userWordsApi = createApi({
       }),
       keepUnusedDataFor: 0,
       providesTags: ['UserCollection'],
+      async onQueryStarted(id, { queryFulfilled }) {
+        try {
+          await queryFulfilled;
+        } catch (err) {
+          if (err && typeof err === 'object' && 'error' in err) {
+            const { message, code } = (err as FirebaseErrorTypes).error;
+            toast.error(`${code}: ${message}`);
+          }
+        }
+      },
 
       transformResponse: (response: WordWithIdType | null) => {
         if (response === null) {
@@ -97,6 +139,16 @@ export const userWordsApi = createApi({
         method: 'PATCH',
       }),
       invalidatesTags: ['UserCollection'],
+      async onQueryStarted(id, { queryFulfilled }) {
+        try {
+          await queryFulfilled;
+        } catch (err) {
+          if (err && typeof err === 'object' && 'error' in err) {
+            const { message, code } = (err as FirebaseErrorTypes).error;
+            toast.error(`${code}: ${message}`);
+          }
+        }
+      },
     }),
 
     updateUserWord: builder.mutation<
@@ -109,6 +161,16 @@ export const userWordsApi = createApi({
         method: 'PATCH',
       }),
       invalidatesTags: ['UserCollection', 'UserWord'],
+      async onQueryStarted(id, { queryFulfilled }) {
+        try {
+          await queryFulfilled;
+        } catch (err) {
+          if (err && typeof err === 'object' && 'error' in err) {
+            const { message, code } = (err as FirebaseErrorTypes).error;
+            toast.error(`${code}: ${message}`);
+          }
+        }
+      },
     }),
   }),
 });

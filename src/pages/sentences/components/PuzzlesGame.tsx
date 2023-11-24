@@ -10,17 +10,11 @@ import { useAppDispatch, useAppSelector } from '../../../store/store';
 import Points from '../../game/components/Points';
 import { updatePuzzlesTotalResult } from '../../../store/ResultSlice';
 
-const StyledPuzzlesGame = styled(StyledMain)`
-  justify-content: center;
-
-  div {
-    &.correct {
-      color: green;
-    }
-    &.wrong {
-      color: red;
-    }
-  }
+export const StyledPuzzlesGameAnswer = styled('h4')<{
+  $type: 'correct' | 'wrong';
+}>`
+  color: ${(props) => (props.$type === 'correct' ? 'green' : 'red')};
+  text-align: center;
 `;
 
 function PuzzlesGame({ data }: { data: DataQueue }) {
@@ -36,7 +30,7 @@ function PuzzlesGame({ data }: { data: DataQueue }) {
   const dispatch = useAppDispatch();
 
   return (
-    <StyledPuzzlesGame>
+    <StyledMain>
       <StopWatch doAfterTimer={() => {}} />
       <Points step={puzzles.step} total={puzzles.total} />
       <h4>
@@ -47,9 +41,9 @@ function PuzzlesGame({ data }: { data: DataQueue }) {
 
       {middleResult !== null ? (
         <>
-          <div className={middleResult ? 'correct' : 'wrong'}>
+          <StyledPuzzlesGameAnswer $type={middleResult ? 'correct' : 'wrong'}>
             {word.textExample}
-          </div>
+          </StyledPuzzlesGameAnswer>
           <button
             type="button"
             onClick={() => {
@@ -75,7 +69,7 @@ function PuzzlesGame({ data }: { data: DataQueue }) {
           Check
         </button>
       )}
-    </StyledPuzzlesGame>
+    </StyledMain>
   );
 }
 

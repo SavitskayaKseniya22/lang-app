@@ -4,15 +4,15 @@ import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import {
   StepValues,
   StreakValues,
-  SprintResultType,
+  ComplicatedResultType,
   WordType,
 } from '../interfaces';
 
 export function updateResultData(
-  result: SprintResultType,
+  result: ComplicatedResultType,
   isAnswerCorrect: boolean,
   word: WordType
-): SprintResultType {
+): ComplicatedResultType {
   const res = { ...result };
 
   const total = isAnswerCorrect ? res.total + res.step : res.total;
@@ -48,16 +48,17 @@ export function updateResultData(
   };
 }
 
-const initSprintResultValue = {
+const initComplicatedResultValue = {
   answers: { correct: [], wrong: [] },
   step: StepValues.MIN,
   total: 0,
   streak: StreakValues.MIN,
-} as SprintResultType;
+};
 
 export interface ResultsState {
-  sprint: SprintResultType;
+  sprint: ComplicatedResultType;
   puzzles: { middleResult: boolean; step: number; total: number };
+  audiocall: ComplicatedResultType;
 }
 
 const initPuzzlesResultValue = {
@@ -67,18 +68,15 @@ const initPuzzlesResultValue = {
 };
 
 const initialState: ResultsState = {
-  sprint: initSprintResultValue,
+  sprint: initComplicatedResultValue,
   puzzles: initPuzzlesResultValue,
+  audiocall: initComplicatedResultValue,
 };
 
 export const resultsSlice = createSlice({
   name: 'results',
   initialState,
   reducers: {
-    setSprintResult: (state, action: PayloadAction<SprintResultType>) => {
-      state.sprint = action.payload;
-    },
-
     updateSprintResult: (
       state,
       action: PayloadAction<{ isAnswerCorrect: boolean; word: WordType }>
@@ -91,7 +89,7 @@ export const resultsSlice = createSlice({
     },
 
     resetSprintResult: (state) => {
-      state.sprint = initSprintResultValue;
+      state.sprint = initComplicatedResultValue;
     },
 
     setPuzzlesResult: (state, action: PayloadAction<{ step: number }>) => {
@@ -110,16 +108,32 @@ export const resultsSlice = createSlice({
       }
       state.puzzles.middleResult = false;
     },
+
+    updateAudiocallResult: (
+      state,
+      action: PayloadAction<{ isAnswerCorrect: boolean; word: WordType }>
+    ) => {
+      state.audiocall = updateResultData(
+        state.audiocall,
+        action.payload.isAnswerCorrect,
+        action.payload.word
+      );
+    },
+
+    resetAudiocallResult: (state) => {
+      state.audiocall = initComplicatedResultValue;
+    },
   },
 });
 
 export const {
-  setSprintResult,
   resetSprintResult,
   updateSprintResult,
   updatePuzzlesMiddleResult,
   updatePuzzlesTotalResult,
   setPuzzlesResult,
+  updateAudiocallResult,
+  resetAudiocallResult,
 } = resultsSlice.actions;
 
 export default resultsSlice.reducer;

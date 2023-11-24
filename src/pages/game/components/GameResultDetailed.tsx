@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { SprintResultType, WordWithIdType } from '../../../interfaces';
+import { ComplicatedResultType, WordWithIdType } from '../../../interfaces';
 import {
   useAddToUserWordsMutation,
   useGetUserWordsQuery,
@@ -10,7 +10,7 @@ function GameResultDetailed({
   result,
 }: {
   userId: string;
-  result: SprintResultType;
+  result: ComplicatedResultType;
 }) {
   const { correct, wrong } = result.answers;
   const [newWords, setNewWords] = useState(0);

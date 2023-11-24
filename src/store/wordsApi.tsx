@@ -1,5 +1,11 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { TextBookValuesTypes, WordBaseValues, WordType } from '../interfaces';
+import { toast } from 'react-toastify';
+import {
+  FirebaseErrorTypes,
+  TextBookValuesTypes,
+  WordBaseValues,
+  WordType,
+} from '../interfaces';
 import { getRandom } from '../utils';
 
 export const wordsApi = createApi({
@@ -14,17 +20,37 @@ export const wordsApi = createApi({
         url: `/${group}/${page}.json`,
         method: 'GET',
       }),
+      async onQueryStarted(id, { queryFulfilled }) {
+        try {
+          await queryFulfilled;
+        } catch (err) {
+          if (err && typeof err === 'object' && 'error' in err) {
+            const { message, code } = (err as FirebaseErrorTypes).error;
+            toast.error(`${code}: ${message}`);
+          }
+        }
+      },
     }),
 
-    getRandomWords: builder.query<WordType[] | null, void>({
-      query: () => ({
-        url: `/${getRandom(0, WordBaseValues.MINGROUP)}/${getRandom(
+    getRandomWords: builder.query<WordType[] | null, { group?: string }>({
+      query: ({ group }) => ({
+        url: `/${group || getRandom(0, WordBaseValues.MAXGROUP)}/${getRandom(
           0,
           WordBaseValues.MAXPAGE
         )}.json`,
         method: 'GET',
       }),
       keepUnusedDataFor: 0,
+      async onQueryStarted(id, { queryFulfilled }) {
+        try {
+          await queryFulfilled;
+        } catch (err) {
+          if (err && typeof err === 'object' && 'error' in err) {
+            const { message, code } = (err as FirebaseErrorTypes).error;
+            toast.error(`${code}: ${message}`);
+          }
+        }
+      },
     }),
   }),
 });

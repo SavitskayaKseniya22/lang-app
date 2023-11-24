@@ -3,7 +3,7 @@ export interface BasicUserCredentials {
   password: string;
 }
 
-export interface AuthErrorTypes {
+export interface FirebaseErrorTypes {
   error: {
     errors: [
       {
@@ -76,7 +76,7 @@ export interface PointsType {
   total: number;
 }
 
-export type SprintResultType = {
+export type ComplicatedResultType = {
   answers: { correct: WordType[]; wrong: WordType[] };
   step: number;
   total: number;

@@ -15,9 +15,12 @@ import { useAppDispatch } from '../../store/store';
 function Puzzles() {
   const { initial } = useContext(GameContext);
 
-  const { data, isLoading, isSuccess } = useGetRandomWordsQuery(undefined, {
-    skip: !!initial.data,
-  });
+  const { data, isLoading } = useGetRandomWordsQuery(
+    { group: undefined },
+    {
+      skip: !!initial.data,
+    }
+  );
 
   const dispatch = useAppDispatch();
 
@@ -35,7 +38,7 @@ function Puzzles() {
     );
   }
 
-  if (data && isSuccess) {
+  if (data) {
     return (
       <PuzzlesGame data={new DataQueue(getRandomItemsFromArray(data, 10))} />
     );

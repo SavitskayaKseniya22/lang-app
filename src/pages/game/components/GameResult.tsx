@@ -1,13 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
-import { SprintResultType, ResultStatsType } from '../../../interfaces';
+import { Navigate } from 'react-router-dom';
+import { ComplicatedResultType, ResultStatsType } from '../../../interfaces';
 import { getPercent, getResultMessage } from '../../../utils';
 import WordList from '../../textBookPage/components/WordList';
 import { StyledMain } from '../../../styled/SharedStyles';
 import { useAppSelector } from '../../../store/store';
 import GameResultDetailed from './GameResultDetailed';
 
-export function makeResult(state: SprintResultType): ResultStatsType {
+export function makeResult(state: ComplicatedResultType): ResultStatsType {
   const { correct, wrong } = state.answers;
 
   const percent = getPercent(correct.length + wrong.length, correct.length);
@@ -33,11 +34,13 @@ const StyledGameResultContentItem = styled('li')`
   gap: 1rem;
 `;
 
-function GameResult({ type }: { type: 'sprint' }) {
+function GameResult({ type }: { type: 'sprint' | 'audiocall' }) {
   const result = useAppSelector((state) => state.resultsReducer)[type];
   const { user } = useAppSelector((state) => state.persist.auth);
 
-  if (result) {
+  console.log(result);
+
+  if (result && result.answers.correct.length && result.answers.wrong.length) {
     const { correct, wrong, percent, message } = makeResult(result);
 
     return (
@@ -62,7 +65,7 @@ function GameResult({ type }: { type: 'sprint' }) {
     );
   }
 
-  return <StyledMain>No result data found</StyledMain>;
+  return <Navigate to="/" />;
 }
 
 export default GameResult;

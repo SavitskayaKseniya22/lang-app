@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { toast } from 'react-toastify';
 import { firebaseConfig } from '../../firebase';
 import {
-  AuthErrorTypes,
+  FirebaseErrorTypes,
   BasicUserCredentials,
   ActiveUserTypes,
 } from '../../interfaces';
@@ -32,7 +32,7 @@ export const authApi = createApi({
           toast.success('You are registered successfully');
         } catch (err) {
           if (err && typeof err === 'object' && 'error' in err) {
-            const { message, code } = (err as AuthErrorTypes).error;
+            const { message, code } = (err as FirebaseErrorTypes).error;
             toast.error(`${code}: ${message}`);
           }
         }
@@ -56,7 +56,7 @@ export const authApi = createApi({
           toast.success("You've successfully logged in");
         } catch (err) {
           if (err && typeof err === 'object' && 'error' in err) {
-            const { message, code } = (err as AuthErrorTypes).error;
+            const { message, code } = (err as FirebaseErrorTypes).error;
             toast.error(`${code}: ${message}`);
           }
         }

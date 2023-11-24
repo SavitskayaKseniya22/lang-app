@@ -90,7 +90,7 @@ const router = createBrowserRouter(
             <Route path="result" element={<PuzzleResult />} />
           </Route>
 
-          <Route path="audiocall">
+          <Route path="audiocall" element={<GameInitialData />}>
             <Route
               index
               element={
@@ -100,9 +100,8 @@ const router = createBrowserRouter(
                 />
               }
             />
-            <Route path=":group">
-              <Route index element={<Audiocall />} />
-            </Route>
+            <Route path="game" element={<Audiocall />} />
+            <Route path="result" element={<GameResult type="audiocall" />} />
           </Route>
         </Route>
         <Route path="*" element={<PageNotFound />} />

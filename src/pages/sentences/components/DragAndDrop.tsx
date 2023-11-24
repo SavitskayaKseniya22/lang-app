@@ -43,7 +43,7 @@ const StyledDragContainer = styled('div')<{ $isItActive: boolean }>`
 
   .list_droppable,
   .list_draggable {
-    border-radius: 1.5rem;
+    border-radius: 1rem;
     background-color: gainsboro;
     min-height: 3rem;
     padding: 1rem;
@@ -53,7 +53,7 @@ const StyledDragContainer = styled('div')<{ $isItActive: boolean }>`
     font-size: smaller;
 
     li {
-      border-radius: 1rem;
+      border-radius: 0.5rem;
       background-color: white;
       padding: 0.5rem;
       text-align: center;

@@ -1,6 +1,6 @@
 import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 import React from 'react';
-import { AuthErrorTypes, WordBaseValues, WordType } from './interfaces';
+import { FirebaseErrorTypes, WordBaseValues, WordType } from './interfaces';
 
 export function checkColor($groupColor: number) {
   const colors = [
@@ -36,12 +36,6 @@ export function getResultMessage(percent: number) {
 
 export function getPercent(total: number, correct: number) {
   return Math.round((correct / total || 0) * 100);
-}
-
-export function createSecondIndex(basicIndex: number, maxIndex: number) {
-  return Math.random() <= 0.5
-    ? basicIndex
-    : getRandom(WordBaseValues.MINWORD, maxIndex);
 }
 
 export function checkIfAnswerCorrect(
@@ -87,7 +81,7 @@ export function makeEmptyArrayWithIds(length: number) {
 }
 
 export function transformAuthError(response: FetchBaseQueryError) {
-  const { message } = (response.data as AuthErrorTypes).error;
+  const { message } = (response.data as FirebaseErrorTypes).error;
   return {
     code: response.status,
     message: message.toLowerCase().replaceAll('_', ' '),
@@ -141,6 +135,12 @@ export function divideSentence(sentence: string, value: number) {
   return dividedSentence.concat(arr);
 }
 
+export function createSecondIndex(basicIndex: number, maxIndex: number) {
+  return Math.random() <= 0.5
+    ? basicIndex
+    : getRandom(WordBaseValues.MINWORD, maxIndex);
+}
+
 export class DataQueue {
   elements: WordType[] = [];
 
@@ -169,6 +169,24 @@ export class DataQueue {
     const second = this.elements[secondIndex];
     this.head += 1;
     return { first, second };
+  }
+
+  nextFour() {
+    let elements = [...this.elements];
+
+    const excludedElements = [this.elements[this.head]];
+
+    while (excludedElements.length !== 5) {
+      elements = elements.filter(
+        (elem) => elem.id !== excludedElements[excludedElements.length - 1].id
+      );
+
+      const index = getRandom(WordBaseValues.MINWORD, elements.length - 1);
+      excludedElements.push(elements[index]);
+    }
+
+    this.head += 1;
+    return { ref: excludedElements[0], others: shuffle(excludedElements) };
   }
 
   get length() {

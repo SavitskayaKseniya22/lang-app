@@ -1,32 +1,42 @@
-import React, { useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
-import styled from 'styled-components';
-import { useGetAllWordsQuery } from '../../store/wordsApi';
-import Timer from '../game/components/Timer';
-
-const StyledAudiocall = styled('div')`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 2rem;
-  position: relative;
-`;
+import React, { useContext, useEffect } from 'react';
+import { GameContext } from '../game/components/GameStartScreen';
+import Spinner from '../../components/spinner/Spinner';
+import { useGetRandomWordsQuery } from '../../store/wordsApi';
+import { DataQueue } from '../../utils';
+import AudiocallGame from './components/AudiocallGame';
+import { StyledMain } from '../../styled/SharedStyles';
+import { useAppDispatch } from '../../store/store';
+import { resetAudiocallResult } from '../../store/ResultSlice';
 
 function Audiocall() {
-  const { state } = useLocation();
-
-  const { data } = useGetAllWordsQuery(state, {
-    refetchOnMountOrArgChange: true,
-  });
+  const { initial } = useContext(GameContext);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
-    console.log(data);
-  }, [data]);
+    dispatch(resetAudiocallResult());
+  }, [dispatch]);
+
+  const { data, isLoading } = useGetRandomWordsQuery(
+    { group: initial.group },
+    {
+      skip: !!initial.data,
+    }
+  );
+
+  if (initial.data) {
+    return <AudiocallGame data={new DataQueue(initial.data)} />;
+  }
+
+  if (data) {
+    return <AudiocallGame data={new DataQueue(data)} />;
+  }
+
+  if (isLoading) return <Spinner />;
 
   return (
-    <StyledAudiocall>
-      <Timer duration={60} doAfterTimer={() => {}} />
-    </StyledAudiocall>
+    <StyledMain>
+      <h3>No data found. Please reload the page or return to the Main Page.</h3>
+    </StyledMain>
   );
 }
 

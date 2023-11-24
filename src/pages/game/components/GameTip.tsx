@@ -23,7 +23,6 @@ function GameTip({ type }: { type: GameType }) {
     Audiocall: [
       'Listen to the word. Choose the right translation.',
       'Use keys 1 to 5 to control game from the keyboard.',
-      'Press the Space key to pause.',
     ],
     Puzzles: [
       'Make sentences from a set of words.',
