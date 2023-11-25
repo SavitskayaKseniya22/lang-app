@@ -159,6 +159,15 @@ export class DataQueue {
     return item;
   }
 
+  nextWordLikeArray() {
+    const item = this.elements[this.head];
+    this.head += 1;
+    return {
+      ...item,
+      letters: item.word.split('').map((letter, i) => ({ letter, key: i })),
+    };
+  }
+
   peek() {
     return this.elements[this.head];
   }

@@ -24,6 +24,9 @@ const GlobalStyle = createGlobalStyle`
     margin: 0;
   }
 
+  input {
+    padding: 0;
+  }
 
   ul {
     list-style: none;

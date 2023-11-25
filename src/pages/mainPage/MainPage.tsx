@@ -52,20 +52,26 @@ function MainPage() {
           </NavLink>
         </li>
         <li className="feature">
-          <NavLink to="/games/sprint">
-            <h2>Sprint</h2>
-            <StyledParagraph>
-              Challenge your wit and knowledge in a fast paced and rewarding
-              guessing game!
-            </StyledParagraph>
-          </NavLink>
-        </li>
-        <li className="feature">
           <NavLink to="/games/puzzles">
             <h2>Puzzles</h2>
             <StyledParagraph>
               Make puzzles from a set of words. Score more points in the given
               time.
+            </StyledParagraph>
+          </NavLink>
+        </li>
+        <li className="feature">
+          <NavLink to="/games/constructor">
+            <h2>Word constructor</h2>
+            <StyledParagraph>Improve your spelling!</StyledParagraph>
+          </NavLink>
+        </li>
+        <li className="feature">
+          <NavLink to="/games/sprint">
+            <h2>Sprint</h2>
+            <StyledParagraph>
+              Challenge your wit and knowledge in a fast paced and rewarding
+              guessing game!
             </StyledParagraph>
           </NavLink>
         </li>

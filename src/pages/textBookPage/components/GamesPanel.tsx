@@ -22,6 +22,17 @@ function GamesPanel({ data }: { data: WordType[] }) {
       </StyledGameItem>
       <StyledGameItem>
         <Link
+          to="/games/constructor/game"
+          state={{ data }}
+          onClick={() => {
+            setContent(null);
+          }}
+        >
+          <h4>Constructor</h4>
+        </Link>
+      </StyledGameItem>
+      <StyledGameItem>
+        <Link
           to="/games/audiocall/game"
           state={{ data }}
           onClick={() => {

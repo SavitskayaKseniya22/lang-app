@@ -35,12 +35,14 @@ export enum GameType {
   SPRINT = 'Sprint',
   AUDIOCALL = 'Audiocall',
   PUZZLES = 'Puzzles',
+  CONSTRUCTOR = 'Constructor',
 }
 
 export enum GameDifficultyType {
   SPRINT = 6,
   AUDIOCALL = 6,
   PUZZLES = 3,
+  CONSTRUCTOR = 6,
 }
 
 export enum WordBaseValues {

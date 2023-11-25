@@ -93,6 +93,16 @@ function MainNavigation() {
             </StyledNavLink>
           </li>
           <li>
+            <StyledNavLink
+              to="/games/constructor"
+              title="Constructor"
+              $type="SUB"
+            >
+              <i className="fa-solid fa-ellipsis" />
+              <span>Constructor</span>
+            </StyledNavLink>
+          </li>
+          <li>
             <StyledNavLink to="/games/audiocall" title="Audiocall" $type="SUB">
               <i className="fa-solid fa-music" />
               <span>Audiocall</span>

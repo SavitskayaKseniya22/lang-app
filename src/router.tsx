@@ -26,6 +26,7 @@ import GameStartScreen, {
   GameInitialData,
 } from './pages/game/components/GameStartScreen';
 import PuzzleResult from './pages/sentences/components/PuzzleResult';
+import Constructor from './pages/constructor/Constructor';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -102,6 +103,20 @@ const router = createBrowserRouter(
             />
             <Route path="game" element={<Audiocall />} />
             <Route path="result" element={<GameResult type="audiocall" />} />
+          </Route>
+
+          <Route path="constructor" element={<GameInitialData />}>
+            <Route
+              index
+              element={
+                <GameStartScreen
+                  value={GameDifficultyType.CONSTRUCTOR}
+                  type={GameType.CONSTRUCTOR}
+                />
+              }
+            />
+            <Route path="game" element={<Constructor />} />
+            <Route path="result" element={<div>1</div>} />
           </Route>
         </Route>
         <Route path="*" element={<PageNotFound />} />

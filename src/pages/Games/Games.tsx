@@ -41,6 +41,11 @@ function Games() {
           </Link>
         </StyledGameItem>
         <StyledGameItem>
+          <Link to="constructor">
+            <h4>Constructor</h4>
+          </Link>
+        </StyledGameItem>
+        <StyledGameItem>
           <Link to="audiocall">
             <h4>Audiocall</h4>
           </Link>

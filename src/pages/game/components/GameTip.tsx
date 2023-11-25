@@ -29,6 +29,7 @@ function GameTip({ type }: { type: GameType }) {
       'The number of points awarded depends on the selected difficulty and time spent.',
       'Use the hint if you need help. This will subtract one point from the final result.',
     ],
+    Constructor: ['Make a word from letters'],
   };
   return (
     <StyledGameTip className="game-tip">
