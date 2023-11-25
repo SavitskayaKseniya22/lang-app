@@ -2,13 +2,15 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { DataQueue } from '../../../utils';
-import { StyledMain } from '../../../styled/SharedStyles';
+import { StyledGameContainer, StyledMain } from '../../../styled/SharedStyles';
 import { StyledPuzzlesGameAnswer } from '../../sentences/components/PuzzlesGame';
 import { useAppDispatch, useAppSelector } from '../../../store/store';
 import Points from '../../game/components/Points';
 import Streak from '../../game/components/Streak';
 import { updateAudiocallResult } from '../../../store/ResultSlice';
 import { AudiocallMedia } from './AudiocallMedia';
+import GameInfo from '../../game/components/GameInfo';
+import ProgressTracking from '../../game/components/ProgressTracking';
 
 const StyledAudiocallGame = styled(StyledMain)`
   gap: 2rem;
@@ -99,72 +101,77 @@ function AudiocallGame({ data }: { data: DataQueue }) {
 
   return (
     <StyledAudiocallGame>
-      <Points step={audiocall.step} total={audiocall.total} />
-      <Streak streak={audiocall.streak} total={3} />
-      <AudiocallMedia source={words.ref.audio} />
+      <GameInfo>
+        <ProgressTracking streak={data.head} total={data.startLength} />
+        <Points step={audiocall.step} total={audiocall.total} />
+      </GameInfo>
 
-      {middleResult !== null ? (
-        <>
-          <StyledPuzzlesGameAnswer $type={middleResult ? 'correct' : 'wrong'}>
-            {words.ref.word} - {words.ref.wordTranslate}
-          </StyledPuzzlesGameAnswer>
+      <StyledGameContainer>
+        <Streak streak={audiocall.streak} total={3} />
+        <AudiocallMedia source={words.ref.audio} />
+        {middleResult !== null ? (
+          <>
+            <StyledPuzzlesGameAnswer $type={middleResult ? 'correct' : 'wrong'}>
+              {words.ref.word} - {words.ref.wordTranslate}
+            </StyledPuzzlesGameAnswer>
 
-          <p>{words.ref.textMeaning}</p>
+            <p>{words.ref.textMeaning}</p>
 
-          <button
-            type="button"
-            onClick={() => {
-              if (data.isEmpty) {
-                navigate('/games/audiocall/result');
-              } else {
-                setWords(updater);
-                setMiddleResult(null);
-              }
-            }}
-          >
-            Next word
-          </button>
-        </>
-      ) : (
-        <>
-          <StyledAudiocallButtonList>
-            {words.others.map((elem, i) => (
-              <button
-                type="button"
-                key={elem.id}
-                onClick={() => {
-                  dispatch(
-                    updateAudiocallResult({
-                      isAnswerCorrect: elem.id === words.ref.id,
-                      word: words.ref,
-                    })
-                  );
+            <button
+              type="button"
+              onClick={() => {
+                if (data.isEmpty) {
+                  navigate('/games/audiocall/result');
+                } else {
+                  setWords(updater);
+                  setMiddleResult(null);
+                }
+              }}
+            >
+              Next word
+            </button>
+          </>
+        ) : (
+          <>
+            <StyledAudiocallButtonList>
+              {words.others.map((elem, i) => (
+                <button
+                  type="button"
+                  key={elem.id}
+                  onClick={() => {
+                    dispatch(
+                      updateAudiocallResult({
+                        isAnswerCorrect: elem.id === words.ref.id,
+                        word: words.ref,
+                      })
+                    );
 
-                  setMiddleResult(elem.id === words.ref.id);
-                }}
-              >
-                {elem.wordTranslate}
-                <i>{i + 1}</i>
-              </button>
-            ))}
-          </StyledAudiocallButtonList>
+                    setMiddleResult(elem.id === words.ref.id);
+                  }}
+                >
+                  {elem.wordTranslate}
+                  <i>{i + 1}</i>
+                </button>
+              ))}
+            </StyledAudiocallButtonList>
 
-          <button
-            type="button"
-            onClick={() => {
-              setMiddleResult(false);
-              dispatch(
-                updateAudiocallResult({
-                  isAnswerCorrect: false,
-                  word: words.ref,
-                })
-              );
-            }}
-          >
-            See the correct answer
-          </button>
-        </>
-      )}
+            <button
+              type="button"
+              onClick={() => {
+                setMiddleResult(false);
+                dispatch(
+                  updateAudiocallResult({
+                    isAnswerCorrect: false,
+                    word: words.ref,
+                  })
+                );
+              }}
+            >
+              See the correct answer
+            </button>
+          </>
+        )}
+      </StyledGameContainer>
     </StyledAudiocallGame>
   );
 }

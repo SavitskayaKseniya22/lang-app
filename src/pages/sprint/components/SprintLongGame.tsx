@@ -15,7 +15,8 @@ import ActiveWordsList from './ActiveWordsList';
 import Spinner from '../../../components/spinner/Spinner';
 import { useAppDispatch, useAppSelector } from '../../../store/store';
 import { updateSprintResult } from '../../../store/ResultSlice';
-import { StyledMain } from '../../../styled/SharedStyles';
+import { StyledGameContainer, StyledMain } from '../../../styled/SharedStyles';
+import GameInfo from '../../game/components/GameInfo';
 
 function SprintLongGame({
   group = DefaultTextBookValues.group,
@@ -74,11 +75,16 @@ function SprintLongGame({
   if (data.current && activeWords) {
     return (
       <StyledMain>
+        <GameInfo>
+          <Points step={sprint.step} total={sprint.total} />
+        </GameInfo>
         <Timer duration={60} doAfterTimer={doAfterTimer} />
-        <Points step={sprint.step} total={sprint.total} />
-        <Streak streak={sprint.streak} total={3} />
-        <ActiveWordsList words={activeWords} />
-        <SprintRound handleClick={handleClick} />
+
+        <StyledGameContainer>
+          <Streak streak={sprint.streak} total={3} />
+          <ActiveWordsList words={activeWords} />
+          <SprintRound handleClick={handleClick} />
+        </StyledGameContainer>
       </StyledMain>
     );
   }

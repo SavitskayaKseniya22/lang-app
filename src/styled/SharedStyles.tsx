@@ -45,3 +45,12 @@ export const StyledLink = styled('a')`
 export const StyledNavLink = styled(NavLink)`
   color: rgb(42, 157, 143);
 `;
+
+export const StyledGameContainer = styled('div')`
+  display: flex;
+  flex-direction: column;
+  flex-grow: 2;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+`;

@@ -8,8 +8,10 @@ import SprintRound from './SprintRound';
 import ActiveWordsList from './ActiveWordsList';
 import { useAppDispatch, useAppSelector } from '../../../store/store';
 import { updateSprintResult } from '../../../store/ResultSlice';
-import { StyledMain } from '../../../styled/SharedStyles';
+import { StyledGameContainer, StyledMain } from '../../../styled/SharedStyles';
 import { GameContext } from '../../game/components/GameStartScreen';
+import GameInfo from '../../game/components/GameInfo';
+import ProgressTracking from '../../game/components/ProgressTracking';
 
 function SprintShortGame({ data }: { data: DataQueue }) {
   const navigate = useNavigate();
@@ -45,10 +47,15 @@ function SprintShortGame({ data }: { data: DataQueue }) {
 
   return (
     <StyledMain>
-      <Points step={sprint.step} total={sprint.total} />
-      <Streak streak={sprint.streak} total={3} />
-      <ActiveWordsList words={activeWords} />
-      <SprintRound handleClick={handleClick} />
+      <GameInfo>
+        <ProgressTracking streak={data.head} total={data.startLength} />
+        <Points step={sprint.step} total={sprint.total} />
+      </GameInfo>
+      <StyledGameContainer>
+        <Streak streak={sprint.streak} total={3} />
+        <ActiveWordsList words={activeWords} />
+        <SprintRound handleClick={handleClick} />
+      </StyledGameContainer>
     </StyledMain>
   );
 }

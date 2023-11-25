@@ -3,10 +3,13 @@ import React, { useCallback, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { StyledMain } from '../../../styled/SharedStyles';
+import { StyledGameContainer, StyledMain } from '../../../styled/SharedStyles';
 import { DataQueue } from '../../../utils';
 import { StyledPuzzlesGameAnswer } from '../../sentences/components/PuzzlesGame';
 import { ChildrenProps } from '../../../interfaces';
+import GameInfo from '../../game/components/GameInfo';
+import Points from '../../game/components/Points';
+import ProgressTracking from '../../game/components/ProgressTracking';
 
 const StyledForm = styled('form')`
   width: 100%;
@@ -100,70 +103,80 @@ function ConstructorGame({ data }: { data: DataQueue }) {
     setMiddleResult(resultWord === word.word);
   };
 
-  return middleResult !== null ? (
+  return (
     <StyledMain>
-      <StyledPuzzlesGameAnswer $type={middleResult ? 'correct' : 'wrong'}>
-        {word.word} - {word.wordTranslate}
-      </StyledPuzzlesGameAnswer>
+      <GameInfo>
+        <ProgressTracking streak={data.head} total={data.startLength} />
+        <Points step={10} total={10} />
+      </GameInfo>
+      <StyledGameContainer>
+        {middleResult !== null ? (
+          <>
+            <StyledPuzzlesGameAnswer $type={middleResult ? 'correct' : 'wrong'}>
+              {word.word} - {word.wordTranslate}
+            </StyledPuzzlesGameAnswer>
 
-      <p>{word.textMeaning}</p>
+            <p>{word.textMeaning}</p>
 
-      <button
-        type="button"
-        onClick={() => {
-          if (data.isEmpty) {
-            navigate('/games/constructor/result');
-          } else {
-            reset();
-            setWord(updater);
-            setMiddleResult(null);
-          }
-        }}
-      >
-        Next word
-      </button>
-    </StyledMain>
-  ) : (
-    <StyledMain>
-      <h4>{word.textMeaning}</h4>
-
-      <StyledForm onSubmit={handleSubmit(onSubmit)}>
-        <StyledInputList>
-          {word.letters.map((item) => (
-            <StyledInput
-              $type={getValues(String(item.key)) ? 'active' : 'disabled'}
-              type="text"
-              key={item.key}
-              {...register(String(item.key), {
-                pattern: /^\w{1}$/gi,
-              })}
-            />
-          ))}
-        </StyledInputList>
-
-        <StyledButtonList>
-          {word.letters.map((item) => (
-            <ConstructorButton
-              key={item.key}
-              addToClick={() => {
-                const formValues = getValues();
-
-                // eslint-disable-next-line no-restricted-syntax
-                for (const formValue of Object.keys(formValues)) {
-                  if (formValues[formValue] === '') {
-                    setValue(formValue, item.letter);
-                    break;
-                  }
+            <button
+              type="button"
+              onClick={() => {
+                if (data.isEmpty) {
+                  navigate('/games/constructor/result');
+                } else {
+                  reset();
+                  setWord(updater);
+                  setMiddleResult(null);
                 }
               }}
             >
-              {item.letter}
-            </ConstructorButton>
-          ))}
-        </StyledButtonList>
+              Next word
+            </button>
+          </>
+        ) : (
+          <>
+            <h4>{word.textMeaning}</h4>
 
-        <input type="submit" value="See the correct answer" />
-      </StyledForm>
+            <StyledForm onSubmit={handleSubmit(onSubmit)}>
+              <StyledInputList>
+                {word.letters.map((item) => (
+                  <StyledInput
+                    $type={getValues(String(item.key)) ? 'active' : 'disabled'}
+                    type="text"
+                    key={item.key}
+                    {...register(String(item.key), {
+                      pattern: /^\w{1}$/gi,
+                    })}
+                  />
+                ))}
+              </StyledInputList>
+
+              <StyledButtonList>
+                {word.letters.map((item) => (
+                  <ConstructorButton
+                    key={item.key}
+                    addToClick={() => {
+                      const formValues = getValues();
+
+                      // eslint-disable-next-line no-restricted-syntax
+                      for (const formValue of Object.keys(formValues)) {
+                        if (formValues[formValue] === '') {
+                          setValue(formValue, item.letter);
+                          break;
+                        }
+                      }
+                    }}
+                  >
+                    {item.letter}
+                  </ConstructorButton>
+                ))}
+              </StyledButtonList>
+
+              <input type="submit" value="See the correct answer" />
+            </StyledForm>
+          </>
+        )}
+      </StyledGameContainer>
     </StyledMain>
   );
 }

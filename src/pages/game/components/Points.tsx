@@ -7,11 +7,12 @@ const StyledPointsList = styled('div')`
   justify-content: center;
   align-items: center;
   padding: 1rem;
-  gap: 2rem;
+  gap: 1rem;
+  margin-left: auto;
 `;
 
 const StyledPointsItem = styled('span')<{ $type: 'step' | 'total' }>`
-  font-size: ${(props) => (props.$type === 'step' ? '2rem' : '4rem')};
+  font-size: ${(props) => (props.$type === 'step' ? '1.5rem' : '3rem')};
 `;
 
 function Points({ step, total }: PointsType) {

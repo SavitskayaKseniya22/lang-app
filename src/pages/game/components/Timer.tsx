@@ -7,12 +7,12 @@ export const StyledTimer = styled('div')`
   align-items: center;
   padding: 1rem;
   border-radius: 50%;
-  border: 5px solid black;
-  width: 5rem;
-  height: 5rem;
-  font-size: 1.5rem;
+  border: 3px solid black;
+  width: 3rem;
+  height: 3rem;
+  font-size: 1rem;
   position: absolute;
-  top: 1rem;
+  bottom: 1rem;
   right: 1rem;
   opacity: 0.5;
 `;

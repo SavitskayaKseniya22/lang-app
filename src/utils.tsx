@@ -148,9 +148,12 @@ export class DataQueue {
 
   tail: number;
 
+  startLength: number;
+
   constructor(elements: WordType[]) {
     this.elements = elements;
     this.tail = elements.length;
+    this.startLength = elements.length;
   }
 
   next() {
