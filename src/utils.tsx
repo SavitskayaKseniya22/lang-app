@@ -165,9 +165,13 @@ export class DataQueue {
   nextWordLikeArray() {
     const item = this.elements[this.head];
     this.head += 1;
+    const letters = item.word
+      .split('')
+      .map((letter, i) => ({ letter, key: Math.random(), index: i }));
     return {
       ...item,
-      letters: item.word.split('').map((letter, i) => ({ letter, key: i })),
+      letters,
+      shuffledLetters: shuffle(letters),
     };
   }
 

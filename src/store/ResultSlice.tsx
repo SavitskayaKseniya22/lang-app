@@ -59,6 +59,14 @@ export interface ResultsState {
   sprint: ComplicatedResultType;
   puzzles: { middleResult: boolean; step: number; total: number };
   audiocall: ComplicatedResultType;
+  constructor: {
+    step: number;
+    total: number;
+    answers: {
+      correct: WordType[];
+      wrong: WordType[];
+    };
+  };
 }
 
 const initPuzzlesResultValue = {
@@ -67,10 +75,17 @@ const initPuzzlesResultValue = {
   total: 0,
 };
 
+const initConstructorResultValue = {
+  answers: { correct: [], wrong: [] },
+  step: 10,
+  total: 0,
+};
+
 const initialState: ResultsState = {
   sprint: initComplicatedResultValue,
   puzzles: initPuzzlesResultValue,
   audiocall: initComplicatedResultValue,
+  constructor: initConstructorResultValue,
 };
 
 export const resultsSlice = createSlice({
@@ -120,8 +135,40 @@ export const resultsSlice = createSlice({
       );
     },
 
+    updateConstructorResult: (
+      state,
+      action: PayloadAction<{ isAnswerCorrect: boolean; word: WordType }>
+    ) => {
+      const answers = action.payload.isAnswerCorrect
+        ? {
+            ...state.constructor.answers,
+            correct: [
+              ...state.constructor.answers.correct,
+              action.payload.word,
+            ],
+          }
+        : {
+            ...state.constructor.answers,
+            wrong: [...state.constructor.answers.wrong, action.payload.word],
+          };
+
+      const total = action.payload.isAnswerCorrect
+        ? state.constructor.total + state.constructor.step
+        : state.constructor.total - 1;
+
+      state.constructor = {
+        ...state.constructor,
+        total,
+        answers,
+      };
+    },
+
     resetAudiocallResult: (state) => {
       state.audiocall = initComplicatedResultValue;
+    },
+
+    resetConstructorResult: (state) => {
+      state.constructor = initConstructorResultValue;
     },
   },
 });
@@ -134,6 +181,8 @@ export const {
   setPuzzlesResult,
   updateAudiocallResult,
   resetAudiocallResult,
+  resetConstructorResult,
+  updateConstructorResult,
 } = resultsSlice.actions;
 
 export default resultsSlice.reducer;

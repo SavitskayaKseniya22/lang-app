@@ -66,7 +66,6 @@ function AudiocallGame({ data }: { data: DataQueue }) {
           break;
         case 'Digit3':
           id.current = words.others[2].id;
-
           break;
         case 'Digit4':
           id.current = words.others[3].id;

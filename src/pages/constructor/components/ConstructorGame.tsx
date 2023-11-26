@@ -1,8 +1,6 @@
-/* eslint-disable react/jsx-props-no-spreading */
 import React, { useCallback, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled, { css } from 'styled-components';
-import { SubmitHandler, useForm } from 'react-hook-form';
 import { StyledGameContainer, StyledMain } from '../../../styled/SharedStyles';
 import { DataQueue } from '../../../utils';
 import { StyledPuzzlesGameAnswer } from '../../sentences/components/PuzzlesGame';
@@ -10,27 +8,25 @@ import { ChildrenProps } from '../../../interfaces';
 import GameInfo from '../../game/components/GameInfo';
 import Points from '../../game/components/Points';
 import ProgressTracking from '../../game/components/ProgressTracking';
-
-const StyledForm = styled('form')`
-  width: 100%;
-`;
+import { useAppDispatch, useAppSelector } from '../../../store/store';
+import { updateConstructorResult } from '../../../store/ResultSlice';
+import StopWatch from '../../game/components/StopWatch';
 
 export const StyledActiveLetter = css<{ $type: 'disabled' | 'active' }>`
-  border-radius: 1rem;
   color: white;
   font-weight: 500;
-
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 0;
   text-align: center;
 `;
 
 const StyledButtonList = styled('div')`
   display: flex;
   flex-wrap: wrap;
-  gap: 1rem;
+  gap: 0.5rem;
+  align-items: center;
+  justify-content: center;
 `;
 
 const StyledConstructorButton = styled('button')<{
@@ -39,28 +35,29 @@ const StyledConstructorButton = styled('button')<{
   ${StyledActiveLetter}
   background-color: ${(props) =>
     props.$type === 'active' ? 'rgb(231, 111, 81)' : 'gainsboro'};
-  width: 4rem;
-  height: 3rem;
+  width: 3rem;
+  height: 2rem;
+  border-radius: 0.5rem;
   font-size: 1rem;
 `;
 
-const StyledInputList = styled('div')`
+const StyledList = styled('ul')`
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.2rem;
+  gap: 0.1rem;
   flex-wrap: nowrap;
-  max-width: 100vw;
+  width: 100%;
 `;
 
-const StyledInput = styled('input')<{ $type: 'disabled' | 'active' }>`
+const StyledItem = styled('li')<{ $type: 'disabled' | 'active' }>`
   ${StyledActiveLetter};
   background-color: ${(props) =>
     props.$type === 'active' ? 'rgba(38, 70, 83)' : 'gainsboro'};
-  border-radius: 0.5rem;
-  min-width: 1rem;
-  max-width: 3rem;
-  min-height: 2rem;
+  border-radius: 0.25rem;
+  width: 1.5rem;
+  height: 1.25rem;
+  font-size: 0.75rem;
 `;
 
 export function ConstructorButton({
@@ -71,11 +68,11 @@ export function ConstructorButton({
   addToClick: () => void;
 }) {
   const [disabled, setDisabled] = useState(false);
+
   return (
     <StyledConstructorButton
       $type={disabled ? 'disabled' : 'active'}
       type="button"
-      disabled={disabled}
       onClick={() => {
         setDisabled((a) => !a);
         addToClick();
@@ -87,36 +84,43 @@ export function ConstructorButton({
 }
 
 function ConstructorGame({ data }: { data: DataQueue }) {
-  const updater = useCallback(() => data.nextWordLikeArray(), [data]);
+  const { constructor } = useAppSelector((state) => state.resultsReducer);
+
+  const updater = useCallback(() => {
+    const wordData = data.nextWordLikeArray();
+    return {
+      ...wordData,
+      pressedButtons: wordData.letters.map(() => ({
+        letter: '',
+        key: Math.random(),
+        index: -1,
+      })),
+    };
+  }, [data]);
 
   const [word, setWord] = useState(updater);
 
   const [middleResult, setMiddleResult] = useState<null | boolean>(null);
+
   const navigate = useNavigate();
 
-  const { register, handleSubmit, getValues, reset, setValue } = useForm<{
-    [key: string]: string;
-  }>();
-
-  const onSubmit: SubmitHandler<{ [key: string]: string }> = (e) => {
-    const resultWord = Object.values(e).join('');
-    setMiddleResult(resultWord === word.word);
-  };
+  const dispatch = useAppDispatch();
 
   return (
     <StyledMain>
       <GameInfo>
         <ProgressTracking streak={data.head} total={data.startLength} />
-        <Points step={10} total={10} />
+        <Points step={constructor.step} total={constructor.total} />
       </GameInfo>
+      <StopWatch doAfterTimer={() => {}} />
       <StyledGameContainer>
+        <h4>{word.wordTranslate}</h4>
         {middleResult !== null ? (
           <>
             <StyledPuzzlesGameAnswer $type={middleResult ? 'correct' : 'wrong'}>
+              <s>{word.pressedButtons.map((item) => item.letter).join('')}</s> -{' '}
               {word.word} - {word.wordTranslate}
             </StyledPuzzlesGameAnswer>
-
-            <p>{word.textMeaning}</p>
 
             <button
               type="button"
@@ -124,7 +128,6 @@ function ConstructorGame({ data }: { data: DataQueue }) {
                 if (data.isEmpty) {
                   navigate('/games/constructor/result');
                 } else {
-                  reset();
                   setWord(updater);
                   setMiddleResult(null);
                 }
@@ -135,45 +138,68 @@ function ConstructorGame({ data }: { data: DataQueue }) {
           </>
         ) : (
           <>
-            <h4>{word.textMeaning}</h4>
+            <StyledList>
+              {word.pressedButtons.map((item) => (
+                <StyledItem
+                  $type={item.letter ? 'active' : 'disabled'}
+                  key={item.key}
+                >
+                  {item.letter}
+                </StyledItem>
+              ))}
+            </StyledList>
 
-            <StyledForm onSubmit={handleSubmit(onSubmit)}>
-              <StyledInputList>
-                {word.letters.map((item) => (
-                  <StyledInput
-                    $type={getValues(String(item.key)) ? 'active' : 'disabled'}
-                    type="text"
-                    key={item.key}
-                    {...register(String(item.key), {
-                      pattern: /^\w{1}$/gi,
-                    })}
-                  />
-                ))}
-              </StyledInputList>
+            <StyledButtonList>
+              {word.shuffledLetters.map((item) => (
+                <ConstructorButton
+                  key={item.key}
+                  addToClick={() => {
+                    const indexIn = word.pressedButtons.findIndex(
+                      (elem) => elem.index === item.index
+                    );
 
-              <StyledButtonList>
-                {word.letters.map((item) => (
-                  <ConstructorButton
-                    key={item.key}
-                    addToClick={() => {
-                      const formValues = getValues();
+                    const copyPressedButtons = [...word.pressedButtons];
 
-                      // eslint-disable-next-line no-restricted-syntax
-                      for (const formValue of Object.keys(formValues)) {
-                        if (formValues[formValue] === '') {
-                          setValue(formValue, item.letter);
-                          break;
-                        }
-                      }
-                    }}
-                  >
-                    {item.letter}
-                  </ConstructorButton>
-                ))}
-              </StyledButtonList>
+                    if (indexIn !== -1) {
+                      copyPressedButtons[indexIn] = {
+                        ...copyPressedButtons[indexIn],
+                        letter: '',
+                        index: -1,
+                      };
+                    } else {
+                      const emptyindexIn = word.pressedButtons.findIndex(
+                        (elem) => elem.index === -1
+                      );
 
-              <input type="submit" value="See the correct answer" />
-            </StyledForm>
+                      copyPressedButtons[emptyindexIn] = { ...item };
+                    }
+                    setWord({
+                      ...word,
+                      pressedButtons: [...copyPressedButtons],
+                    });
+                  }}
+                >
+                  {item.letter}
+                </ConstructorButton>
+              ))}
+            </StyledButtonList>
+            <button
+              type="button"
+              onClick={() => {
+                const isAnswerCorrect =
+                  word.pressedButtons.map((item) => item.letter).join('') ===
+                  word.word;
+                setMiddleResult(isAnswerCorrect);
+                dispatch(
+                  updateConstructorResult({
+                    isAnswerCorrect,
+                    word,
+                  })
+                );
+              }}
+            >
+              See the correct answer
+            </button>
           </>
         )}
       </StyledGameContainer>
@@ -182,14 +208,3 @@ function ConstructorGame({ data }: { data: DataQueue }) {
 }
 
 export default ConstructorGame;
-
-/* onClick={() => {
-            // setMiddleResult(false);
-            
-          dispatch(
-            updateAudiocallResult({
-              isAnswerCorrect: false,
-              word: words.ref,
-            })
-          ); 
-          }} */

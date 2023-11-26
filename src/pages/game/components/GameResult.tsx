@@ -21,14 +21,14 @@ export function makeResult(state: ComplicatedResultType): ResultStatsType {
   };
 }
 
-const StyledGameResultContent = styled('ul')`
+export const StyledGameResultContent = styled('ul')`
   display: flex;
   flex-direction: column;
   gap: 2rem;
   justify-content: space-between;
 `;
 
-const StyledGameResultContentItem = styled('li')`
+export const StyledGameResultContentItem = styled('li')`
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -37,8 +37,6 @@ const StyledGameResultContentItem = styled('li')`
 function GameResult({ type }: { type: 'sprint' | 'audiocall' }) {
   const result = useAppSelector((state) => state.resultsReducer)[type];
   const { user } = useAppSelector((state) => state.persist.auth);
-
-  console.log(result);
 
   if (result && result.answers.correct.length && result.answers.wrong.length) {
     const { correct, wrong, percent, message } = makeResult(result);

@@ -29,7 +29,7 @@ const titles = css`
 
   h5 {
     font-size: 1rem;
-    font-weight: 100;
+    font-weight: 300;
     margin: 0.125rem 0;
   }
 

@@ -1,8 +1,16 @@
 import React from 'react';
 import styled from 'styled-components';
 import { makeEmptyArrayWithIds } from '../../../utils';
+import { ScreenSize } from '../../../interfaces';
 
-const StyledProgressTracking = styled('ul')`
+const StyledProgressTracking = styled('div')`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.5rem;
+`;
+
+const StyledProgressList = styled('ul')`
   display: flex;
   justify-content: space-evenly;
   align-items: center;
@@ -23,6 +31,17 @@ const StyledProgressItem = styled('li')<{ $type: 'fullfilled' | 'empty' }>`
   height: 1rem;
 `;
 
+const StyledProgressInfo = styled('h5')`
+  display: none;
+
+  @media ${ScreenSize.TABLET} {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: nowrap;
+  }
+`;
+
 function ProgressTracking({
   streak,
   total,
@@ -32,12 +51,17 @@ function ProgressTracking({
 }) {
   return (
     <StyledProgressTracking>
-      {makeEmptyArrayWithIds(total).map((item, i) => (
-        <StyledProgressItem
-          key={item.key}
-          $type={i < streak ? 'fullfilled' : 'empty'}
-        />
-      ))}
+      <StyledProgressList>
+        {makeEmptyArrayWithIds(total).map((item, i) => (
+          <StyledProgressItem
+            key={item.key}
+            $type={i < streak ? 'fullfilled' : 'empty'}
+          />
+        ))}
+      </StyledProgressList>
+      <StyledProgressInfo>
+        {streak} of {total}
+      </StyledProgressInfo>
     </StyledProgressTracking>
   );
 }

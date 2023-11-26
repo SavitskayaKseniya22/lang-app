@@ -27,6 +27,7 @@ import GameStartScreen, {
 } from './pages/game/components/GameStartScreen';
 import PuzzleResult from './pages/sentences/components/PuzzleResult';
 import Constructor from './pages/constructor/Constructor';
+import ConstructorResult from './pages/constructor/components/ConstructorResult';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -116,7 +117,7 @@ const router = createBrowserRouter(
               }
             />
             <Route path="game" element={<Constructor />} />
-            <Route path="result" element={<div>1</div>} />
+            <Route path="result" element={<ConstructorResult />} />
           </Route>
         </Route>
         <Route path="*" element={<PageNotFound />} />

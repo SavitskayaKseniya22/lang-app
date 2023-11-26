@@ -1,13 +1,21 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { GameContext } from '../game/components/GameStartScreen';
 import Spinner from '../../components/spinner/Spinner';
 import { useGetRandomWordsQuery } from '../../store/wordsApi';
 import { StyledMain } from '../../styled/SharedStyles';
 import { DataQueue } from '../../utils';
 import ConstructorGame from './components/ConstructorGame';
+import { resetAudiocallResult } from '../../store/ResultSlice';
+import { useAppDispatch } from '../../store/store';
 
 function Constructor() {
   const { initial } = useContext(GameContext);
+
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(resetAudiocallResult());
+  }, [dispatch]);
 
   const { data, isLoading } = useGetRandomWordsQuery(
     { group: initial.group },
