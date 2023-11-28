@@ -1,10 +1,6 @@
-/* eslint-disable react/jsx-props-no-spreading */
-import React, { useEffect, useRef } from 'react';
+import React, { Dispatch, SetStateAction, useRef } from 'react';
 import styled from 'styled-components';
-import { useFormContext } from 'react-hook-form';
-import { checkDisabled } from '../../../utils';
-import { WordBaseValues } from '../../../interfaces';
-import PagePickerButton from './PagePickerButton';
+import { PageType, ScreenSize, WordBaseValues } from '../../../interfaces';
 
 const StyledPagePicker = styled('div')`
   display: flex;
@@ -15,80 +11,82 @@ const StyledPagePicker = styled('div')`
   }
 `;
 
-function PagePicker() {
-  const { register, watch, setValue } = useFormContext();
+const StyledPagePickerButton = styled('button')`
+  width: 2rem;
+  height: 2rem;
+  color: white;
+  background-color: rgb(244, 162, 97);
 
-  const groupValue = watch('group');
-  const pageValue = watch('page');
+  &:disabled {
+    background-color: rgba(42, 157, 144, 0.2);
+    pointer-events: none;
+  }
 
-  const borderValues = useRef({ prev: 0, next: 0 });
+  @media ${ScreenSize.TABLET} {
+    width: 2.5rem;
+    height: 2.5rem;
+    font-size: 1rem;
+  }
+`;
 
-  useEffect(() => {
+function PagePicker({
+  values,
+}: {
+  values: PageType & { setPage: Dispatch<SetStateAction<number>> };
+}) {
+  const borderValues = useRef({ prev: 0, next: 1 });
+
+  const handleClick = (value: number) => {
+    values.setPage(value);
+
     const prev =
-      pageValue > WordBaseValues.MINPAGE
-        ? pageValue - 1
-        : WordBaseValues.MINPAGE;
+      value > WordBaseValues.MINPAGE ? value - 1 : WordBaseValues.MINPAGE;
+
     const next =
-      pageValue < WordBaseValues.MAXPAGE
-        ? pageValue + 1
-        : WordBaseValues.MAXPAGE;
+      value < WordBaseValues.MAXPAGE ? value + 1 : WordBaseValues.MAXPAGE;
+
     borderValues.current = { prev, next };
-  }, [pageValue]);
+  };
 
   return (
     <StyledPagePicker>
-      <input
-        {...register('page')}
-        type="text"
-        value={borderValues.current.prev}
-      />
-      <PagePickerButton
-        $groupColor={groupValue}
-        isDisabled={checkDisabled(pageValue, WordBaseValues.MINPAGE)}
-        handleClick={() => {
-          setValue('page', WordBaseValues.MINPAGE);
+      <StyledPagePickerButton
+        disabled={values.page === WordBaseValues.MINPAGE}
+        onClick={() => {
+          handleClick(WordBaseValues.MINPAGE);
         }}
       >
         <i className="fa-solid fa-backward-fast" />
-      </PagePickerButton>
+      </StyledPagePickerButton>
 
-      <PagePickerButton
-        $groupColor={groupValue}
-        isDisabled={checkDisabled(pageValue, borderValues.current.prev)}
-        handleClick={() => {
-          setValue('page', borderValues.current.prev);
+      <StyledPagePickerButton
+        disabled={values.page === borderValues.current.prev}
+        onClick={() => {
+          handleClick(borderValues.current.prev);
         }}
       >
         <i className="fa-solid fa-backward" />
-      </PagePickerButton>
+      </StyledPagePickerButton>
 
-      <PagePickerButton
-        $groupColor={groupValue}
-        isDisabled
-        handleClick={() => {}}
-      >
-        {pageValue}
-      </PagePickerButton>
+      <StyledPagePickerButton disabled>{values.page}</StyledPagePickerButton>
 
-      <PagePickerButton
-        $groupColor={groupValue}
-        isDisabled={checkDisabled(pageValue, borderValues.current.next)}
-        handleClick={() => {
-          setValue('page', borderValues.current.next);
+      <StyledPagePickerButton
+        disabled={values.page === borderValues.current.next}
+        onClick={() => {
+          handleClick(borderValues.current.next);
         }}
       >
         <i className="fa-solid fa-forward" />
-      </PagePickerButton>
+      </StyledPagePickerButton>
 
-      <PagePickerButton
-        $groupColor={groupValue}
-        isDisabled={checkDisabled(pageValue, WordBaseValues.MAXPAGE)}
-        handleClick={() => {
-          setValue('page', WordBaseValues.MAXPAGE);
+      <StyledPagePickerButton
+        disabled={values.page === WordBaseValues.MAXPAGE}
+        onClick={() => {
+          handleClick(WordBaseValues.MAXPAGE);
         }}
       >
         <i className="fa-solid fa-forward-fast" />
-      </PagePickerButton>
+      </StyledPagePickerButton>
     </StyledPagePicker>
   );
 }

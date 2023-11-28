@@ -57,15 +57,15 @@ function GroupPicker({
     <StyledGroupPicker onSubmit={handleSubmit(onSubmit)}>
       <h3>Select difficulty:</h3>
       <ul>
-        {makeEmptyArrayWithIds(value).map((item) => (
+        {makeEmptyArrayWithIds(value).map((item, i) => (
           <li key={item.key}>
             <input
               {...register('group')}
               type="radio"
-              value={item.element}
+              value={i}
               id={`group-${item.key}`}
             />
-            <label htmlFor={`group-${item.key}`}>{item.element}</label>
+            <label htmlFor={`group-${item.key}`}>{i}</label>
           </li>
         ))}
       </ul>

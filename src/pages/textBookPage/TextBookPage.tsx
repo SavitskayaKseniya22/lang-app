@@ -1,22 +1,24 @@
-/* eslint-disable react/jsx-props-no-spreading */
-import React, { useContext } from 'react';
-import { FormProvider, useForm } from 'react-hook-form';
+import React, { useContext, useMemo, useState } from 'react';
 import styled from 'styled-components';
 import PagePicker from './components/PagePicker';
 import GroupSelect from './components/GroupSelect';
 import { useGetAllWordsQuery } from '../../store/wordsApi';
 import WordList from './components/WordList';
-import { DefaultTextBookValues, WordType } from '../../interfaces';
 import ModalContext from '../../components/modal/ModalContext';
 import GamesPanel from './components/GamesPanel';
 import { StyledMain } from '../../styled/SharedStyles';
 import Spinner from '../../components/spinner/Spinner';
+
+const StyledTextBook = styled(StyledMain)`
+  justify-content: space-between;
+`;
 
 const StyledTextBookSettings = styled('div')`
   display: flex;
   gap: 1rem;
   padding: 1rem;
   flex-direction: column;
+  align-items: center;
   position: sticky;
   bottom: 0;
   left: 0;
@@ -24,22 +26,19 @@ const StyledTextBookSettings = styled('div')`
   width: 100%;
 `;
 
-const StyledTextBookForm = styled('form')`
-  display: flex;
-  gap: 1rem;
-  align-items: center;
-  flex-direction: column;
-  padding: 0.5rem;
-`;
-
 function TextBookPage() {
-  const methods = useForm({
-    defaultValues: DefaultTextBookValues,
-  });
+  const [page, setPage] = useState(0);
+  const [group, setGroup] = useState(0);
 
-  const { data, isLoading } = useGetAllWordsQuery(methods.getValues(), {
-    refetchOnMountOrArgChange: true,
-  });
+  const { data, isLoading } = useGetAllWordsQuery(
+    { group, page },
+    {
+      refetchOnMountOrArgChange: true,
+    }
+  );
+
+  const pageMemo = useMemo(() => ({ page, setPage }), [page]);
+  const groupMemo = useMemo(() => ({ group, setGroup }), [group]);
 
   const { setContent } = useContext(ModalContext);
 
@@ -47,25 +46,21 @@ function TextBookPage() {
 
   if (data) {
     return (
-      <StyledMain>
+      <StyledTextBook>
         <WordList data={data} />
         <StyledTextBookSettings>
-          <FormProvider {...methods}>
-            <StyledTextBookForm onSubmit={methods.handleSubmit(() => {})}>
-              <PagePicker />
-              <GroupSelect />
-            </StyledTextBookForm>
-          </FormProvider>
+          <PagePicker values={pageMemo} />
+          <GroupSelect values={groupMemo} />
           <button
             type="button"
             onClick={() => {
-              setContent(<GamesPanel data={data as WordType[]} />);
+              setContent(<GamesPanel data={data} />);
             }}
           >
             Practice this set of words
           </button>
         </StyledTextBookSettings>
-      </StyledMain>
+      </StyledTextBook>
     );
   }
 

@@ -1,36 +1,3 @@
-export interface BasicUserCredentials {
-  email: string;
-  password: string;
-}
-
-export interface FirebaseErrorTypes {
-  error: {
-    errors: [
-      {
-        domain: string;
-        reason: string;
-        message: string;
-      },
-    ];
-    code: number;
-    message: string;
-  };
-}
-
-export interface ActiveUserTypes {
-  kind: string;
-  localId: string;
-  email: string;
-  displayName: string;
-  idToken: string;
-  registered: boolean;
-  refreshToken: string;
-  expiresIn: string;
-  profilePicture: string;
-}
-
-export type TextBookValuesTypes = { group: number; page: number };
-
 export enum GameType {
   SPRINT = 'Sprint',
   AUDIOCALL = 'Audiocall',
@@ -73,57 +40,42 @@ export enum NumberDivisibility {
   EVEN,
 }
 
-export interface PointsType {
-  step: number;
-  total: number;
+export enum ScreenSize {
+  MOBILE = '(min-width: 320px)',
+  TABLET = '(min-width: 768px)',
+  LAPTOPS = '(min-width: 1024px)',
+  LAPTOPL = '(min-width: 1920px)',
+}
+export enum CollectionType {
+  DIFFICULT = 'difficult',
+  LEARNED = 'learned',
+  SELECTED = 'selected',
 }
 
-export type ComplicatedResultType = {
-  answers: { correct: WordType[]; wrong: WordType[] };
-  step: number;
-  total: number;
-  streak: number;
-};
-
-export interface WordType {
-  id: string;
-  group: number;
-  page: number;
-  word: string;
-  image: string;
-  audio: string;
-  audioMeaning: string;
-  audioExample: string;
-  textMeaning: string;
-  textExample: string;
-  transcription: string;
-  wordTranslate: string;
-  textMeaningTranslate: string;
-  textExampleTranslate: string;
+export interface FirebaseErrorTypes {
+  error: {
+    errors: [
+      {
+        domain: string;
+        reason: string;
+        message: string;
+      },
+    ];
+    code: number;
+    message: string;
+  };
 }
 
-export interface ResultStatsType {
-  correct: WordType[];
-  wrong: WordType[];
-  percent: number;
-  message: string;
-}
-
-export interface ActiveWordsTypes {
-  first: WordType;
-  second: WordType;
-}
-
-export type ChildrenProps = string | JSX.Element | JSX.Element[];
-
-export interface WordForDrop {
-  key: string;
-  element: string | number;
-}
-
-export interface DropData {
-  source: WordForDrop[];
-  result: WordForDrop[];
+export interface ActiveUserTypes {
+  kind: string;
+  localId: string;
+  email: string;
+  displayName: string;
+  idToken: string;
+  registered: boolean;
+  refreshToken: string;
+  expiresIn: string;
+  profilePicture: string;
 }
 
 export interface AuthError {
@@ -133,12 +85,66 @@ export interface AuthError {
   error: string;
 }
 
-export enum ScreenSize {
-  MOBILE = '(min-width: 320px)',
-  TABLET = '(min-width: 768px)',
-  LAPTOPS = '(min-width: 1024px)',
-  LAPTOPL = '(min-width: 1920px)',
+export interface BasicUserCredentials {
+  email: string;
+  password: string;
 }
+
+export type GroupType = { group: number };
+export type PageType = { page: number };
+
+export type TextBookValuesTypes = GroupType & PageType;
+
+export type TotalType = { total: number };
+
+export type StepType = { step: number };
+
+export type StreakType = { streak: number };
+
+export type PointsType = StepType & TotalType;
+
+export type AnswersType = {
+  answers: { correct: WordType[]; wrong: WordType[] };
+};
+
+export type ProgressType = { total: number } & StreakType;
+
+export type ComplicatedResultType = AnswersType & PointsType & StreakType;
+
+export type WordType = PageType &
+  GroupType & {
+    id: string;
+    word: string;
+    image: string;
+    audio: string;
+    audioMeaning: string;
+    audioExample: string;
+    textMeaning: string;
+    textExample: string;
+    transcription: string;
+    wordTranslate: string;
+    textMeaningTranslate: string;
+    textExampleTranslate: string;
+  };
+
+export interface ActiveWordsTypes {
+  first: WordType;
+  second: WordType;
+}
+
+export interface WordForDrop {
+  key: string;
+  element: string;
+}
+
+export interface DropData {
+  source: WordForDrop[];
+  result: WordForDrop[];
+}
+
+export type DnDWordType = WordType & {
+  dnd: DropData;
+};
 
 export type WordWithIdDataType = WordType & {
   guessed?: number;
@@ -151,12 +157,6 @@ export interface WordWithIdType {
   [wordId: string]: WordWithIdDataType;
 }
 
-export enum CollectionType {
-  DIFFICULT = 'difficult',
-  LEARNED = 'learned',
-  SELECTED = 'selected',
-}
-
 export interface CollectionLikeArraysType {
   [CollectionType.DIFFICULT]: WordWithIdDataType[];
   [CollectionType.LEARNED]: WordWithIdDataType[];
@@ -164,15 +164,24 @@ export interface CollectionLikeArraysType {
   all: WordWithIdDataType[];
 }
 
-export interface UserWordsData {
-  userId: string;
-  words: WordWithIdType;
-}
-
-export interface Users {
-  [userId: string]: UserWordsData;
-}
-
 export type UserIdType = { userId: string };
 
 export type WordIdType = { wordId: string };
+
+export interface Users {
+  [userId: string]: UserIdType & {
+    words: WordWithIdType;
+  };
+}
+
+export type ResultsState = {
+  sprint: ComplicatedResultType;
+  puzzles: { middleResult: boolean } & PointsType;
+  audiocall: ComplicatedResultType;
+  constructor: PointsType & AnswersType;
+};
+
+export type UpdateResultType = {
+  isAnswerCorrect: boolean;
+  word: WordType;
+};

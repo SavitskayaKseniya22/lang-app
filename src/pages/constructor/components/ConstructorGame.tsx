@@ -4,7 +4,6 @@ import styled, { css } from 'styled-components';
 import { StyledGameContainer, StyledMain } from '../../../styled/SharedStyles';
 import { DataQueue } from '../../../utils';
 import { StyledPuzzlesGameAnswer } from '../../sentences/components/PuzzlesGame';
-import { ChildrenProps } from '../../../interfaces';
 import GameInfo from '../../game/components/GameInfo';
 import Points from '../../game/components/Points';
 import ProgressTracking from '../../game/components/ProgressTracking';
@@ -64,7 +63,7 @@ export function ConstructorButton({
   children,
   addToClick,
 }: {
-  children: ChildrenProps;
+  children: React.ReactNode;
   addToClick: () => void;
 }) {
   const [disabled, setDisabled] = useState(false);

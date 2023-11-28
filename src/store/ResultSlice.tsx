@@ -6,6 +6,9 @@ import {
   StreakValues,
   ComplicatedResultType,
   WordType,
+  ResultsState,
+  StepType,
+  UpdateResultType,
 } from '../interfaces';
 
 export function updateResultData(
@@ -48,26 +51,14 @@ export function updateResultData(
   };
 }
 
+const initAnswersValue = { correct: [], wrong: [] };
+
 const initComplicatedResultValue = {
-  answers: { correct: [], wrong: [] },
+  answers: initAnswersValue,
   step: StepValues.MIN,
   total: 0,
   streak: StreakValues.MIN,
 };
-
-export interface ResultsState {
-  sprint: ComplicatedResultType;
-  puzzles: { middleResult: boolean; step: number; total: number };
-  audiocall: ComplicatedResultType;
-  constructor: {
-    step: number;
-    total: number;
-    answers: {
-      correct: WordType[];
-      wrong: WordType[];
-    };
-  };
-}
 
 const initPuzzlesResultValue = {
   middleResult: false,
@@ -76,7 +67,7 @@ const initPuzzlesResultValue = {
 };
 
 const initConstructorResultValue = {
-  answers: { correct: [], wrong: [] },
+  answers: initAnswersValue,
   step: 10,
   total: 0,
 };
@@ -92,10 +83,7 @@ export const resultsSlice = createSlice({
   name: 'results',
   initialState,
   reducers: {
-    updateSprintResult: (
-      state,
-      action: PayloadAction<{ isAnswerCorrect: boolean; word: WordType }>
-    ) => {
+    updateSprintResult: (state, action: PayloadAction<UpdateResultType>) => {
       state.sprint = updateResultData(
         state.sprint,
         action.payload.isAnswerCorrect,
@@ -107,7 +95,7 @@ export const resultsSlice = createSlice({
       state.sprint = initComplicatedResultValue;
     },
 
-    setPuzzlesResult: (state, action: PayloadAction<{ step: number }>) => {
+    setPuzzlesResult: (state, action: PayloadAction<StepType>) => {
       state.puzzles = { ...initPuzzlesResultValue, ...action.payload };
     },
 
@@ -124,10 +112,7 @@ export const resultsSlice = createSlice({
       state.puzzles.middleResult = false;
     },
 
-    updateAudiocallResult: (
-      state,
-      action: PayloadAction<{ isAnswerCorrect: boolean; word: WordType }>
-    ) => {
+    updateAudiocallResult: (state, action: PayloadAction<UpdateResultType>) => {
       state.audiocall = updateResultData(
         state.audiocall,
         action.payload.isAnswerCorrect,
@@ -137,7 +122,7 @@ export const resultsSlice = createSlice({
 
     updateConstructorResult: (
       state,
-      action: PayloadAction<{ isAnswerCorrect: boolean; word: WordType }>
+      action: PayloadAction<UpdateResultType>
     ) => {
       const answers = action.payload.isAnswerCorrect
         ? {

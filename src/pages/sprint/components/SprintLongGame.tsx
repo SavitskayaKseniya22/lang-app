@@ -4,6 +4,7 @@ import { useGetAllWordsQuery } from '../../../store/wordsApi';
 import {
   ActiveWordsTypes,
   DefaultTextBookValues,
+  GroupType,
   WordBaseValues,
 } from '../../../interfaces';
 import { DataQueue, checkIfAnswerCorrect } from '../../../utils';
@@ -18,11 +19,7 @@ import { updateSprintResult } from '../../../store/ResultSlice';
 import { StyledGameContainer, StyledMain } from '../../../styled/SharedStyles';
 import GameInfo from '../../game/components/GameInfo';
 
-function SprintLongGame({
-  group = DefaultTextBookValues.group,
-}: {
-  group: number;
-}) {
+function SprintLongGame({ group = DefaultTextBookValues.group }: GroupType) {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { sprint } = useAppSelector((state) => state.resultsReducer);

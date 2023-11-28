@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { makeEmptyArrayWithIds } from '../../../utils';
+import { ProgressType } from '../../../interfaces';
 
 const StyledStreak = styled('ul')`
   display: flex;
@@ -20,7 +21,7 @@ const StyledStreakItem = styled('li')<{ $type: 'fullfilled' | 'empty' }>`
       : 'rgba(233, 197, 106, 0.2)'};
 `;
 
-function Streak({ streak, total }: { streak: number; total: number }) {
+function Streak({ streak, total }: ProgressType) {
   return (
     <StyledStreak>
       {makeEmptyArrayWithIds(total).map((item, i) => (

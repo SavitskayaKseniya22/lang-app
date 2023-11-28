@@ -1,22 +1,11 @@
 import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 import React from 'react';
-import { FirebaseErrorTypes, WordBaseValues, WordType } from './interfaces';
-
-export function checkColor($groupColor: number) {
-  const colors = [
-    'rgb(244, 162, 97)',
-    'rgb(212, 75, 56)',
-    'rgb(42, 157, 143)',
-    'rgb(38, 70, 83)',
-    'blueviolet',
-    'black',
-  ];
-  return colors[$groupColor];
-}
-
-export function checkDisabled(number: number, ref: number) {
-  return number === ref || false;
-}
+import {
+  DnDWordType,
+  FirebaseErrorTypes,
+  WordBaseValues,
+  WordType,
+} from './interfaces';
 
 export function getRandom(min: number, max: number) {
   return Math.trunc(Math.random() * (max + 1 - min) + min);
@@ -58,15 +47,11 @@ export function shuffle<T>(array: Array<T>): Array<T> {
   return arrayCopy;
 }
 
-export function convertArray(array: Array<string | number>) {
-  return array.map((item, i) => ({
-    element: item || i,
+export function convertArray(array: string[]) {
+  return array.map((item) => ({
+    element: item,
     key: Math.random().toString(),
   }));
-}
-
-export function makeStringArrayWithIds(string: string) {
-  return convertArray(string.split(' '));
 }
 
 export function getRandomItemsFromArray<T>(
@@ -77,7 +62,7 @@ export function getRandomItemsFromArray<T>(
 }
 
 export function makeEmptyArrayWithIds(length: number) {
-  return convertArray(new Array(length).fill(0));
+  return convertArray(new Array(length).fill('0'));
 }
 
 export function transformAuthError(response: FetchBaseQueryError) {
@@ -106,28 +91,20 @@ export function fetchAndCreateReactImage(partOfUrl: string) {
     );
 }
 
-export function checkPartition({
-  value,
+export function divideSentence({
   sentence,
+  difficulty,
 }: {
-  value: string;
   sentence: string;
+  difficulty: number;
 }) {
-  const length = sentence?.split(' ').length;
-
-  const table = [4, 6, length];
-
-  if ((+value === 0 && length < 4) || (+value === 1 && length < 6)) {
-    return length;
-  }
-
-  return table[+value] || 6;
-}
-
-export function divideSentence(sentence: string, value: number) {
   const arr = sentence.split(' ');
-  const maxWordsInPart = Math.round(arr.length / value);
+  const partition = [4, 6, arr.length][difficulty];
+
+  const maxWordsInPart = Math.round(arr.length / partition);
+
   let dividedSentence: string[] = [];
+
   while (arr.length >= maxWordsInPart) {
     const part = arr.splice(0, maxWordsInPart);
     dividedSentence = dividedSentence.concat(part.join(' '));
@@ -162,6 +139,25 @@ export class DataQueue {
     return item;
   }
 
+  nextPuzzle(difficulty: string): DnDWordType {
+    const item = this.elements[this.head];
+    this.head += 1;
+    return {
+      ...item,
+      dnd: {
+        source: shuffle(
+          convertArray(
+            divideSentence({
+              sentence: item.textExample,
+              difficulty: +difficulty,
+            })
+          )
+        ),
+        result: [],
+      },
+    };
+  }
+
   nextWordLikeArray() {
     const item = this.elements[this.head];
     this.head += 1;
@@ -173,10 +169,6 @@ export class DataQueue {
       letters,
       shuffledLetters: shuffle(letters),
     };
-  }
-
-  peek() {
-    return this.elements[this.head];
   }
 
   nextPair() {
@@ -214,6 +206,6 @@ export class DataQueue {
   }
 }
 
-export function checkStepValue(dif: string) {
-  return [5, 10, 15][+dif] || 5;
+export function checkStepValue(difficulty: string) {
+  return [5, 10, 15][+difficulty];
 }

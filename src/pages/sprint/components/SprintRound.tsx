@@ -38,8 +38,10 @@ function SprintRound({
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.code === 'ArrowLeft') {
+        e.preventDefault();
         handleClick('false');
       } else if (e.code === 'ArrowRight') {
+        e.preventDefault();
         handleClick('true');
       }
     };

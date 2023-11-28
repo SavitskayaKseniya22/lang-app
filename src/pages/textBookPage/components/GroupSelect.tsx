@@ -1,7 +1,6 @@
-/* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
-import { useFormContext } from 'react-hook-form';
 import styled from 'styled-components';
+import { GroupType } from '../../../interfaces';
 
 const StyledGroupSelect = styled('select')`
   background-color: transparent;
@@ -12,11 +11,19 @@ const StyledGroupSelect = styled('select')`
   line-height: inherit;
 `;
 
-function GroupSelect() {
-  const { register } = useFormContext();
-
+function GroupSelect({
+  values,
+}: {
+  values: GroupType & {
+    setGroup: React.Dispatch<React.SetStateAction<number>>;
+  };
+}) {
   return (
-    <StyledGroupSelect {...register('group')}>
+    <StyledGroupSelect
+      onChange={(e) => {
+        values.setGroup(+e.target.value);
+      }}
+    >
       <option value="0">Choose word difficulty - Basic</option>
       <option value="1">Light</option>
       <option value="2">Medium</option>

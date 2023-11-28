@@ -1,10 +1,9 @@
 import React, { useContext } from 'react';
 import { createPortal } from 'react-dom';
 import styled from 'styled-components';
-import { ChildrenProps } from '../../interfaces';
 import ModalContext from './ModalContext';
 
-function ReactPortal({ children }: { children: ChildrenProps }) {
+function ReactPortal({ children }: { children: React.ReactNode }) {
   return createPortal(children, document.getElementById('root') as HTMLElement);
 }
 

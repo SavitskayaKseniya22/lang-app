@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import { ChildrenProps } from '../../../interfaces';
 
 const StyledGameInfo = styled('div')`
   display: flex;
@@ -11,7 +10,7 @@ const StyledGameInfo = styled('div')`
   align-items: center;
 `;
 
-function GameInfo({ children }: { children: ChildrenProps }) {
+function GameInfo({ children }: { children: React.ReactNode }) {
   return <StyledGameInfo>{children}</StyledGameInfo>;
 }
 

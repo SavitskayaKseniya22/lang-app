@@ -1,7 +1,6 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { WordType } from '../../../interfaces';
 import {
   StyledGameContainer,
   StyledMain,
@@ -15,6 +14,7 @@ import Points from '../../game/components/Points';
 import { updatePuzzlesTotalResult } from '../../../store/ResultSlice';
 import ProgressTracking from '../../game/components/ProgressTracking';
 import GameInfo from '../../game/components/GameInfo';
+import { GameContext } from '../../game/components/GameStartScreen';
 
 export const StyledPuzzlesGameAnswer = styled('h4')<{
   $type: 'correct' | 'wrong';
@@ -24,16 +24,20 @@ export const StyledPuzzlesGameAnswer = styled('h4')<{
 `;
 
 function PuzzlesGame({ data }: { data: DataQueue }) {
-  const updater = useCallback(() => data.next(), [data]);
-
-  const [word, setWord] = useState<WordType>(updater);
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
   const { puzzles } = useAppSelector((state) => state.resultsReducer);
 
-  const [middleResult, setMiddleResult] = useState<null | boolean>(null);
+  const { initial } = useContext(GameContext);
 
-  const navigate = useNavigate();
-  const dispatch = useAppDispatch();
+  const updater = useCallback(
+    () => data.nextPuzzle(initial.group),
+    [data, initial.group]
+  );
+
+  const [word, setWord] = useState(updater);
+  const [middleResult, setMiddleResult] = useState<null | boolean>(null);
 
   return (
     <StyledMain>

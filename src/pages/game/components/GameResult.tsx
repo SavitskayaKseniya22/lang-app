@@ -1,14 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Navigate } from 'react-router-dom';
-import { ComplicatedResultType, ResultStatsType } from '../../../interfaces';
+import { ComplicatedResultType } from '../../../interfaces';
 import { getPercent, getResultMessage } from '../../../utils';
 import WordList from '../../textBookPage/components/WordList';
 import { StyledMain } from '../../../styled/SharedStyles';
 import { useAppSelector } from '../../../store/store';
 import GameResultDetailed from './GameResultDetailed';
 
-export function makeResult(state: ComplicatedResultType): ResultStatsType {
+export function makeResult(state: ComplicatedResultType) {
   const { correct, wrong } = state.answers;
 
   const percent = getPercent(correct.length + wrong.length, correct.length);

@@ -1,11 +1,10 @@
 /* eslint-disable react/jsx-no-constructed-context-values */
 import React, { useState } from 'react';
-import { ChildrenProps } from '../../interfaces';
 import Modal from './Modal';
 import ModalContext from './ModalContext';
 
-function ModalProvider({ children }: { children: ChildrenProps }) {
-  const [content, setContent] = useState<ChildrenProps | null>(null);
+function ModalProvider({ children }: { children: React.ReactNode }) {
+  const [content, setContent] = useState<React.ReactNode | null>(null);
 
   return (
     <ModalContext.Provider

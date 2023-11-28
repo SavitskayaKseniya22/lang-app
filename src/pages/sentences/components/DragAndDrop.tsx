@@ -1,24 +1,17 @@
-/* eslint-disable jsx-a11y/click-events-have-key-events */
-/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
-/* eslint-disable react/jsx-no-bind */
 /* eslint-disable @typescript-eslint/no-shadow */
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable react/jsx-props-no-spreading */
+/* eslint-disable react/jsx-no-bind */
 import {
   DropResult,
   DragDropContext,
   Droppable,
   Draggable,
 } from '@hello-pangea/dnd';
-import React, { useCallback, useContext, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { WordForDrop, DropData, WordType } from '../../../interfaces';
-import {
-  checkPartition,
-  convertArray,
-  divideSentence,
-  shuffle,
-} from '../../../utils';
-import { GameContext } from '../../game/components/GameStartScreen';
+import { WordForDrop, DropData, DnDWordType } from '../../../interfaces';
 import { useAppDispatch } from '../../../store/store';
 import { updatePuzzlesMiddleResult } from '../../../store/ResultSlice';
 
@@ -65,28 +58,12 @@ function DragAndDrop({
   word,
   isItActive,
 }: {
-  word: WordType;
+  word: DnDWordType;
   isItActive: boolean;
 }) {
-  const { initial } = useContext(GameContext);
-  const difficulty = initial.group || '0';
-
   const dispatch = useAppDispatch();
 
-  const updater = useCallback(
-    () => ({
-      source: shuffle(
-        convertArray(
-          divideSentence(
-            word.textExample,
-            checkPartition({ value: difficulty, sentence: word.textExample })
-          )
-        )
-      ),
-      result: [],
-    }),
-    [difficulty, word.textExample]
-  );
+  const updater = useCallback(() => word.dnd, [word.dnd]);
 
   const [sentence, setSentence] = useState<DropData>(updater);
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { makeEmptyArrayWithIds } from '../../../utils';
-import { ScreenSize } from '../../../interfaces';
+import { ProgressType, ScreenSize } from '../../../interfaces';
 
 const StyledProgressTracking = styled('div')`
   display: flex;
@@ -42,13 +42,7 @@ const StyledProgressInfo = styled('h5')`
   }
 `;
 
-function ProgressTracking({
-  streak,
-  total,
-}: {
-  streak: number;
-  total: number;
-}) {
+function ProgressTracking({ streak, total }: ProgressType) {
   return (
     <StyledProgressTracking>
       <StyledProgressList>
