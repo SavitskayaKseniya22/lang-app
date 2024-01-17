@@ -23,6 +23,15 @@ const StyledModalOuterContainer = styled('div')`
   overflow: auto;
 `;
 
+const StyledModalInnerContainer = styled('div')`
+  min-width: 200px;
+  min-height: 200px;
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
 const StyledModalButton = styled('button')`
   position: absolute;
   top: 1rem;
@@ -55,7 +64,7 @@ function Modal() {
         >
           <i className="fa-solid fa-xmark" />
         </StyledModalButton>
-        {content}
+        <StyledModalInnerContainer>{content}</StyledModalInnerContainer>
       </StyledModalOuterContainer>
     </ReactPortal>
   );

@@ -10,10 +10,12 @@ import {
 import { useUpdateUserWordMutation } from '../../../store/userWordsApi';
 import { useAppSelector } from '../../../store/store';
 
-const StyledCollectionControl = styled('label')`
+const StyledCollectionControl = styled('label')<{ $isItchecked: boolean }>`
   display: flex;
   text-align: center;
   cursor: pointer;
+  opacity: ${(props) => (props.$isItchecked ? 1 : 0.3)};
+  color: rgba(38, 70, 83);
 
   input {
     display: none;
@@ -52,8 +54,11 @@ function CollectionControl({
   const isItChecked = watch(collectionType);
 
   return (
-    <StyledCollectionControl htmlFor={collectionType}>
-      {isItChecked ? `Remove from ${collectionType}` : `${collectionType}`}
+    <StyledCollectionControl
+      htmlFor={collectionType}
+      $isItchecked={isItChecked}
+    >
+      {collectionType}
       <input
         {...register(collectionType, {
           onChange: (e) => {

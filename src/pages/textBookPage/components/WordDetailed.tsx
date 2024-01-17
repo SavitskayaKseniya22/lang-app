@@ -14,8 +14,8 @@ const StyledWordDetailed = styled('div')`
   gap: 1rem;
   display: flex;
   flex-direction: column;
-  background-color: white;
   min-width: 288px;
+  padding: 1rem;
 `;
 
 const StyledWordDetailedTitle = styled('div')`
@@ -31,9 +31,19 @@ const StyledWordDetailedMedia = styled('div')`
   justify-content: center;
   align-items: center;
   gap: 1rem;
+  position: relative;
 
   img {
-    max-width: 50%;
+    max-width: 100%;
+    opacity: 0.6;
+  }
+
+  .media__audio {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: rgba(38, 70, 83);
   }
 `;
 
@@ -47,17 +57,14 @@ const StyledWordDetailedContent = styled('ul')`
     flex-direction: column;
     gap: 0.5rem;
   }
-
-  h4 {
-    background-color: rgba(38, 70, 83);
-    padding: 0.5rem;
-    border-radius: 0 0.5rem 0.5rem 0;
-    margin-right: 0.5rem;
-  }
 `;
 
 const StyledWordStatusPanel = styled('div')`
   display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: center;
+  justify-content: center;
 `;
 
 function WordDetailed({ wordData }: { wordData: WordType }) {
@@ -70,9 +77,9 @@ function WordDetailed({ wordData }: { wordData: WordType }) {
     isLoading,
   } = useGetUserWordQuery(
     {
-      userId: user!.localId,
+      userId: user?.localId || 'localId',
       wordId: wordData.id,
-      tokenId: user!.idToken,
+      tokenId: user?.idToken || 'tokenId',
     },
     { skip: !user }
   );
@@ -99,6 +106,11 @@ function WordDetailed({ wordData }: { wordData: WordType }) {
 
   return (
     <StyledWordDetailed>
+      <StyledWordDetailedTitle>
+        <h3>{word}</h3>
+        <StyledSpan>{transcription}</StyledSpan>
+        <h5>{wordTranslate}</h5>
+      </StyledWordDetailedTitle>
       {user && isSuccess && (
         <StyledWordStatusPanel>
           <CollectionControlPanel
@@ -111,20 +123,15 @@ function WordDetailed({ wordData }: { wordData: WordType }) {
 
       <StyledWordDetailedMedia>
         {image}
-        <WordAudio source={wordData.audio} />
+        <div className="media__audio">
+          <WordAudio source={wordData.audio} />
+        </div>
       </StyledWordDetailedMedia>
-
-      <StyledWordDetailedTitle>
-        <h3>{word}</h3>
-        <StyledSpan>{transcription}</StyledSpan>
-        <h5>{wordTranslate}</h5>
-      </StyledWordDetailedTitle>
 
       <StyledWordDetailedContent>
         <li>
           <h4>Meanings</h4>
           <StyledParagraph>{textMeaning}</StyledParagraph>
-
           <StyledParagraph>{textMeaningTranslate}</StyledParagraph>
         </li>
         <li>
