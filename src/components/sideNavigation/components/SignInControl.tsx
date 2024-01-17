@@ -1,6 +1,5 @@
 import React, { useContext } from 'react';
 import styled from 'styled-components';
-
 import ModalContext from '../../modal/ModalContext';
 import Auth from '../../auth/Auth';
 import { ScreenSize } from '../../../interfaces';

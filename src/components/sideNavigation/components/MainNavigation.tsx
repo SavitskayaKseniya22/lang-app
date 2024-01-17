@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { ScreenSize } from '../../../interfaces';
 import { useAppSelector } from '../../../store/store';
 import SignInControl from './SignInControl';
+import SignOutControl from './SignOutControl';
 
 const StyledNavigation = styled('ul')`
   display: flex;
@@ -147,6 +148,7 @@ function MainNavigation() {
                 </StyledNavLink>
               </li>
             </StyledNavigationSub>
+            <SignOutControl />
           </>
         ) : (
           <SignInControl />
