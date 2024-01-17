@@ -28,6 +28,7 @@ import GameStartScreen, {
 import PuzzleResult from './pages/sentences/components/PuzzleResult';
 import Constructor from './pages/constructor/Constructor';
 import ConstructorResult from './pages/constructor/components/ConstructorResult';
+import Statistics from './pages/statistics/Statistics';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -58,7 +59,7 @@ const router = createBrowserRouter(
 
         <Route path="/profile" element={<PrivateRoute />}>
           <Route index element={<Profile />} />
-          <Route path="statistics" element={<div>statistics</div>} />
+          <Route path="statistics" element={<Statistics />} />
           <Route path="collection" element={<Collection />} />
         </Route>
 

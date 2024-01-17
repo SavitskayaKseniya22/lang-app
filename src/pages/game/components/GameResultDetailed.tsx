@@ -84,8 +84,8 @@ function GameResultDetailed({
 
   return (
     <>
-      <h3>{`${newWords} new words encountered`}</h3>
-      <h3>{`${newLearned} new words learned`}</h3>
+      {!!newWords && <h3>{`${newWords} new words encountered`}</h3>}
+      {!!newLearned && <h3>{`${newLearned} new words learned`}</h3>}
     </>
   );
 }

@@ -3,18 +3,15 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { StyledMain } from '../../styled/SharedStyles';
 
-const StyledGames = styled(StyledMain)`
-  justify-content: center;
-  align-items: center;
-`;
-
 export const StyledGameList = styled('ul')`
   display: flex;
   flex-direction: column;
   gap: 1rem;
   padding: 1rem;
   align-items: center;
+  justify-content: center;
   background-color: white;
+  flex-grow: 2;
 `;
 
 export const StyledGameItem = styled('li')`
@@ -33,7 +30,8 @@ export const StyledGameItem = styled('li')`
 
 function Games() {
   return (
-    <StyledGames>
+    <StyledMain>
+      <h2>Games</h2>
       <StyledGameList>
         <StyledGameItem>
           <Link to="sprint">
@@ -56,7 +54,7 @@ function Games() {
           </Link>
         </StyledGameItem>
       </StyledGameList>
-    </StyledGames>
+    </StyledMain>
   );
 }
 

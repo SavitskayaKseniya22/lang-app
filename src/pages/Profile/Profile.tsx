@@ -3,20 +3,26 @@ import { Link } from 'react-router-dom';
 import { StyledMain } from '../../styled/SharedStyles';
 import { useAppDispatch } from '../../store/store';
 import { resetUser } from '../../store/auth/authSlice';
+import { StyledGameList, StyledGameItem } from '../Games/Games';
 
 function Profile() {
   const dispatch = useAppDispatch();
 
   return (
     <StyledMain>
-      <ul>
-        <li>
-          <Link to="collection">Collection</Link>
-        </li>
-        <li>
-          <Link to="statistics">Statistics</Link>
-        </li>
-      </ul>
+      <h2>Profile</h2>
+      <StyledGameList>
+        <StyledGameItem>
+          <Link to="collection">
+            <h4>Collection</h4>
+          </Link>
+        </StyledGameItem>
+        <StyledGameItem>
+          <Link to="statistics">
+            <h4>Statistics</h4>
+          </Link>
+        </StyledGameItem>
+      </StyledGameList>
       <button
         type="button"
         onClick={() => {

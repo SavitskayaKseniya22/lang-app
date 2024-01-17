@@ -20,9 +20,13 @@ export const StyledMain = styled('main')`
   gap: 1rem;
   flex-grow: 2;
   min-width: 320px;
-  justify-content: center;
   align-items: center;
   position: relative;
+  justify-content: space-between;
+
+  h2 {
+    align-self: flex-start;
+  }
 `;
 
 export const StyledParagraph = styled('p')<{ $type?: NumberDivisibility }>`

@@ -10,10 +10,6 @@ import {
   StyledParagraph,
 } from '../../styled/SharedStyles';
 
-export const StyledMainPage = styled(StyledMain)`
-  padding: 0;
-`;
-
 export const StyledMainPageBlock = styled('ul')`
   min-height: 100vh;
   width: 100%;
@@ -28,13 +24,13 @@ export const StyledMainPageBlock = styled('ul')`
   }
 
   @media ${ScreenSize.LAPTOPS} {
-    padding: 3rem;
+    padding: 2rem;
   }
 `;
 
 function MainPage() {
   return (
-    <StyledMainPage>
+    <StyledMain>
       <NavArrow />
       <StyledMainPageBlock id="section-0">
         <h1>Awesome language learning app</h1>
@@ -113,7 +109,7 @@ function MainPage() {
           </StyledParagraph>
         </li>
       </StyledMainPageBlock>
-    </StyledMainPage>
+    </StyledMain>
   );
 }
 

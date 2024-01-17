@@ -40,14 +40,25 @@ const GlobalStyle = createGlobalStyle`
     font-family: inherit;
     font-size:inherit;
     line-height: 1;
+    color: inherit;
+
+    &:disabled {
+        opacity: 0.3;
+        pointer-events:none;
+    }
   }
 
   a {
     text-decoration: none;
     font-family: inherit;
-    color:inherit;
-    font-size:inherit;
+    color: inherit;
+    font-size: inherit;
     line-height: 1;
+  }
+
+  i {
+    font-size: inherit;
+    color: inherit;
   }
 
 `;

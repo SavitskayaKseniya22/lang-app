@@ -9,15 +9,11 @@ import GamesPanel from './components/GamesPanel';
 import { StyledMain } from '../../styled/SharedStyles';
 import Spinner from '../../components/spinner/Spinner';
 
-const StyledTextBook = styled(StyledMain)`
+const StyledTextBookContainer = styled('div')`
+  display: flex;
+  flex-grow: 22;
+  align-items: center;
   justify-content: center;
-
-  .wordlist__container {
-    display: flex;
-    flex-grow: 22;
-    align-items: center;
-    justify-content: center;
-  }
 `;
 
 const StyledTextBookSettings = styled('div')`
@@ -54,11 +50,11 @@ function TextBookPage() {
 
   if (data) {
     return (
-      <StyledTextBook>
-        <div className="wordlist__container">
+      <StyledMain>
+        <h2>Textbook</h2>
+        <StyledTextBookContainer>
           <WordList data={data} />
-        </div>
-
+        </StyledTextBookContainer>
         <StyledTextBookSettings>
           <PagePicker values={pageMemo} />
           <GroupSelect values={groupMemo} />
@@ -71,7 +67,7 @@ function TextBookPage() {
             Practice this set of words
           </button>
         </StyledTextBookSettings>
-      </StyledTextBook>
+      </StyledMain>
     );
   }
 

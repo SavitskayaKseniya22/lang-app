@@ -10,14 +10,11 @@ const StyledGitHubLink = styled(Link)`
   bottom: 0;
   left: 0;
   z-index: 101;
+  color: black;
+  font-size: 2rem;
 
-  i {
-    color: black;
-    font-size: 2rem;
-
-    @media ${ScreenSize.TABLET} {
-      color: white;
-    }
+  @media ${ScreenSize.TABLET} {
+    color: white;
   }
 `;
 
