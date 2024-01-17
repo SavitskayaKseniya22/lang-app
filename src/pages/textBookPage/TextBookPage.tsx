@@ -10,7 +10,14 @@ import { StyledMain } from '../../styled/SharedStyles';
 import Spinner from '../../components/spinner/Spinner';
 
 const StyledTextBook = styled(StyledMain)`
-  justify-content: space-between;
+  justify-content: center;
+
+  .wordlist__container {
+    display: flex;
+    flex-grow: 22;
+    align-items: center;
+    justify-content: center;
+  }
 `;
 
 const StyledTextBookSettings = styled('div')`
@@ -19,6 +26,7 @@ const StyledTextBookSettings = styled('div')`
   padding: 1rem;
   flex-direction: column;
   align-items: center;
+
   position: sticky;
   bottom: 0;
   left: 0;
@@ -47,7 +55,10 @@ function TextBookPage() {
   if (data) {
     return (
       <StyledTextBook>
-        <WordList data={data} />
+        <div className="wordlist__container">
+          <WordList data={data} />
+        </div>
+
         <StyledTextBookSettings>
           <PagePicker values={pageMemo} />
           <GroupSelect values={groupMemo} />

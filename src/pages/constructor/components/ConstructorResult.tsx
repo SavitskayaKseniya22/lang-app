@@ -11,8 +11,6 @@ import WordList from '../../textBookPage/components/WordList';
 function ConstructorResult() {
   const { constructor } = useAppSelector((state) => state.resultsReducer);
 
-  const { user } = useAppSelector((state) => state.persist.auth);
-  console.log(user);
   if (
     constructor &&
     constructor.answers.correct.length &&
@@ -21,7 +19,6 @@ function ConstructorResult() {
     return (
       <StyledMain>
         <h2>{constructor.total} points</h2>
-
         <StyledGameResultContent>
           <StyledGameResultContentItem>
             <h4>{`Correct (${constructor.answers.correct.length}):`}</h4>
@@ -40,5 +37,3 @@ function ConstructorResult() {
 }
 
 export default ConstructorResult;
-
-// {user && <GameResultDetailed userId={user.localId} result={result} />}
