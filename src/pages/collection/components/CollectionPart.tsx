@@ -49,7 +49,11 @@ function CollectionPart({
             Object.assign(updatedWords, { [word.id]: temp });
           });
 
-          addToUserWords({ userId: user!.localId, data: updatedWords });
+          addToUserWords({
+            userId: user!.localId,
+            data: updatedWords,
+            tokenId: user!.idToken,
+          });
         }}
       >
         Clear this part of collection

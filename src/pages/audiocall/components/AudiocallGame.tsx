@@ -8,7 +8,7 @@ import { useAppDispatch, useAppSelector } from '../../../store/store';
 import Points from '../../game/components/Points';
 import Streak from '../../game/components/Streak';
 import { updateAudiocallResult } from '../../../store/ResultSlice';
-import { AudiocallMedia } from './AudiocallMedia';
+import WordAudio from '../../textBookPage/components/WordAudio';
 import GameInfo from '../../game/components/GameInfo';
 import ProgressTracking from '../../game/components/ProgressTracking';
 
@@ -107,7 +107,7 @@ function AudiocallGame({ data }: { data: DataQueue }) {
 
       <StyledGameContainer>
         <Streak streak={audiocall.streak} total={3} />
-        <AudiocallMedia source={words.ref.audio} />
+        <WordAudio source={words.ref.audio} />
         {middleResult !== null ? (
           <>
             <StyledPuzzlesGameAnswer $type={middleResult ? 'correct' : 'wrong'}>

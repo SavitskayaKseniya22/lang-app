@@ -4,6 +4,7 @@ import {
   useAddToUserWordsMutation,
   useGetUserWordsQuery,
 } from '../../../store/userWordsApi';
+import { useAppSelector } from '../../../store/store';
 
 function GameResultDetailed({
   userId,
@@ -15,8 +16,12 @@ function GameResultDetailed({
   const { correct, wrong } = result.answers;
   const [newWords, setNewWords] = useState(0);
   const [newLearned, setNewLearned] = useState(0);
+  const { user } = useAppSelector((state) => state.persist.auth);
 
-  const { data: userWords, isSuccess } = useGetUserWordsQuery({ userId });
+  const { data: userWords, isSuccess } = useGetUserWordsQuery({
+    userId,
+    tokenId: user!.idToken,
+  });
 
   const [addToUserWords] = useAddToUserWordsMutation();
 
@@ -33,7 +38,7 @@ function GameResultDetailed({
           resultForSave[word.id] = { ...word, guessed: 0 };
         });
 
-        addToUserWords({ userId, data: resultForSave });
+        addToUserWords({ userId, data: resultForSave, tokenId: user!.idToken });
         setNewWords(correct.length + wrong.length);
       } else {
         const resultForSave: WordWithIdType = {};
@@ -66,7 +71,7 @@ function GameResultDetailed({
           }
         });
 
-        addToUserWords({ userId, data: resultForSave });
+        addToUserWords({ userId, data: resultForSave, tokenId: user!.idToken });
 
         setNewWords(
           [...correct, ...wrong].filter(
@@ -75,7 +80,7 @@ function GameResultDetailed({
         );
       }
     }
-  }, [addToUserWords, correct, isSuccess, userId, userWords, wrong]);
+  }, [addToUserWords, correct, isSuccess, user, userId, userWords, wrong]);
 
   return (
     <>

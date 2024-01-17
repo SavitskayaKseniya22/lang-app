@@ -2,7 +2,7 @@ import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 import React from 'react';
 import {
   DnDWordType,
-  FirebaseErrorTypes,
+  FirebaseAuthErrorTypes,
   WordBaseValues,
   WordType,
 } from './interfaces';
@@ -66,7 +66,7 @@ export function makeEmptyArrayWithIds(length: number) {
 }
 
 export function transformAuthError(response: FetchBaseQueryError) {
-  const { message } = (response.data as FirebaseErrorTypes).error;
+  const { message } = (response.data as FirebaseAuthErrorTypes).error;
   return {
     code: response.status,
     message: message.toLowerCase().replaceAll('_', ' '),

@@ -2,23 +2,23 @@
 import React, { useRef } from 'react';
 import styled from 'styled-components';
 
-const StyledAudiocallMediaControl = styled('button')`
+const StyledWordAudioControl = styled('button')`
   font-size: 4rem;
 `;
 
-export function AudiocallMedia({ source }: { source: string }) {
+function WordAudio({ source }: { source: string }) {
   const audioRef = useRef<HTMLAudioElement>(null);
 
   return (
     <>
-      <StyledAudiocallMediaControl
+      <StyledWordAudioControl
         type="button"
         onClick={() => {
           audioRef.current?.play();
         }}
       >
         <i className="fa-regular fa-circle-play" />
-      </StyledAudiocallMediaControl>
+      </StyledWordAudioControl>
       <audio
         ref={audioRef}
         src={`https://raw.githubusercontent.com/irinainina/rslang/rslang-data/data/${source}`}
@@ -27,4 +27,4 @@ export function AudiocallMedia({ source }: { source: string }) {
   );
 }
 
-export default AudiocallMedia;
+export default WordAudio;

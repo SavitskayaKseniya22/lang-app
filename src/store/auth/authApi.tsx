@@ -6,8 +6,9 @@ import {
   BasicUserCredentials,
   ActiveUserTypes,
 } from '../../interfaces';
-import { transformAuthError } from '../../utils';
+
 import { setUser } from './authSlice';
+import { transformAuthError } from '../../utils';
 
 export const authApi = createApi({
   reducerPath: 'authApi',
@@ -32,8 +33,8 @@ export const authApi = createApi({
           toast.success('You are registered successfully');
         } catch (err) {
           if (err && typeof err === 'object' && 'error' in err) {
-            const { message, code } = (err as FirebaseErrorTypes).error;
-            toast.error(`${code}: ${message}`);
+            const { status, data } = (err as FirebaseErrorTypes).error;
+            toast.error(`${status}: ${data.error}`);
           }
         }
       },
@@ -56,8 +57,8 @@ export const authApi = createApi({
           toast.success("You've successfully logged in");
         } catch (err) {
           if (err && typeof err === 'object' && 'error' in err) {
-            const { message, code } = (err as FirebaseErrorTypes).error;
-            toast.error(`${code}: ${message}`);
+            const { status, data } = (err as FirebaseErrorTypes).error;
+            toast.error(`${status}: ${data.error}`);
           }
         }
       },

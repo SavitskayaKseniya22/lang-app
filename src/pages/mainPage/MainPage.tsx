@@ -43,7 +43,7 @@ function MainPage() {
         </StyledLink>
       </StyledMainPageBlock>
       <StyledMainPageBlock id="section-1">
-        <li className="feature">
+        <li>
           <NavLink to="/games/audiocall">
             <h2>Audio Challenge</h2>
             <StyledParagraph>
@@ -51,7 +51,7 @@ function MainPage() {
             </StyledParagraph>
           </NavLink>
         </li>
-        <li className="feature">
+        <li>
           <NavLink to="/games/puzzles">
             <h2>Puzzles</h2>
             <StyledParagraph>
@@ -60,13 +60,13 @@ function MainPage() {
             </StyledParagraph>
           </NavLink>
         </li>
-        <li className="feature">
+        <li>
           <NavLink to="/games/constructor">
             <h2>Word constructor</h2>
             <StyledParagraph>Improve your spelling!</StyledParagraph>
           </NavLink>
         </li>
-        <li className="feature">
+        <li>
           <NavLink to="/games/sprint">
             <h2>Sprint</h2>
             <StyledParagraph>

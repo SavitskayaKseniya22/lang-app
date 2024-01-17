@@ -18,6 +18,9 @@ const StyledModalOuterContainer = styled('div')`
   align-items: center;
   justify-content: center;
   z-index: 130;
+  padding: 4rem 1rem;
+  top: 0;
+  overflow: auto;
 `;
 
 const StyledModalButton = styled('button')`

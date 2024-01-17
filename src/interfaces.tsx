@@ -54,6 +54,18 @@ export enum CollectionType {
 
 export interface FirebaseErrorTypes {
   error: {
+    status: string;
+    data: { error: string };
+  };
+  isUnhandledError: boolean;
+  meta: {
+    request: {};
+    response: {};
+  };
+}
+
+export interface FirebaseAuthErrorTypes {
+  error: {
     errors: [
       {
         domain: string;

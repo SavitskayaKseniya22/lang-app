@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/media-has-caption */
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { WordType } from '../../../interfaces';
@@ -9,17 +8,14 @@ import Spinner from '../../../components/spinner/Spinner';
 import { useAppSelector } from '../../../store/store';
 import { useGetUserWordQuery } from '../../../store/userWordsApi';
 import WordProgress from './WordProgress';
+import WordAudio from './WordAudio';
 
 const StyledWordDetailed = styled('div')`
   gap: 1rem;
   display: flex;
   flex-direction: column;
   background-color: white;
-  min-height: 300px;
-  min-width: 300px;
-  max-height: 80vh;
-  max-width: 70vw;
-  padding: 1rem;
+  min-width: 288px;
 `;
 
 const StyledWordDetailedTitle = styled('div')`
@@ -60,6 +56,10 @@ const StyledWordDetailedContent = styled('ul')`
   }
 `;
 
+const StyledWordStatusPanel = styled('div')`
+  display: flex;
+`;
+
 function WordDetailed({ wordData }: { wordData: WordType }) {
   const [image, setImage] = useState<React.ReactElement | null>();
   const { user } = useAppSelector((state) => state.persist.auth);
@@ -72,6 +72,7 @@ function WordDetailed({ wordData }: { wordData: WordType }) {
     {
       userId: user!.localId,
       wordId: wordData.id,
+      tokenId: user!.idToken,
     },
     { skip: !user }
   );
@@ -99,22 +100,18 @@ function WordDetailed({ wordData }: { wordData: WordType }) {
   return (
     <StyledWordDetailed>
       {user && isSuccess && (
-        <CollectionControlPanel
-          wordData={wordData}
-          wordDataDetailed={wordDataDetailed}
-        />
-      )}
-
-      {user && isSuccess && (
-        <WordProgress wordDataDetailed={wordDataDetailed} />
+        <StyledWordStatusPanel>
+          <CollectionControlPanel
+            wordData={wordData}
+            wordDataDetailed={wordDataDetailed}
+          />
+          <WordProgress wordDataDetailed={wordDataDetailed} />
+        </StyledWordStatusPanel>
       )}
 
       <StyledWordDetailedMedia>
         {image}
-        <button type="button">Play</button>
-        <audio
-          src={`https://raw.githubusercontent.com/irinainina/rslang/rslang-data/data/${wordData.audio}`}
-        />
+        <WordAudio source={wordData.audio} />
       </StyledWordDetailedMedia>
 
       <StyledWordDetailedTitle>
@@ -127,6 +124,7 @@ function WordDetailed({ wordData }: { wordData: WordType }) {
         <li>
           <h4>Meanings</h4>
           <StyledParagraph>{textMeaning}</StyledParagraph>
+
           <StyledParagraph>{textMeaningTranslate}</StyledParagraph>
         </li>
         <li>

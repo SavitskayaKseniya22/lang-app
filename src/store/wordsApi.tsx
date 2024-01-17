@@ -8,6 +8,15 @@ import {
 } from '../interfaces';
 import { getRandom } from '../utils';
 
+function handleError(err: unknown) {
+  if (err && typeof err === 'object' && 'error' in err) {
+    const { status, data } = (err as FirebaseErrorTypes).error;
+    toast.error(`${status}: ${data.error}`);
+  } else {
+    toast.error(`Not specific error`);
+  }
+}
+
 export const wordsApi = createApi({
   reducerPath: 'wordsApi',
   baseQuery: fetchBaseQuery({
@@ -24,10 +33,7 @@ export const wordsApi = createApi({
         try {
           await queryFulfilled;
         } catch (err) {
-          if (err && typeof err === 'object' && 'error' in err) {
-            const { message, code } = (err as FirebaseErrorTypes).error;
-            toast.error(`${code}: ${message}`);
-          }
+          handleError(err);
         }
       },
     }),
@@ -45,10 +51,7 @@ export const wordsApi = createApi({
         try {
           await queryFulfilled;
         } catch (err) {
-          if (err && typeof err === 'object' && 'error' in err) {
-            const { message, code } = (err as FirebaseErrorTypes).error;
-            toast.error(`${code}: ${message}`);
-          }
+          handleError(err);
         }
       },
     }),

@@ -23,12 +23,13 @@ function SignUp() {
       signUp(data)
         .unwrap()
         .then((res) => {
-          const { localId } = res;
-          createUserData({ userId: localId });
+          const { localId, idToken } = res;
+          createUserData({ userId: localId, tokenId: idToken });
         })
         .then(() => {
           signIn({ email, password });
         })
+
         .then(() => {
           setContent(null);
           navigate('/profile');

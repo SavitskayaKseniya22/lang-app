@@ -14,6 +14,7 @@ function Collection() {
 
   const { data, isLoading, isSuccess } = useGetUserWordsCollectionsQuery({
     userId: user!.localId,
+    tokenId: user!.idToken,
   });
 
   const [addToUserWords] = useAddToUserWordsMutation();
@@ -46,7 +47,11 @@ function Collection() {
                 });
               });
 
-              addToUserWords({ userId: user!.localId, data: updatedWords });
+              addToUserWords({
+                userId: user!.localId,
+                data: updatedWords,
+                tokenId: user!.idToken,
+              });
             }
           }}
         >

@@ -13,6 +13,11 @@ import { useAppSelector } from '../../../store/store';
 const StyledCollectionControl = styled('label')`
   display: flex;
   text-align: center;
+  cursor: pointer;
+
+  input {
+    display: none;
+  }
 `;
 
 function CollectionControl({
@@ -48,9 +53,7 @@ function CollectionControl({
 
   return (
     <StyledCollectionControl htmlFor={collectionType}>
-      {isItChecked
-        ? `Remove from ${collectionType}`
-        : `Add to ${collectionType}`}
+      {isItChecked ? `Remove from ${collectionType}` : `${collectionType}`}
       <input
         {...register(collectionType, {
           onChange: (e) => {
@@ -93,6 +96,7 @@ function CollectionControl({
               userId: user!.localId,
               wordId: wordData.id,
               data,
+              tokenId: user!.idToken,
             });
           },
         })}
