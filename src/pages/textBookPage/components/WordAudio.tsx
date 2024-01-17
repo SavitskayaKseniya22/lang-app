@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/media-has-caption */
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import styled from 'styled-components';
 
 const StyledWordAudioControl = styled('button')`
@@ -7,6 +7,7 @@ const StyledWordAudioControl = styled('button')`
 `;
 
 function WordAudio({ source }: { source: string }) {
+  const [isPlaying, setIsPlaying] = useState(false);
   const audioRef = useRef<HTMLAudioElement>(null);
 
   return (
@@ -14,14 +15,22 @@ function WordAudio({ source }: { source: string }) {
       <StyledWordAudioControl
         type="button"
         onClick={() => {
+          setIsPlaying(true);
           audioRef.current?.play();
         }}
       >
-        <i className="fa-regular fa-circle-play" />
+        {isPlaying ? (
+          <i className="fa-regular fa-circle-pause" />
+        ) : (
+          <i className="fa-regular fa-circle-play" />
+        )}
       </StyledWordAudioControl>
       <audio
         ref={audioRef}
         src={`https://raw.githubusercontent.com/irinainina/rslang/rslang-data/data/${source}`}
+        onEnded={() => {
+          setIsPlaying(false);
+        }}
       />
     </>
   );
