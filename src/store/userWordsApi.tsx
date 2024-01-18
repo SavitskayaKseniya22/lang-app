@@ -32,7 +32,7 @@ export const userWordsApi = createApi({
     baseUrl:
       'https://lang--app-default-rtdb.europe-west1.firebasedatabase.app/users',
   }),
-  tagTypes: ['UserCollection', 'UserWord'],
+  tagTypes: ['UserCollection', 'UserWord', 'UserWords'],
 
   endpoints: (builder) => ({
     createUserData: builder.mutation<
@@ -66,6 +66,7 @@ export const userWordsApi = createApi({
         method: 'GET',
         params: { auth: tokenId },
       }),
+      providesTags: ['UserWords'],
       keepUnusedDataFor: 0,
       async onQueryStarted(id, { queryFulfilled, dispatch }) {
         try {
@@ -171,7 +172,7 @@ export const userWordsApi = createApi({
         method: 'PATCH',
         params: { auth: tokenId },
       }),
-      invalidatesTags: ['UserCollection', 'UserWord'],
+      invalidatesTags: ['UserCollection', 'UserWord', 'UserWords'],
       async onQueryStarted(id, { queryFulfilled, dispatch }) {
         try {
           await queryFulfilled;

@@ -1,32 +1,48 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
-import { ComplicatedResultType, WordWithIdType } from '../../../interfaces';
+import styled from 'styled-components';
+import { AnswersType, WordType, WordWithIdType } from '../../../interfaces';
 import {
   useAddToUserWordsMutation,
   useGetUserWordsQuery,
 } from '../../../store/userWordsApi';
 import { useAppSelector } from '../../../store/store';
+import WordList from '../../textBookPage/components/WordList';
 
-function GameResultDetailed({
-  userId,
-  result,
-}: {
-  userId: string;
-  result: ComplicatedResultType;
-}) {
+export const StyledGameResultContent = styled('ul')`
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  justify-content: space-between;
+`;
+
+export const StyledGameResultContentItem = styled('li')`
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+`;
+
+function GameResultDetailed({ result }: { result: AnswersType }) {
   const { correct, wrong } = result.answers;
-  const [newWords, setNewWords] = useState(0);
-  const [newLearned, setNewLearned] = useState(0);
+  const [newWords, setNewWords] = useState<WordType[]>([]);
+  const [newLearned, setNewLearned] = useState<WordType[]>([]);
+
   const { user } = useAppSelector((state) => state.persist.auth);
 
-  const { data: userWords, isSuccess } = useGetUserWordsQuery({
-    userId,
-    tokenId: user!.idToken,
-  });
+  const { data: userWords, isSuccess } = useGetUserWordsQuery(
+    {
+      userId: user?.localId || 'localId',
+      tokenId: user?.idToken || 'idToken',
+    },
+    {
+      skip: !user,
+    }
+  );
 
   const [addToUserWords] = useAddToUserWordsMutation();
 
   useEffect(() => {
-    if (isSuccess) {
+    if (isSuccess && user) {
       if (!userWords) {
         const resultForSave: WordWithIdType = {};
 
@@ -38,8 +54,13 @@ function GameResultDetailed({
           resultForSave[word.id] = { ...word, guessed: 0 };
         });
 
-        addToUserWords({ userId, data: resultForSave, tokenId: user!.idToken });
-        setNewWords(correct.length + wrong.length);
+        addToUserWords({
+          userId: user?.localId,
+          data: resultForSave,
+          tokenId: user!.idToken,
+        });
+
+        setNewWords([...correct, ...wrong]);
       } else {
         const resultForSave: WordWithIdType = {};
 
@@ -47,6 +68,8 @@ function GameResultDetailed({
           const prevData = userWords[word.id] || word;
           resultForSave[word.id] = { ...prevData, guessed: 0 };
         });
+
+        const tempNewLearned: WordType[] = [];
 
         correct.forEach((word) => {
           const prevData = userWords[word.id] || word;
@@ -67,26 +90,50 @@ function GameResultDetailed({
           };
 
           if (learned) {
-            setNewLearned((a) => a + 1);
+            tempNewLearned.push(word);
           }
         });
 
-        addToUserWords({ userId, data: resultForSave, tokenId: user!.idToken });
+        setNewLearned(tempNewLearned);
+
+        addToUserWords({
+          userId: user?.localId,
+          data: resultForSave,
+          tokenId: user!.idToken,
+        });
 
         setNewWords(
           [...correct, ...wrong].filter(
             (word) => !Object.keys(userWords).includes(word.id)
-          ).length
+          )
         );
       }
     }
-  }, [addToUserWords, correct, isSuccess, user, userId, userWords, wrong]);
+  }, [isSuccess]);
 
   return (
-    <>
-      {!!newWords && <h3>{`${newWords} new words encountered`}</h3>}
-      {!!newLearned && <h3>{`${newLearned} new words learned`}</h3>}
-    </>
+    <StyledGameResultContent>
+      <StyledGameResultContentItem>
+        <h4>{`Correct (${correct.length}):`}</h4>
+        {!user || (!newWords.length && !newLearned.length) ? (
+          <WordList data={correct} />
+        ) : (
+          <WordList
+            data={correct}
+            encountered={newWords}
+            learned={newLearned}
+          />
+        )}
+      </StyledGameResultContentItem>
+      <StyledGameResultContentItem>
+        <h4>{`Wrong (${wrong.length}):`}</h4>
+        {!user || (!newWords.length && !newLearned.length) ? (
+          <WordList data={wrong} />
+        ) : (
+          <WordList data={wrong} encountered={newWords} learned={newLearned} />
+        )}
+      </StyledGameResultContentItem>
+    </StyledGameResultContent>
   );
 }
 

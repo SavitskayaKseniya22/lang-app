@@ -9,7 +9,7 @@ import WordDetailed from './WordDetailed';
 import ModalContext from '../../../components/modal/ModalContext';
 
 export interface WordModifierType {
-  isItEncoutered?: boolean;
+  isItEncountered?: boolean;
   isItLearned?: boolean;
   isItCorrect?: boolean;
   isItOdd?: boolean;
@@ -28,7 +28,7 @@ const StyledWord = styled('li')<{ $modifier: WordModifierType | undefined }>`
   position: relative;
 
   opacity: ${(props) =>
-    props.$modifier && props.$modifier.isItLearned ? '0.7' : '1'};
+    props.$modifier && props.$modifier.isItLearned ? '0.5' : '1'};
 
   background-color: ${(props) =>
     props.$modifier && props.$modifier.isItOdd
@@ -82,17 +82,19 @@ function Word({
       <span className="word__transcription">{wordData.transcription}</span>
       <h5>{wordData.wordTranslate}</h5>
 
-      {modifier && (modifier.isItEncoutered || modifier.isItLearned) && (
+      {modifier && (modifier.isItEncountered || modifier.isItLearned) && (
         <div
           className="word__mark"
           title={
-            (modifier.isItEncoutered &&
+            (modifier.isItEncountered &&
               'The word is encountered for the first time') ||
             (modifier.isItLearned && 'The word is learned') ||
             wordData.word
           }
         >
-          {modifier.isItEncoutered && <i className="fa-solid fa-exclamation" />}
+          {modifier.isItEncountered && (
+            <i className="fa-solid fa-exclamation" />
+          )}
           {modifier.isItLearned && <i className="fa-solid fa-check" />}
         </div>
       )}

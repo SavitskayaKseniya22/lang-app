@@ -1,3 +1,4 @@
+/* eslint-disable react/require-default-props */
 import React from 'react';
 import styled from 'styled-components';
 import { WordType } from '../../../interfaces';
@@ -11,18 +12,38 @@ const StyledWordList = styled('ul')`
   align-items: center;
 `;
 
-function WordList({ data }: { data: WordType[] }) {
+function WordList({
+  data,
+  encountered,
+  learned,
+}: {
+  data: WordType[];
+  encountered?: WordType[];
+  learned?: WordType[];
+}) {
   return (
     <StyledWordList>
-      {data.map((word, index) => (
-        <Word
-          wordData={word}
-          key={word.id}
-          modifier={{
-            isItOdd: !!(index % 2),
-          }}
-        />
-      ))}
+      {data.map((word, index) => {
+        const isItLearned = learned
+          ? !!learned.filter((item) => word.id === item.id)[0]
+          : false;
+
+        const isItEncountered = encountered
+          ? !!encountered.filter((item) => word.id === item.id)[0]
+          : false;
+
+        return (
+          <Word
+            wordData={word}
+            key={word.id}
+            modifier={{
+              isItOdd: !!(index % 2),
+              isItLearned,
+              isItEncountered,
+            }}
+          />
+        );
+      })}
     </StyledWordList>
   );
 }
