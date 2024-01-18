@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { NumberDivisibility, WordType } from '../../../interfaces';
+import { WordType } from '../../../interfaces';
 import Word from './Word';
 
 const StyledWordList = styled('ul')`
@@ -18,7 +18,9 @@ function WordList({ data }: { data: WordType[] }) {
         <Word
           wordData={word}
           key={word.id}
-          type={index % 2 ? NumberDivisibility.ODD : NumberDivisibility.EVEN}
+          modifier={{
+            isItOdd: !!(index % 2),
+          }}
         />
       ))}
     </StyledWordList>

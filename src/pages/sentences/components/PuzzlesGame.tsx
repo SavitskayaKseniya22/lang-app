@@ -1,11 +1,7 @@
 import React, { useCallback, useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import {
-  StyledGameContainer,
-  StyledMain,
-  StyledParagraph,
-} from '../../../styled/SharedStyles';
+import { StyledGameContainer, StyledMain } from '../../../styled/SharedStyles';
 import DragAndDrop from './DragAndDrop';
 import StopWatch from '../../game/components/StopWatch';
 import { DataQueue } from '../../../utils';
@@ -52,7 +48,7 @@ function PuzzlesGame({ data }: { data: DataQueue }) {
         <h4>
           {word.word} - {word.wordTranslate}
         </h4>
-        <StyledParagraph>{word.textExampleTranslate}</StyledParagraph>
+        <p>{word.textExampleTranslate}</p>
         <DragAndDrop word={word} isItActive={middleResult === null} />
         {middleResult !== null ? (
           <>

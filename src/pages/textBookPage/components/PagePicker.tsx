@@ -18,8 +18,7 @@ const StyledPagePickerButton = styled('button')`
   background-color: rgb(244, 162, 97);
 
   &:disabled {
-    background-color: rgba(42, 157, 144, 0.2);
-    pointer-events: none;
+    background-color: rgb(42, 157, 144);
   }
 
   @media ${ScreenSize.TABLET} {

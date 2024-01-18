@@ -35,11 +35,6 @@ export enum StepValues {
   MIN = 10,
 }
 
-export enum NumberDivisibility {
-  ODD,
-  EVEN,
-}
-
 export enum ScreenSize {
   MOBILE = '(min-width: 320px)',
   TABLET = '(min-width: 768px)',

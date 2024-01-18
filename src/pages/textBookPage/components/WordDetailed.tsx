@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { WordType } from '../../../interfaces';
-import { StyledParagraph, StyledSpan } from '../../../styled/SharedStyles';
 import { fetchAndCreateReactImage } from '../../../utils';
 import CollectionControlPanel from './CollectionControlPanel';
 import Spinner from '../../../components/spinner/Spinner';
@@ -108,7 +107,7 @@ function WordDetailed({ wordData }: { wordData: WordType }) {
     <StyledWordDetailed>
       <StyledWordDetailedTitle>
         <h3>{word}</h3>
-        <StyledSpan>{transcription}</StyledSpan>
+        <span>{transcription}</span>
         <h5>{wordTranslate}</h5>
       </StyledWordDetailedTitle>
       {user && isSuccess && (
@@ -131,13 +130,13 @@ function WordDetailed({ wordData }: { wordData: WordType }) {
       <StyledWordDetailedContent>
         <li>
           <h4>Meanings</h4>
-          <StyledParagraph>{textMeaning}</StyledParagraph>
-          <StyledParagraph>{textMeaningTranslate}</StyledParagraph>
+          <p>{textMeaning}</p>
+          <p>{textMeaningTranslate}</p>
         </li>
         <li>
           <h4>Examples</h4>
-          <StyledParagraph>{textExample}</StyledParagraph>
-          <StyledParagraph>{textExampleTranslate}</StyledParagraph>
+          <p>{textExample}</p>
+          <p>{textExampleTranslate}</p>
         </li>
       </StyledWordDetailedContent>
     </StyledWordDetailed>

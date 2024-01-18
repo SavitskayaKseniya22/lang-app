@@ -1,6 +1,5 @@
 import styled, { css } from 'styled-components';
 import { NavLink } from 'react-router-dom';
-import { NumberDivisibility } from '../interfaces';
 
 export const gradientBackground = css`
   background: linear-gradient(
@@ -27,19 +26,6 @@ export const StyledMain = styled('main')`
   h2 {
     align-self: flex-start;
   }
-`;
-
-export const StyledParagraph = styled('p')<{ $type?: NumberDivisibility }>`
-  font-weight: 300;
-`;
-
-export const StyledSpan = styled('span')<{ $type?: NumberDivisibility }>`
-  font-weight: 300;
-
-  color: ${(props) =>
-    props.$type === NumberDivisibility.ODD
-      ? 'rgb(42, 157, 143)'
-      : 'rgb(233, 196, 106)'};
 `;
 
 export const StyledLink = styled('a')`
