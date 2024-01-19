@@ -52,7 +52,11 @@ function PuzzlesGame({ data }: { data: DataQueue }) {
         <DragAndDrop word={word} isItActive={middleResult === null} />
         {middleResult !== null ? (
           <>
-            {middleResult ? <h3>{`+${puzzles.step}`}</h3> : <h3>-1</h3>}
+            {middleResult ? (
+              <h3>{`+${puzzles.step}`}</h3>
+            ) : (
+              <h3>{`-${puzzles.subtrahend}`}</h3>
+            )}
             <StyledPuzzlesGameAnswer $type={middleResult ? 'correct' : 'wrong'}>
               {word.textExample}
             </StyledPuzzlesGameAnswer>

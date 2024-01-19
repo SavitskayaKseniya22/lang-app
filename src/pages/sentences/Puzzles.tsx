@@ -6,6 +6,7 @@ import { GameContext } from '../game/components/GameStartScreen';
 import {
   DataQueue,
   checkStepValue,
+  checkSubtrahendValue,
   getRandomItemsFromArray,
 } from '../../utils';
 import { resetPuzzlesResult, setPuzzlesResult } from '../../store/ResultSlice';
@@ -33,6 +34,10 @@ function Puzzles() {
     dispatch(
       setPuzzlesResult({
         step: checkStepValue({
+          difficulty: initial.group,
+          type: GameType.PUZZLES,
+        }),
+        subtrahend: checkSubtrahendValue({
           difficulty: initial.group,
           type: GameType.PUZZLES,
         }),

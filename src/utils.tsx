@@ -225,3 +225,22 @@ export function checkStepValue({
       return 10;
   }
 }
+
+export function checkSubtrahendValue({
+  difficulty,
+  type,
+}: {
+  difficulty: string;
+  type: GameType;
+}) {
+  switch (type) {
+    case GameType.PUZZLES:
+      return [1, 5, 10][+difficulty];
+
+    case GameType.CONSTRUCTOR:
+      return [1, 3, 7, 10, 15, 20][+difficulty];
+
+    default:
+      return 1;
+  }
+}

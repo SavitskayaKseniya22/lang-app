@@ -16,7 +16,7 @@ interface GameContextType {
 }
 
 export const GameContext = createContext<GameContextType>({
-  initial: { data: undefined, group: '1' },
+  initial: { data: undefined, group: '0' },
   setInitial: () => {},
 });
 
@@ -25,7 +25,7 @@ export function GameInitialData() {
 
   const [initial, setInitial] = useState<InintialGameContextType>({
     data: location?.state?.data,
-    group: '1',
+    group: '0',
   });
 
   return (

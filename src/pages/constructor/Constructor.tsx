@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from 'react';
 import { GameContext } from '../game/components/GameStartScreen';
 import Spinner from '../../components/spinner/Spinner';
 import { useGetRandomWordsQuery } from '../../store/wordsApi';
-import { DataQueue, checkStepValue } from '../../utils';
+import { DataQueue, checkStepValue, checkSubtrahendValue } from '../../utils';
 import ConstructorGame from './components/ConstructorGame';
 import { useAppDispatch } from '../../store/store';
 import {
@@ -32,6 +32,10 @@ function Constructor() {
     dispatch(
       setConstructorResult({
         step: checkStepValue({
+          difficulty: initial.group,
+          type: GameType.CONSTRUCTOR,
+        }),
+        subtrahend: checkSubtrahendValue({
           difficulty: initial.group,
           type: GameType.CONSTRUCTOR,
         }),

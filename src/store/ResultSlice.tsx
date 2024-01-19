@@ -9,6 +9,7 @@ import {
   ResultsState,
   StepType,
   UpdateResultType,
+  SubtrahendType,
 } from '../interfaces';
 
 export function updateResultData(
@@ -66,12 +67,14 @@ const initPuzzlesResultValue = {
   total: 0,
   correct: 0,
   wrong: 0,
+  subtrahend: 1,
 };
 
 const initConstructorResultValue = {
   answers: initAnswersValue,
   step: 5,
   total: 0,
+  subtrahend: 1,
 };
 
 const initialState: ResultsState = {
@@ -97,7 +100,10 @@ export const resultsSlice = createSlice({
       state.sprint = initComplicatedResultValue;
     },
 
-    setPuzzlesResult: (state, action: PayloadAction<StepType>) => {
+    setPuzzlesResult: (
+      state,
+      action: PayloadAction<StepType & SubtrahendType>
+    ) => {
       state.puzzles = { ...initPuzzlesResultValue, ...action.payload };
     },
 
@@ -115,7 +121,7 @@ export const resultsSlice = createSlice({
         state.puzzles.total += state.puzzles.step;
         state.puzzles.correct += 1;
       } else {
-        state.puzzles.total -= 1;
+        state.puzzles.total -= state.puzzles.subtrahend;
         state.puzzles.wrong += 1;
       }
 
@@ -138,7 +144,10 @@ export const resultsSlice = createSlice({
       state.audiocall = initComplicatedResultValue;
     },
 
-    setConstructorResult: (state, action: PayloadAction<StepType>) => {
+    setConstructorResult: (
+      state,
+      action: PayloadAction<StepType & SubtrahendType>
+    ) => {
       state.constructor = { ...initConstructorResultValue, ...action.payload };
     },
 
@@ -161,7 +170,7 @@ export const resultsSlice = createSlice({
 
       const total = action.payload.isAnswerCorrect
         ? state.constructor.total + state.constructor.step
-        : state.constructor.total - 1;
+        : state.constructor.total - state.constructor.subtrahend;
 
       state.constructor = {
         ...state.constructor,

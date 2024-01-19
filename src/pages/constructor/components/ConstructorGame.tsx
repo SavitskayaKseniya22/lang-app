@@ -123,7 +123,11 @@ function ConstructorGame({ data }: { data: DataQueue }) {
       <StyledGameContainer>
         {middleResult !== null ? (
           <>
-            {middleResult ? <h3>{`+${constructor.step}`}</h3> : <h3>-1</h3>}
+            {middleResult ? (
+              <h3>{`+${constructor.step}`}</h3>
+            ) : (
+              <h3>{`-${constructor.subtrahend}`}</h3>
+            )}
 
             <StyledPuzzlesGameAnswer $type={middleResult ? 'correct' : 'wrong'}>
               {!middleResult && word.pressedWord.length > 0 && (

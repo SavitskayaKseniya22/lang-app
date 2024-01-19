@@ -175,14 +175,17 @@ export interface Users {
   };
 }
 
+export type SubtrahendType = { subtrahend: number };
+
 export type ResultsState = {
   sprint: ComplicatedResultType;
+  audiocall: ComplicatedResultType;
   puzzles: { middleResult: boolean } & PointsType & {
       correct: number;
       wrong: number;
-    };
-  audiocall: ComplicatedResultType;
-  constructor: PointsType & AnswersType;
+    } & SubtrahendType;
+
+  constructor: PointsType & AnswersType & SubtrahendType;
 };
 
 export type UpdateResultType = {
