@@ -39,7 +39,11 @@ function PuzzlesGame({ data }: { data: DataQueue }) {
     <StyledMain>
       <GameInfo>
         <ProgressTracking streak={data.head} total={data.startLength} />
-        <Points step={puzzles.step} total={puzzles.total} />
+        <Points
+          step={puzzles.step}
+          total={puzzles.total}
+          subtrahend={puzzles.subtrahend}
+        />
       </GameInfo>
 
       <StopWatch doAfterTimer={() => {}} />

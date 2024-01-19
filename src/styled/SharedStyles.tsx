@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { ScreenSize } from '../interfaces';
 
 export const StyledMain = styled('main')`
   display: flex;
@@ -21,7 +22,12 @@ export const StyledGameContainer = styled('div')`
   flex-direction: column;
   flex-grow: 2;
   align-items: center;
-  justify-content: center;
-  gap: 2rem;
+  justify-content: space-around;
   text-align: center;
+  gap: 1rem;
+
+  @media ${ScreenSize.TABLET} {
+    gap: 4rem;
+    justify-content: center;
+  }
 `;

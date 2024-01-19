@@ -117,7 +117,11 @@ function ConstructorGame({ data }: { data: DataQueue }) {
     <StyledMain>
       <GameInfo>
         <ProgressTracking streak={data.head} total={data.startLength} />
-        <Points step={constructor.step} total={constructor.total} />
+        <Points
+          step={constructor.step}
+          total={constructor.total}
+          subtrahend={constructor.subtrahend}
+        />
       </GameInfo>
       <StopWatch doAfterTimer={() => {}} />
       <StyledGameContainer>

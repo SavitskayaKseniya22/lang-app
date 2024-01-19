@@ -89,6 +89,7 @@ export interface BasicUserCredentials {
   email: string;
   password: string;
 }
+export type SubtrahendType = { subtrahend: number };
 
 export type GroupType = { group: number };
 
@@ -174,8 +175,6 @@ export interface Users {
     words: WordWithIdType;
   };
 }
-
-export type SubtrahendType = { subtrahend: number };
 
 export type ResultsState = {
   sprint: ComplicatedResultType;

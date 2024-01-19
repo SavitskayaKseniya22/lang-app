@@ -12,10 +12,6 @@ import WordAudio from '../../textBookPage/components/WordAudio';
 import GameInfo from '../../game/components/GameInfo';
 import ProgressTracking from '../../game/components/ProgressTracking';
 
-const StyledAudiocallGame = styled(StyledMain)`
-  gap: 2rem;
-`;
-
 const StyledAudiocallButtonList = styled('div')`
   display: flex;
   gap: 1rem;
@@ -99,10 +95,10 @@ function AudiocallGame({ data }: { data: DataQueue }) {
   }, [handleKeyDown]);
 
   return (
-    <StyledAudiocallGame>
+    <StyledMain>
       <GameInfo>
         <ProgressTracking streak={data.head} total={data.startLength} />
-        <Points step={audiocall.step} total={audiocall.total} />
+        <Points step={audiocall.step} total={audiocall.total} subtrahend={0} />
       </GameInfo>
 
       <StyledGameContainer>
@@ -171,7 +167,7 @@ function AudiocallGame({ data }: { data: DataQueue }) {
           </>
         )}
       </StyledGameContainer>
-    </StyledAudiocallGame>
+    </StyledMain>
   );
 }
 

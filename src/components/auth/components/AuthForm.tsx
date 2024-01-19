@@ -18,7 +18,7 @@ export const StyledAuthForm = styled('form')`
 
 export const StyledInput = styled('input')`
   width: 100%;
-  padding: 0.5rem;
+
   border: none;
   background-color: rgb(244, 162, 97);
   text-align: center;

@@ -73,7 +73,7 @@ function SprintLongGame({ group }: GroupType) {
     return (
       <StyledMain>
         <GameInfo>
-          <Points step={sprint.step} total={sprint.total} />
+          <Points step={sprint.step} total={sprint.total} subtrahend={0} />
         </GameInfo>
         <Timer duration={60} doAfterTimer={doAfterTimer} />
 

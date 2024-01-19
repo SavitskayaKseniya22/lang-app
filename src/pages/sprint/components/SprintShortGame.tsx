@@ -40,7 +40,7 @@ function SprintShortGame({ data }: { data: DataQueue }) {
     <StyledMain>
       <GameInfo>
         <ProgressTracking streak={data.head} total={data.startLength} />
-        <Points step={sprint.step} total={sprint.total} />
+        <Points step={sprint.step} total={sprint.total} subtrahend={0} />
       </GameInfo>
       <StyledGameContainer>
         <Streak streak={sprint.streak} total={3} />

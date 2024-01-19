@@ -1,13 +1,15 @@
 import React from 'react';
 import styled from 'styled-components';
 import { makeEmptyArrayWithIds } from '../../../utils';
-import { ProgressType, ScreenSize } from '../../../interfaces';
+import { ProgressType } from '../../../interfaces';
 
 const StyledProgressTracking = styled('div')`
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 0.5rem;
+  flex-direction: column;
+  gap: 0.5rem;
 `;
 
 const StyledProgressList = styled('ul')`
@@ -16,8 +18,7 @@ const StyledProgressList = styled('ul')`
   align-items: center;
   padding: 1rem;
   flex-wrap: nowrap;
-  width: 10rem;
-  height: 1rem;
+  width: 20rem;
 `;
 
 const StyledProgressItem = styled('li')<{ $type: 'fullfilled' | 'empty' }>`
@@ -26,20 +27,15 @@ const StyledProgressItem = styled('li')<{ $type: 'fullfilled' | 'empty' }>`
       ? 'rgb(244, 162, 97)'
       : 'rgba(233, 197, 106, 0.2)'};
 
-  max-width: 1rem;
   flex-grow: 1;
   height: 1rem;
 `;
 
 const StyledProgressInfo = styled('h5')`
-  display: none;
-
-  @media ${ScreenSize.TABLET} {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: nowrap;
-  }
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: nowrap;
 `;
 
 function ProgressTracking({ streak, total }: ProgressType) {
