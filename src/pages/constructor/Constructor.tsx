@@ -5,8 +5,8 @@ import { useGetRandomWordsQuery } from '../../store/wordsApi';
 import { StyledMain } from '../../styled/SharedStyles';
 import { DataQueue } from '../../utils';
 import ConstructorGame from './components/ConstructorGame';
-import { resetAudiocallResult } from '../../store/ResultSlice';
 import { useAppDispatch } from '../../store/store';
+import { resetConstructorResult } from '../../store/ResultSlice';
 
 function Constructor() {
   const { initial } = useContext(GameContext);
@@ -14,7 +14,7 @@ function Constructor() {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(resetAudiocallResult());
+    dispatch(resetConstructorResult());
   }, [dispatch]);
 
   const { data, isLoading } = useGetRandomWordsQuery(

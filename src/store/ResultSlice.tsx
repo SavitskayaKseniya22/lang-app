@@ -122,12 +122,20 @@ export const resultsSlice = createSlice({
       state.puzzles.middleResult = false;
     },
 
+    resetPuzzlesResult: (state) => {
+      state.puzzles = initPuzzlesResultValue;
+    },
+
     updateAudiocallResult: (state, action: PayloadAction<UpdateResultType>) => {
       state.audiocall = updateResultData(
         state.audiocall,
         action.payload.isAnswerCorrect,
         action.payload.word
       );
+    },
+
+    resetAudiocallResult: (state) => {
+      state.audiocall = initComplicatedResultValue;
     },
 
     updateConstructorResult: (
@@ -158,10 +166,6 @@ export const resultsSlice = createSlice({
       };
     },
 
-    resetAudiocallResult: (state) => {
-      state.audiocall = initComplicatedResultValue;
-    },
-
     resetConstructorResult: (state) => {
       state.constructor = initConstructorResultValue;
     },
@@ -178,6 +182,7 @@ export const {
   resetAudiocallResult,
   resetConstructorResult,
   updateConstructorResult,
+  resetPuzzlesResult,
 } = resultsSlice.actions;
 
 export default resultsSlice.reducer;

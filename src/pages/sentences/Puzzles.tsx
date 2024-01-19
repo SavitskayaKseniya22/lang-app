@@ -9,10 +9,16 @@ import {
   checkStepValue,
   getRandomItemsFromArray,
 } from '../../utils';
-import { setPuzzlesResult } from '../../store/ResultSlice';
+import { resetPuzzlesResult, setPuzzlesResult } from '../../store/ResultSlice';
 import { useAppDispatch } from '../../store/store';
 
 function Puzzles() {
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(resetPuzzlesResult());
+  }, [dispatch]);
+
   const { initial } = useContext(GameContext);
 
   const { data, isLoading } = useGetRandomWordsQuery(
@@ -21,8 +27,6 @@ function Puzzles() {
       skip: !!initial.data,
     }
   );
-
-  const dispatch = useAppDispatch();
 
   useEffect(() => {
     dispatch(setPuzzlesResult({ step: checkStepValue(initial.group) }));
