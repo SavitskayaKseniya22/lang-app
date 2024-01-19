@@ -11,6 +11,7 @@ import {
 import { resetPuzzlesResult, setPuzzlesResult } from '../../store/ResultSlice';
 import { useAppDispatch } from '../../store/store';
 import ErrorPage, { ErrorType } from '../errorPage/ErrorPage';
+import { GameType } from '../../interfaces';
 
 function Puzzles() {
   const dispatch = useAppDispatch();
@@ -29,7 +30,14 @@ function Puzzles() {
   );
 
   useEffect(() => {
-    dispatch(setPuzzlesResult({ step: checkStepValue(initial.group) }));
+    dispatch(
+      setPuzzlesResult({
+        step: checkStepValue({
+          difficulty: initial.group,
+          type: GameType.PUZZLES,
+        }),
+      })
+    );
   }, [dispatch, initial.group]);
 
   if (isLoading) return <Spinner />;

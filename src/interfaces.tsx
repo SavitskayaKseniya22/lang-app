@@ -85,19 +85,13 @@ export interface ActiveUserTypes {
   profilePicture: string;
 }
 
-export interface AuthError {
-  status: string;
-  originalStatus: number;
-  data: string;
-  error: string;
-}
-
 export interface BasicUserCredentials {
   email: string;
   password: string;
 }
 
 export type GroupType = { group: number };
+
 export type PageType = { page: number };
 
 export type TextBookValuesTypes = GroupType & PageType;
@@ -114,7 +108,7 @@ export type AnswersType = {
   answers: { correct: WordType[]; wrong: WordType[] };
 };
 
-export type ProgressType = { total: number } & StreakType;
+export type ProgressType = TotalType & StreakType;
 
 export type ComplicatedResultType = AnswersType & PointsType & StreakType;
 

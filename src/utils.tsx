@@ -3,6 +3,7 @@ import React from 'react';
 import {
   DnDWordType,
   FirebaseAuthErrorTypes,
+  GameType,
   WordBaseValues,
   WordType,
 } from './interfaces';
@@ -206,6 +207,21 @@ export class DataQueue {
   }
 }
 
-export function checkStepValue(difficulty: string) {
-  return [5, 10, 15][+difficulty];
+export function checkStepValue({
+  difficulty,
+  type,
+}: {
+  difficulty: string;
+  type: GameType;
+}) {
+  switch (type) {
+    case GameType.PUZZLES:
+      return [5, 10, 15][+difficulty];
+
+    case GameType.CONSTRUCTOR:
+      return [5, 10, 15, 20, 25, 30][+difficulty];
+
+    default:
+      return 10;
+  }
 }

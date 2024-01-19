@@ -10,6 +10,7 @@ import ProgressTracking from '../../game/components/ProgressTracking';
 import { useAppDispatch, useAppSelector } from '../../../store/store';
 import { updateConstructorResult } from '../../../store/ResultSlice';
 import StopWatch from '../../game/components/StopWatch';
+import { ScreenSize } from '../../../interfaces';
 
 export const StyledActiveLetter = css<{ $type: 'disabled' | 'active' }>`
   color: white;
@@ -57,6 +58,11 @@ const StyledItem = styled('li')<{ $type: 'disabled' | 'active' }>`
   width: 1.5rem;
   height: 1.25rem;
   font-size: 0.75rem;
+
+  @media ${ScreenSize.TABLET} {
+    width: 2rem;
+    height: 1.5rem;
+  }
 `;
 
 export function ConstructorButton({
@@ -87,6 +93,7 @@ function ConstructorGame({ data }: { data: DataQueue }) {
 
   const updater = useCallback(() => {
     const wordData = data.nextWordLikeArray();
+
     return {
       ...wordData,
       pressedButtons: wordData.letters.map(() => ({
@@ -94,6 +101,7 @@ function ConstructorGame({ data }: { data: DataQueue }) {
         key: Math.random(),
         index: -1,
       })),
+      pressedWord: '',
     };
   }, [data]);
 
@@ -113,11 +121,16 @@ function ConstructorGame({ data }: { data: DataQueue }) {
       </GameInfo>
       <StopWatch doAfterTimer={() => {}} />
       <StyledGameContainer>
-        <h4>{word.wordTranslate}</h4>
         {middleResult !== null ? (
           <>
+            {middleResult ? <h3>{`+${constructor.step}`}</h3> : <h3>-1</h3>}
+
             <StyledPuzzlesGameAnswer $type={middleResult ? 'correct' : 'wrong'}>
-              <s>{word.pressedButtons.map((item) => item.letter).join('')}</s> -{' '}
+              {!middleResult && word.pressedWord.length > 0 && (
+                <>
+                  <s>{word.pressedWord}</s> -{' '}
+                </>
+              )}
               {word.word} - {word.wordTranslate}
             </StyledPuzzlesGameAnswer>
 
@@ -137,6 +150,7 @@ function ConstructorGame({ data }: { data: DataQueue }) {
           </>
         ) : (
           <>
+            <h4>{word.wordTranslate}</h4>
             <StyledList>
               {word.pressedButtons.map((item) => (
                 <StyledItem
@@ -175,6 +189,9 @@ function ConstructorGame({ data }: { data: DataQueue }) {
                     setWord({
                       ...word,
                       pressedButtons: [...copyPressedButtons],
+                      pressedWord: copyPressedButtons
+                        .map((pressedLetter) => pressedLetter.letter)
+                        .join(''),
                     });
                   }}
                 >

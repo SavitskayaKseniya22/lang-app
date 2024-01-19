@@ -70,14 +70,14 @@ const initPuzzlesResultValue = {
 
 const initConstructorResultValue = {
   answers: initAnswersValue,
-  step: 10,
+  step: 5,
   total: 0,
 };
 
 const initialState: ResultsState = {
   sprint: initComplicatedResultValue,
-  puzzles: initPuzzlesResultValue,
   audiocall: initComplicatedResultValue,
+  puzzles: initPuzzlesResultValue,
   constructor: initConstructorResultValue,
 };
 
@@ -138,6 +138,10 @@ export const resultsSlice = createSlice({
       state.audiocall = initComplicatedResultValue;
     },
 
+    setConstructorResult: (state, action: PayloadAction<StepType>) => {
+      state.constructor = { ...initConstructorResultValue, ...action.payload };
+    },
+
     updateConstructorResult: (
       state,
       action: PayloadAction<UpdateResultType>
@@ -183,6 +187,7 @@ export const {
   resetConstructorResult,
   updateConstructorResult,
   resetPuzzlesResult,
+  setConstructorResult,
 } = resultsSlice.actions;
 
 export default resultsSlice.reducer;
