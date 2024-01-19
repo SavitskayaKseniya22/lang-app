@@ -2,11 +2,11 @@ import React, { useContext, useEffect } from 'react';
 import { GameContext } from '../game/components/GameStartScreen';
 import Spinner from '../../components/spinner/Spinner';
 import { useGetRandomWordsQuery } from '../../store/wordsApi';
-import { StyledMain } from '../../styled/SharedStyles';
 import { DataQueue } from '../../utils';
 import ConstructorGame from './components/ConstructorGame';
 import { useAppDispatch } from '../../store/store';
 import { resetConstructorResult } from '../../store/ResultSlice';
+import ErrorPage, { ErrorType } from '../errorPage/ErrorPage';
 
 function Constructor() {
   const { initial } = useContext(GameContext);
@@ -34,11 +34,7 @@ function Constructor() {
 
   if (isLoading) return <Spinner />;
 
-  return (
-    <StyledMain>
-      <h3>No data found. Please reload the page or return to the Main Page.</h3>
-    </StyledMain>
-  );
+  return <ErrorPage type={ErrorType.ERROR} />;
 }
 
 export default Constructor;

@@ -6,8 +6,7 @@ import {
   createRoutesFromElements,
 } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
-import PageNotFound from './pages/PageNotFound/PageNotFound';
-import ErrorPage from './pages/errorPage/ErrorPage';
+import ErrorPage, { ErrorType } from './pages/errorPage/ErrorPage';
 import MainPage from './pages/mainPage/MainPage';
 import TextBookPage from './pages/textBookPage/TextBookPage';
 import Sprint from './pages/sprint/Sprint';
@@ -31,7 +30,12 @@ import Statistics from './pages/statistics/Statistics';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route path="/" errorElement={<ErrorPage />} id="root" element={<Outlet />}>
+    <Route
+      path="/"
+      errorElement={<ErrorPage type={ErrorType.ERROR} />}
+      id="root"
+      element={<Outlet />}
+    >
       <Route
         element={
           <ModalProvider>
@@ -120,7 +124,7 @@ const router = createBrowserRouter(
             <Route path="result" element={<GameResult type="constructor" />} />
           </Route>
         </Route>
-        <Route path="*" element={<PageNotFound />} />
+        <Route path="*" element={<ErrorPage type={ErrorType.PAGENOTFOUND} />} />
       </Route>
     </Route>
   )
