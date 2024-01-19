@@ -4,7 +4,7 @@ import ModalContext from '../../../components/modal/ModalContext';
 import { WordType } from '../../../interfaces';
 import { StyledGameItem, StyledGameList } from '../../Games/Games';
 
-function GamesPanel({ data }: { data: WordType[] }) {
+function GamesPanel({ data, group }: { data: WordType[]; group: string }) {
   const { setContent } = useContext(ModalContext);
 
   return (
@@ -23,7 +23,7 @@ function GamesPanel({ data }: { data: WordType[] }) {
       <StyledGameItem>
         <Link
           to="/games/constructor/game"
-          state={{ data }}
+          state={{ data, group }}
           onClick={() => {
             setContent(null);
           }}

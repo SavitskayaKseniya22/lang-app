@@ -19,7 +19,7 @@ import { updateSprintResult } from '../../../store/ResultSlice';
 import { StyledGameContainer, StyledMain } from '../../../styled/SharedStyles';
 import GameInfo from '../../game/components/GameInfo';
 
-function SprintLongGame({ group = DefaultTextBookValues.group }: GroupType) {
+function SprintLongGame({ group }: GroupType) {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { sprint } = useAppSelector((state) => state.resultsReducer);

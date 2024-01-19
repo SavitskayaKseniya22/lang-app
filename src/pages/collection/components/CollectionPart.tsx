@@ -113,7 +113,7 @@ function CollectionPart({
           type="button"
           disabled={data[type].length < 10}
           onClick={() => {
-            setContent(<GamesPanel data={data[type]} />);
+            setContent(<GamesPanel data={data[type]} group="0" />);
           }}
         >
           <i className="fa-solid fa-puzzle-piece" />

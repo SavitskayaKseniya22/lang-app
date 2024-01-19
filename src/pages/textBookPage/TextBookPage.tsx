@@ -87,7 +87,12 @@ function TextBookPage() {
           <button
             type="button"
             onClick={() => {
-              setContent(<GamesPanel data={data} />);
+              setContent(
+                <GamesPanel
+                  data={data}
+                  group={groupMemo.group as unknown as string}
+                />
+              );
             }}
           >
             Practice this set of words

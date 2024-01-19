@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ActiveWordsTypes } from '../../../interfaces';
 import { checkIfAnswerCorrect, DataQueue } from '../../../utils';
@@ -9,7 +9,7 @@ import ActiveWordsList from './ActiveWordsList';
 import { useAppDispatch, useAppSelector } from '../../../store/store';
 import { updateSprintResult } from '../../../store/ResultSlice';
 import { StyledGameContainer, StyledMain } from '../../../styled/SharedStyles';
-import { GameContext } from '../../game/components/GameStartScreen';
+
 import GameInfo from '../../game/components/GameInfo';
 import ProgressTracking from '../../game/components/ProgressTracking';
 
@@ -17,15 +17,6 @@ function SprintShortGame({ data }: { data: DataQueue }) {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { sprint } = useAppSelector((state) => state.resultsReducer);
-
-  const { setInitial } = useContext(GameContext);
-  useEffect(
-    () => () => {
-      setInitial({ data: undefined, group: '1' });
-    },
-
-    [setInitial]
-  );
 
   const updater = useCallback(() => data.nextPair(), [data]);
 

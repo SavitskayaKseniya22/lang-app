@@ -25,7 +25,7 @@ export function GameInitialData() {
 
   const [initial, setInitial] = useState<InintialGameContextType>({
     data: location?.state?.data,
-    group: '0',
+    group: location?.state?.group || '0',
   });
 
   return (
