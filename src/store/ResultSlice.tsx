@@ -68,6 +68,7 @@ const initPuzzlesResultValue = {
   correct: 0,
   wrong: 0,
   subtrahend: 1,
+  time: 0,
 };
 
 const initConstructorResultValue = {
@@ -75,6 +76,7 @@ const initConstructorResultValue = {
   step: 5,
   total: 0,
   subtrahend: 1,
+  time: 0,
 };
 
 const initialState: ResultsState = {
@@ -116,7 +118,10 @@ export const resultsSlice = createSlice({
       state.puzzles.middleResult = action.payload.middleResult;
     },
 
-    updatePuzzlesTotalResult: (state) => {
+    updatePuzzlesTotalResult: (
+      state,
+      action: PayloadAction<{ time: number }>
+    ) => {
       if (state.puzzles.middleResult) {
         state.puzzles.total += state.puzzles.step;
         state.puzzles.correct += 1;
@@ -126,6 +131,7 @@ export const resultsSlice = createSlice({
       }
 
       state.puzzles.middleResult = false;
+      state.puzzles.time = action.payload.time;
     },
 
     resetPuzzlesResult: (state) => {
@@ -176,6 +182,7 @@ export const resultsSlice = createSlice({
         ...state.constructor,
         total,
         answers,
+        time: action.payload.time as number,
       };
     },
 

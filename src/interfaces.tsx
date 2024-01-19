@@ -182,12 +182,13 @@ export type ResultsState = {
   puzzles: { middleResult: boolean } & PointsType & {
       correct: number;
       wrong: number;
-    } & SubtrahendType;
+    } & SubtrahendType & { time: number };
 
-  constructor: PointsType & AnswersType & SubtrahendType;
+  constructor: PointsType & AnswersType & SubtrahendType & { time: number };
 };
 
 export type UpdateResultType = {
   isAnswerCorrect: boolean;
   word: WordType;
+  time?: number;
 };

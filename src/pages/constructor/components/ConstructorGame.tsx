@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 import { StyledGameContainer, StyledMain } from '../../../styled/SharedStyles';
@@ -113,6 +113,8 @@ function ConstructorGame({ data }: { data: DataQueue }) {
 
   const dispatch = useAppDispatch();
 
+  const timer = useRef(0);
+
   return (
     <StyledMain>
       <GameInfo>
@@ -123,7 +125,11 @@ function ConstructorGame({ data }: { data: DataQueue }) {
           subtrahend={constructor.subtrahend}
         />
       </GameInfo>
-      <StopWatch doAfterTimer={() => {}} />
+      <StopWatch
+        func={(value) => {
+          timer.current = value;
+        }}
+      />
       <StyledGameContainer>
         {middleResult !== null ? (
           <>
@@ -218,6 +224,7 @@ function ConstructorGame({ data }: { data: DataQueue }) {
                   updateConstructorResult({
                     isAnswerCorrect,
                     word,
+                    time: timer.current,
                   })
                 );
               }}

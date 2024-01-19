@@ -1,15 +1,16 @@
+/* eslint-disable no-param-reassign */
 import React, { useEffect, useRef, useState } from 'react';
 import { StyledTimer } from './Timer';
 import { getParcedTime, makeLineFromParcedTime } from '../../../utils';
 
-function StopWatch({
-  doAfterTimer,
-}: {
-  doAfterTimer: (value: number) => void;
-}) {
+function StopWatch({ func }: { func: (value: number) => void }) {
   const [time, setTime] = useState(0);
 
   const intervalRef = useRef<NodeJS.Timer>();
+
+  useEffect(() => {
+    func(time);
+  }, [func, time]);
 
   useEffect(() => {
     intervalRef.current = setInterval(() => {
@@ -18,9 +19,7 @@ function StopWatch({
 
     return () => {
       clearInterval(intervalRef.current);
-      doAfterTimer(time);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

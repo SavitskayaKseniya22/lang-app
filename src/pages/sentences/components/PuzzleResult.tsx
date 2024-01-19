@@ -3,6 +3,7 @@ import { Navigate } from 'react-router-dom';
 import { useAppSelector } from '../../../store/store';
 import { StyledMain } from '../../../styled/SharedStyles';
 import GameResultInfo from '../../game/components/GameResultInfo';
+import { makeLineFromParcedTime, getParcedTime } from '../../../utils';
 
 function PuzzleResult() {
   const { puzzles } = useAppSelector((state) => state.resultsReducer);
@@ -24,6 +25,9 @@ function PuzzleResult() {
               <h4>{`Wrong: ${puzzles.wrong}`}</h4>
             </li>
           </ul>
+          <div>
+            {makeLineFromParcedTime(getParcedTime({ time: puzzles.time }))}
+          </div>
         </GameResultInfo>
       </StyledMain>
     );
