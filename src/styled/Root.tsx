@@ -7,10 +7,8 @@ const root = css`
     max-width: 100vw;
     display: flex;
     flex-direction: column;
-  }
 
-  @media ${ScreenSize.TABLET} {
-    #root {
+    @media ${ScreenSize.TABLET} {
       flex-direction: row;
     }
   }

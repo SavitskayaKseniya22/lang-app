@@ -1,13 +1,9 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 import { NavArrow } from './component/NavArrow';
 import { ScreenSize } from '../../interfaces';
-import {
-  StyledLink,
-  StyledMain,
-  StyledNavLink,
-} from '../../styled/SharedStyles';
+import { StyledMain } from '../../styled/SharedStyles';
 
 export const StyledMainPageBlock = styled('ul')`
   min-height: 100vh;
@@ -25,6 +21,10 @@ export const StyledMainPageBlock = styled('ul')`
   @media ${ScreenSize.LAPTOPS} {
     padding: 2rem;
   }
+
+  .main-page__link {
+    color: rgb(42, 157, 143);
+  }
 `;
 
 function MainPage() {
@@ -33,9 +33,9 @@ function MainPage() {
       <NavArrow />
       <StyledMainPageBlock id="section-0">
         <h1>Awesome language learning app</h1>
-        <StyledLink href="#section-1">
+        <a className="main-page__link" href="#section-1">
           Learn English by playing games
-        </StyledLink>
+        </a>
       </StyledMainPageBlock>
       <StyledMainPageBlock id="section-1">
         <li>
@@ -75,7 +75,10 @@ function MainPage() {
         <li>
           <h3>
             Use
-            <StyledNavLink to="/text-book"> the Textbook </StyledNavLink>
+            <Link to="/text-book" className="main-page__link">
+              {' '}
+              the Textbook{' '}
+            </Link>
             to understand the meaning of the word
           </h3>
           <p>
@@ -87,8 +90,11 @@ function MainPage() {
         </li>
         <li>
           <h3>
-            Collect words into{' '}
-            <StyledNavLink to="/profile/collection">Сollection</StyledNavLink>{' '}
+            Collect words into
+            <Link to="/profile/collection" className="main-page__link">
+              {' '}
+              Сollection{' '}
+            </Link>
             for practice
           </h3>
           <p>
@@ -98,8 +104,11 @@ function MainPage() {
         </li>
         <li>
           <h3>
-            Track your progress in{' '}
-            <StyledNavLink to="/profile/statistics">Statistics</StyledNavLink>
+            Track your progress in
+            <Link to="/profile/statistics" className="main-page__link">
+              {' '}
+              Statistics
+            </Link>
           </h3>
           <p>
             Your progress is monitored and logged. Be sure to take a look at it

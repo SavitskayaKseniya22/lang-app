@@ -77,7 +77,7 @@ function TextBookPage() {
   if (data) {
     return (
       <StyledMain>
-        <h2>Textbook</h2>
+        <h2 className="main__title_main">Textbook</h2>
         <StyledTextBookContainer>
           <WordList data={data} learned={learnedWords} />
         </StyledTextBookContainer>

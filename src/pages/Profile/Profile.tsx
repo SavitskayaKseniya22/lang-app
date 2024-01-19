@@ -10,7 +10,7 @@ function Profile() {
 
   return (
     <StyledMain>
-      <h2>Profile</h2>
+      <h2 className="main__title_main">Profile</h2>
       <StyledGameList>
         <StyledGameItem>
           <Link to="collection">

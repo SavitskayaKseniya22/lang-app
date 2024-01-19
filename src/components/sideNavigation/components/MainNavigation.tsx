@@ -14,16 +14,16 @@ const StyledNavigation = styled('ul')`
   padding: 0 1rem 1rem 1rem;
   font-size: 1.25rem;
 
-  span {
-    display: none;
-  }
-
   @media ${ScreenSize.TABLET} {
     flex-direction: column;
     padding: 1rem 0 1rem 1rem;
     font-size: 1rem;
+  }
 
-    span {
+  .nav__title {
+    display: none;
+
+    @media ${ScreenSize.TABLET} {
       display: inline;
     }
   }
@@ -55,10 +55,8 @@ const StyledNavLink = styled(NavLink)<{ $type?: 'SUB' }>`
       props.$type === 'SUB' ? 'rgb(42, 157, 143)' : 'white'};
     color: ${(props) =>
       props.$type === 'SUB' ? 'white' : 'rgb(231, 111, 81)'};
-  }
 
-  @media ${ScreenSize.TABLET} {
-    &.active {
+    @media ${ScreenSize.TABLET} {
       border-radius: 0.5rem 0 0 0.5rem;
     }
   }
@@ -72,25 +70,25 @@ function MainNavigation() {
       <li>
         <StyledNavLink to="/" title="Homepage">
           <i className="fa-solid fa-house" />
-          <span>Homepage</span>
+          <span className="nav__title">Homepage</span>
         </StyledNavLink>
       </li>
       <li>
         <StyledNavLink to="/text-book" title="Textbook">
           <i className="fa-solid fa-book" />
-          <span>Textbook</span>
+          <span className="nav__title">Textbook</span>
         </StyledNavLink>
       </li>
       <li>
         <StyledNavLink to="/games" title="Games">
           <i className="fa-solid fa-puzzle-piece" />
-          <span>Games</span>
+          <span className="nav__title">Games</span>
         </StyledNavLink>
         <StyledNavigationSub>
           <li>
             <StyledNavLink to="/games/sprint" title="Sprint" $type="SUB">
               <i className="fa-solid fa-stopwatch" />
-              <span>Sprint</span>
+              <span className="nav__title">Sprint</span>
             </StyledNavLink>
           </li>
           <li>
@@ -100,19 +98,19 @@ function MainNavigation() {
               $type="SUB"
             >
               <i className="fa-solid fa-ellipsis" />
-              <span>Constructor</span>
+              <span className="nav__title">Constructor</span>
             </StyledNavLink>
           </li>
           <li>
             <StyledNavLink to="/games/audiocall" title="Audiocall" $type="SUB">
               <i className="fa-solid fa-music" />
-              <span>Audiocall</span>
+              <span className="nav__title">Audiocall</span>
             </StyledNavLink>
           </li>
           <li>
             <StyledNavLink to="/games/puzzles" title="Puzzles" $type="SUB">
               <i className="fa-solid fa-puzzle-piece" />
-              <span>Puzzles</span>
+              <span className="nav__title">Puzzles</span>
             </StyledNavLink>
           </li>
         </StyledNavigationSub>
@@ -123,7 +121,7 @@ function MainNavigation() {
           <>
             <StyledNavLink to="/profile" title="Profile">
               <i className="fa-solid fa-user" />
-              <span>Profile</span>
+              <span className="nav__title">Profile</span>
             </StyledNavLink>
 
             <StyledNavigationSub>
@@ -134,7 +132,7 @@ function MainNavigation() {
                   $type="SUB"
                 >
                   <i className="fa-regular fa-folder" />
-                  <span>Collection</span>
+                  <span className="nav__title">Collection</span>
                 </StyledNavLink>
               </li>
               <li>
@@ -144,7 +142,7 @@ function MainNavigation() {
                   $type="SUB"
                 >
                   <i className="fa-solid fa-table" />
-                  <span>Statistics</span>
+                  <span className="nav__title">Statistics</span>
                 </StyledNavLink>
               </li>
             </StyledNavigationSub>

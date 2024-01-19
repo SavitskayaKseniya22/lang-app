@@ -50,7 +50,7 @@ function GameStartScreen({
 
   return (
     <StyledMain>
-      <h2>{type}</h2>
+      <h2 className="main__title_main">{type}</h2>
       <GroupPicker
         value={value}
         onSubmit={(formData) => {

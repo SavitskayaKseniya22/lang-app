@@ -31,7 +31,7 @@ export const StyledGameItem = styled('li')`
 function Games() {
   return (
     <StyledMain>
-      <h2>Games</h2>
+      <h2 className="main__title_main">Games</h2>
       <StyledGameList>
         <StyledGameItem>
           <Link to="sprint">
