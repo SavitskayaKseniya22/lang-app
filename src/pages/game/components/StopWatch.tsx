@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { StyledTimer } from './Timer';
+import { getParcedTime, makeLineFromParcedTime } from '../../../utils';
 
 function StopWatch({
   doAfterTimer,
@@ -22,7 +23,11 @@ function StopWatch({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return <StyledTimer>{time}</StyledTimer>;
+  return (
+    <StyledTimer>
+      <b>{makeLineFromParcedTime(getParcedTime({ time }))}</b>
+    </StyledTimer>
+  );
 }
 
 export default StopWatch;

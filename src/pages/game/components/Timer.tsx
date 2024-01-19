@@ -7,14 +7,14 @@ export const StyledTimer = styled('div')`
   align-items: center;
   padding: 1rem;
   border-radius: 50%;
-  border: 3px solid black;
+  border: 3px solid lightgray;
   width: 3rem;
   height: 3rem;
   font-size: 1rem;
   position: absolute;
   bottom: 1rem;
   right: 1rem;
-  opacity: 0.5;
+  color: black;
 `;
 
 function Timer({
@@ -45,7 +45,11 @@ function Timer({
     };
   }, []);
 
-  return <StyledTimer>{timer}</StyledTimer>;
+  return (
+    <StyledTimer>
+      <b>{timer}</b>
+    </StyledTimer>
+  );
 }
 
 export default Timer;
