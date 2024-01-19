@@ -73,11 +73,14 @@ function DragAndDrop({
 
   useEffect(() => {
     if (!sentence.source.length) {
+      const istItCorrect =
+        word.textExample ===
+        sentence.result.map((item) => item.element).join(' ');
+
       dispatch(
-        updatePuzzlesMiddleResult(
-          word.textExample ===
-            sentence.result.map((item) => item.element).join(' ')
-        )
+        updatePuzzlesMiddleResult({
+          middleResult: istItCorrect,
+        })
       );
     }
   }, [dispatch, sentence, word.textExample]);

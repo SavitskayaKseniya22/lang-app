@@ -64,6 +64,8 @@ const initPuzzlesResultValue = {
   middleResult: false,
   step: 5,
   total: 0,
+  correct: 0,
+  wrong: 0,
 };
 
 const initConstructorResultValue = {
@@ -99,16 +101,24 @@ export const resultsSlice = createSlice({
       state.puzzles = { ...initPuzzlesResultValue, ...action.payload };
     },
 
-    updatePuzzlesMiddleResult: (state, action: PayloadAction<boolean>) => {
-      state.puzzles.middleResult = action.payload;
+    updatePuzzlesMiddleResult: (
+      state,
+      action: PayloadAction<{
+        middleResult: boolean;
+      }>
+    ) => {
+      state.puzzles.middleResult = action.payload.middleResult;
     },
 
     updatePuzzlesTotalResult: (state) => {
       if (state.puzzles.middleResult) {
         state.puzzles.total += state.puzzles.step;
+        state.puzzles.correct += 1;
       } else {
         state.puzzles.total -= 1;
+        state.puzzles.wrong += 1;
       }
+
       state.puzzles.middleResult = false;
     },
 

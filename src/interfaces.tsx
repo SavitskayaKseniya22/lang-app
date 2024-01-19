@@ -183,7 +183,10 @@ export interface Users {
 
 export type ResultsState = {
   sprint: ComplicatedResultType;
-  puzzles: { middleResult: boolean } & PointsType;
+  puzzles: { middleResult: boolean } & PointsType & {
+      correct: number;
+      wrong: number;
+    };
   audiocall: ComplicatedResultType;
   constructor: PointsType & AnswersType;
 };

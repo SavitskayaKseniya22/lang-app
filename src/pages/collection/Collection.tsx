@@ -41,19 +41,12 @@ function Collection() {
   if (isSuccess) {
     return (
       <StyledMain>
-        <h2>Collection</h2>
+        <h2 className="main__title_main">Collection</h2>
         <StyledCollectionList>
-          {!!data[CollectionType.DIFFICULT].length && (
-            <CollectionPart data={data} type={CollectionType.DIFFICULT} />
-          )}
-          {!!data[CollectionType.SELECTED].length && (
-            <CollectionPart data={data} type={CollectionType.SELECTED} />
-          )}
-          {!!data[CollectionType.LEARNED].length && (
-            <CollectionPart data={data} type={CollectionType.LEARNED} />
-          )}
+          <CollectionPart data={data} type={CollectionType.DIFFICULT} />
+          <CollectionPart data={data} type={CollectionType.SELECTED} />
+          <CollectionPart data={data} type={CollectionType.LEARNED} />
         </StyledCollectionList>
-
         <StyledRemoveAllButton
           type="button"
           onClick={() => {

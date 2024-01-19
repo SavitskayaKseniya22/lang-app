@@ -69,8 +69,6 @@ function CollectionPart({
   const { setContent } = useContext(ModalContext);
   const [addToUserWords] = useAddToUserWordsMutation();
 
-  const isItLearned = (data && data[CollectionType.LEARNED]) || false;
-
   return (
     <StyledCollectionPart>
       <h3 className="collection-part__title">{`${type}`} words</h3>
@@ -83,16 +81,19 @@ function CollectionPart({
 
             data[type].forEach((word) => {
               const temp = { ...word };
+
               if (type === CollectionType.SELECTED) {
                 Object.assign(temp, { selected: false });
               }
+
               if (type === CollectionType.LEARNED) {
                 Object.assign(temp, { learned: false, guessed: 0 });
               }
+
               if (type === CollectionType.DIFFICULT) {
                 Object.assign(temp, {
                   difficult: false,
-                  guessed: isItLearned ? 3 : 0,
+                  guessed: word.learned ? 3 : 0,
                 });
               }
               Object.assign(updatedWords, { [word.id]: temp });
@@ -110,7 +111,7 @@ function CollectionPart({
 
         <button
           type="button"
-          disabled={!(data[type].length > 10)}
+          disabled={data[type].length < 10}
           onClick={() => {
             setContent(<GamesPanel data={data[type]} />);
           }}
@@ -120,7 +121,11 @@ function CollectionPart({
       </div>
 
       <div className="collection-part__container">
-        <WordList data={data[type]} />
+        {data[type].length ? (
+          <WordList data={data[type]} />
+        ) : (
+          <h5>Not a word added</h5>
+        )}
       </div>
     </StyledCollectionPart>
   );

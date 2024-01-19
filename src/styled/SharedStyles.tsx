@@ -1,5 +1,4 @@
 import styled, { css } from 'styled-components';
-import { NavLink } from 'react-router-dom';
 
 export const gradientBackground = css`
   background: linear-gradient(
@@ -23,17 +22,9 @@ export const StyledMain = styled('main')`
   position: relative;
   justify-content: space-between;
 
-  h2 {
+  .main__title_main {
     align-self: flex-start;
   }
-`;
-
-export const StyledLink = styled('a')`
-  color: rgb(42, 157, 143);
-`;
-
-export const StyledNavLink = styled(NavLink)`
-  color: rgb(42, 157, 143);
 `;
 
 export const StyledGameContainer = styled('div')`

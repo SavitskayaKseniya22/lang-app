@@ -3,20 +3,26 @@ import { Navigate } from 'react-router-dom';
 import { useAppSelector } from '../../../store/store';
 import { StyledMain } from '../../../styled/SharedStyles';
 import GameResultDetailed from '../../game/components/GameResultDetailed';
+import { StyledResult, makeResult } from '../../game/components/GameResult';
 
 function ConstructorResult() {
-  const { constructor } = useAppSelector((state) => state.resultsReducer);
-
-  console.log(constructor);
+  const result = useAppSelector((state) => state.resultsReducer).constructor;
 
   if (
-    constructor &&
-    (constructor.answers.correct.length || constructor.answers.wrong.length)
+    result &&
+    (result.answers.correct.length || result.answers.wrong.length)
   ) {
+    const { percent, message } = makeResult(result);
+
     return (
       <StyledMain>
-        <h2>{constructor.total} points</h2>
-        <GameResultDetailed result={constructor} />
+        <h2 className="main__title_main">Results</h2>
+        <GameResultDetailed result={result} />
+        <StyledResult>
+          <h2>Points gained: {result.total}</h2>
+          <h3>{message}</h3>
+          <h4>{`${percent}% correct answers`}</h4>
+        </StyledResult>
       </StyledMain>
     );
   }
