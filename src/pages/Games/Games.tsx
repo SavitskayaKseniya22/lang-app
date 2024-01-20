@@ -10,7 +10,6 @@ export const StyledGameList = styled('ul')`
   padding: 1rem;
   align-items: center;
   justify-content: center;
-  background-color: white;
   flex-grow: 2;
 `;
 

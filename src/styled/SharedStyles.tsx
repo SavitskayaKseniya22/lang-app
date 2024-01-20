@@ -14,6 +14,7 @@ export const StyledMain = styled('main')`
 
   .main__title_main {
     align-self: flex-start;
+    color: rgba(38, 70, 83);
   }
 `;
 

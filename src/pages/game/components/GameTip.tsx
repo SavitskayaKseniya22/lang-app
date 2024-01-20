@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import { GameType } from '../../../interfaces';
 
 const StyledGameTip = styled('ul')`
-  background-color: gainsboro;
   padding: 1rem;
   text-align: center;
   display: flex;

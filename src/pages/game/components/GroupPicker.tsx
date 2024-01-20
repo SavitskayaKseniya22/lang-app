@@ -18,7 +18,7 @@ const StyledGroupPicker = styled('form')`
     display: none;
 
     &:checked + label {
-      background-color: white;
+      background-color: transparent;
       color: rgb(42, 157, 143);
     }
   }

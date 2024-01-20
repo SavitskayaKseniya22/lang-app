@@ -18,11 +18,11 @@ export const StyledAuthForm = styled('form')`
 
 export const StyledInput = styled('input')`
   width: 100%;
-
   border: none;
   background-color: rgb(244, 162, 97);
   text-align: center;
   font-size: 1.25rem;
+  padding: 0.5rem 1rem;
 `;
 
 function AuthForm({

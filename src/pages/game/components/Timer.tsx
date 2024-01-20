@@ -7,7 +7,7 @@ export const StyledTimer = styled('div')`
   align-items: center;
   padding: 1rem;
   border-radius: 50%;
-  border: 3px solid lightgray;
+  border: 3px solid gainsboro;
   width: 3rem;
   height: 3rem;
   font-size: 1rem;

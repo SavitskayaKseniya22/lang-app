@@ -29,7 +29,7 @@ function SignInControl() {
       }}
     >
       <i className="fa-solid fa-user" />
-      <span>Sign in</span>
+      <span className="nav__title">Sign in</span>
     </StyledSignInControl>
   );
 }

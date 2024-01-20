@@ -17,14 +17,14 @@ const StyledPagePickerButton = styled('button')`
   color: white;
   background-color: rgb(244, 162, 97);
 
-  &:disabled {
-    background-color: rgb(42, 157, 144);
-  }
-
   @media ${ScreenSize.TABLET} {
     width: 2.5rem;
     height: 2.5rem;
     font-size: 1rem;
+  }
+
+  &.page-picker__page-info {
+    pointer-events: none;
   }
 `;
 
@@ -67,7 +67,9 @@ function PagePicker({
         <i className="fa-solid fa-backward" />
       </StyledPagePickerButton>
 
-      <StyledPagePickerButton disabled>{values.page}</StyledPagePickerButton>
+      <StyledPagePickerButton className="page-picker__page-info">
+        {values.page}
+      </StyledPagePickerButton>
 
       <StyledPagePickerButton
         disabled={values.page === borderValues.current.next}
