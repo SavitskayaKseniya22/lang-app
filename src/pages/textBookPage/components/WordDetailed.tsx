@@ -14,7 +14,6 @@ const StyledWordDetailed = styled('div')`
   display: flex;
   flex-direction: column;
   min-width: 288px;
-  padding: 1rem;
 `;
 
 const StyledWordDetailedTitle = styled('div')`

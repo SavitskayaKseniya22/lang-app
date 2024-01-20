@@ -5,6 +5,8 @@ const StyledChoiceList = styled('div')`
   display: flex;
   padding: 1rem;
   gap: 1rem;
+  justify-content: center;
+  align-items: center;
 `;
 
 const StyledChoiceButton = styled('button')<{ $type: 'left' | 'right' }>`

@@ -25,7 +25,7 @@ const StyledProgressItem = styled('li')<{ $type: 'fullfilled' | 'empty' }>`
   background-color: ${(props) =>
     props.$type === 'fullfilled'
       ? 'rgb(244, 162, 97)'
-      : 'rgba(233, 197, 106, 0.2)'};
+      : 'rgba(233, 197, 106, 0.5)'};
 
   flex-grow: 1;
   height: 1rem;

@@ -10,13 +10,28 @@ import { StyledMain } from '../../styled/SharedStyles';
 import Spinner from '../../components/spinner/Spinner';
 import { useAppSelector } from '../../store/store';
 import { useGetUserWordsQuery } from '../../store/userWordsApi';
-import { WordType } from '../../interfaces';
+import { ScreenSize, WordType } from '../../interfaces';
 
-const StyledTextBookContainer = styled('div')`
+export const StyledTextBookContainer = styled('div')`
+  overflow: auto;
+  max-height: 55svh;
+  position: relative;
+  flex-grow: 2;
+  mask-image: linear-gradient(rgba(0, 0, 0, 1) 90%, rgba(0, 0, 0, 0.2));
+  mask-size: 100% 100%;
+  mask-repeat: no-repeat;
   display: flex;
-  flex-grow: 22;
-  align-items: center;
+  align-items: safe center;
   justify-content: center;
+
+  @media ${ScreenSize.TABLET} {
+    max-height: 60svh;
+  }
+
+  @media ${ScreenSize.LAPTOPS} {
+    mask-image: unset;
+    max-height: unset;
+  }
 `;
 
 const StyledTextBookSettings = styled('div')`
@@ -25,11 +40,6 @@ const StyledTextBookSettings = styled('div')`
   padding: 1rem;
   flex-direction: column;
   align-items: center;
-  position: sticky;
-  bottom: 0;
-  left: 0;
-  background-color: white;
-  width: 100%;
 `;
 
 function TextBookPage() {
@@ -78,9 +88,11 @@ function TextBookPage() {
     return (
       <StyledMain>
         <h2 className="main__title_main">Textbook</h2>
+
         <StyledTextBookContainer>
           <WordList data={data} learned={learnedWords} />
         </StyledTextBookContainer>
+
         <StyledTextBookSettings>
           <PagePicker values={pageMemo} />
           <GroupSelect values={groupMemo} />

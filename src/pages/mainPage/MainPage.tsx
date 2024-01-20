@@ -14,10 +14,6 @@ export const StyledMainPageBlock = styled('ul')`
   justify-content: center;
   gap: 2rem;
 
-  &:nth-child(odd) {
-    background-color: rgba(233, 197, 106, 0.1);
-  }
-
   @media ${ScreenSize.LAPTOPS} {
     padding: 2rem;
   }

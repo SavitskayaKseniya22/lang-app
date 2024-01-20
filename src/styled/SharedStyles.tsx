@@ -12,6 +12,10 @@ export const StyledMain = styled('main')`
   position: relative;
   justify-content: space-between;
 
+  @media ${ScreenSize.TABLET} {
+    border-left: 0.5rem solid white;
+  }
+
   .main__title_main {
     align-self: flex-start;
     color: rgba(38, 70, 83);
@@ -22,13 +26,18 @@ export const StyledGameContainer = styled('div')`
   display: flex;
   flex-direction: column;
   flex-grow: 2;
-  align-items: center;
   justify-content: space-around;
   text-align: center;
   gap: 1rem;
+  width: 100%;
 
   @media ${ScreenSize.TABLET} {
-    gap: 4rem;
-    justify-content: center;
+    width: 90%;
+  }
+  @media ${ScreenSize.LAPTOPS} {
+    width: 70%;
+  }
+  @media ${ScreenSize.LAPTOPL} {
+    width: 50%;
   }
 `;

@@ -22,10 +22,6 @@ export const StyledCollectionPart = styled('li')`
   padding: 1rem;
   position: relative;
 
-  &:nth-child(odd) {
-    background-color: rgba(233, 197, 106, 0.1);
-  }
-
   @media ${ScreenSize.LAPTOPS} {
     padding: 2rem;
   }

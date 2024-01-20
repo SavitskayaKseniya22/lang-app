@@ -7,7 +7,7 @@ export const StyledGameList = styled('ul')`
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  padding: 1rem;
+
   align-items: center;
   justify-content: center;
   flex-grow: 2;

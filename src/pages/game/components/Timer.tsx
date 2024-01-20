@@ -7,14 +7,14 @@ export const StyledTimer = styled('div')`
   align-items: center;
   padding: 1rem;
   border-radius: 50%;
-  border: 3px solid gainsboro;
+  border: 3px solid white;
   width: 3rem;
   height: 3rem;
   font-size: 1rem;
   position: absolute;
   bottom: 1rem;
   right: 1rem;
-  color: black;
+  color: rgb(38, 70, 83);
 `;
 
 function Timer({

@@ -7,8 +7,6 @@ const StyledAuthContainer = styled('div')`
   display: flex;
   flex-direction: column;
   gap: 2rem;
-  padding: 1rem;
-  margin: 1rem;
 `;
 
 function Auth() {

@@ -37,13 +37,14 @@ const StyledDragContainer = styled('div')<{ $isItActive: boolean }>`
   .list_droppable,
   .list_draggable {
     border-radius: 1rem;
-    background-color: gainsboro;
+    background-color: rgba(38, 70, 83, 0.2);
     min-height: 3rem;
     padding: 1rem;
     display: flex;
     flex-wrap: wrap;
     gap: 0.5rem;
     font-size: smaller;
+    justify-content: center;
 
     li {
       border-radius: 0.5rem;
