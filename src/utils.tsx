@@ -128,10 +128,13 @@ export class DataQueue {
 
   startLength: number;
 
-  constructor(elements: WordType[]) {
+  initialGroup: string;
+
+  constructor({ elements, group }: { elements: WordType[]; group: string }) {
     this.elements = elements;
     this.tail = elements.length;
     this.startLength = elements.length;
+    this.initialGroup = group;
   }
 
   next() {
@@ -204,6 +207,14 @@ export class DataQueue {
 
   get isEmpty() {
     return this.length === 0;
+  }
+
+  get words() {
+    return this.elements;
+  }
+
+  get group() {
+    return this.initialGroup;
   }
 }
 

@@ -30,7 +30,9 @@ function SprintShortGame({ data }: { data: DataQueue }) {
     dispatch(updateSprintResult({ isAnswerCorrect, word: first }));
 
     if (data.isEmpty) {
-      navigate(`/games/sprint/result`);
+      navigate(`/games/sprint/result`, {
+        state: { data: data.words, group: data.group },
+      });
     } else {
       setActiveWords(updater);
     }

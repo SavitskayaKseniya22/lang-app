@@ -1,5 +1,6 @@
+/* eslint-disable jsx-a11y/control-has-associated-label */
 import React from 'react';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 import { StyledMain } from '../../../styled/SharedStyles';
 import { useAppSelector } from '../../../store/store';
 import GameResultDetailed from './GameResultDetailed';
@@ -12,6 +13,10 @@ function GameResult({
   type: 'sprint' | 'audiocall' | 'constructor';
 }) {
   const result = useAppSelector((state) => state.resultsReducer)[type];
+
+  const location = useLocation();
+
+  const navigate = useNavigate();
 
   if (
     result &&
@@ -31,6 +36,19 @@ function GameResult({
           <div>
             {makeLineFromParcedTime(getParcedTime({ time: result.time }))}
           </div>
+        )}
+
+        {location.state?.data && (
+          <button
+            type="button"
+            onClick={() => {
+              navigate(`/games/${type}/game`, {
+                state: location.state,
+              });
+            }}
+          >
+            repeat the game
+          </button>
         )}
       </StyledMain>
     );

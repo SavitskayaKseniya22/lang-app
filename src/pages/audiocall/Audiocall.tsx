@@ -24,11 +24,29 @@ function Audiocall() {
   );
 
   if (initial.data) {
-    return <AudiocallGame data={new DataQueue(initial.data)} />;
+    return (
+      <AudiocallGame
+        data={
+          new DataQueue({
+            elements: initial.data,
+            group: initial.group,
+          })
+        }
+      />
+    );
   }
 
   if (data) {
-    return <AudiocallGame data={new DataQueue(data)} />;
+    return (
+      <AudiocallGame
+        data={
+          new DataQueue({
+            elements: data,
+            group: initial.group,
+          })
+        }
+      />
+    );
   }
 
   if (isLoading) return <Spinner />;

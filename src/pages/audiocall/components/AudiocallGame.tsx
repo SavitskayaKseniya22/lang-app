@@ -22,7 +22,7 @@ const StyledAudiocallButtonList = styled('div')`
   button {
     font-size: 1.5rem;
     padding: 1rem 2rem;
-    background-color: gainsboro;
+    background-color: white;
     border-radius: 1rem;
     flex-grow: 2;
     position: relative;
@@ -116,7 +116,9 @@ function AudiocallGame({ data }: { data: DataQueue }) {
               type="button"
               onClick={() => {
                 if (data.isEmpty) {
-                  navigate('/games/audiocall/result');
+                  navigate('/games/audiocall/result', {
+                    state: { data: data.words, group: data.group },
+                  });
                 } else {
                   setWords(updater);
                   setMiddleResult(null);

@@ -44,11 +44,19 @@ function Constructor() {
   }, [dispatch, initial.group]);
 
   if (initial.data) {
-    return <ConstructorGame data={new DataQueue(initial.data)} />;
+    return (
+      <ConstructorGame
+        data={new DataQueue({ elements: initial.data, group: initial.group })}
+      />
+    );
   }
 
   if (data) {
-    return <ConstructorGame data={new DataQueue(data)} />;
+    return (
+      <ConstructorGame
+        data={new DataQueue({ elements: data, group: initial.group })}
+      />
+    );
   }
 
   if (isLoading) return <Spinner />;

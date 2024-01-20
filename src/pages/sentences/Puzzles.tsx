@@ -50,14 +50,26 @@ function Puzzles() {
   if (initial.data) {
     return (
       <PuzzlesGame
-        data={new DataQueue(getRandomItemsFromArray(initial.data, 10))}
+        data={
+          new DataQueue({
+            elements: getRandomItemsFromArray(initial.data, 10),
+            group: initial.group,
+          })
+        }
       />
     );
   }
 
   if (data) {
     return (
-      <PuzzlesGame data={new DataQueue(getRandomItemsFromArray(data, 10))} />
+      <PuzzlesGame
+        data={
+          new DataQueue({
+            elements: getRandomItemsFromArray(data, 10),
+            group: initial.group,
+          })
+        }
+      />
     );
   }
 

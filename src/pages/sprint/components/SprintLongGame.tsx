@@ -18,6 +18,7 @@ import { useAppDispatch, useAppSelector } from '../../../store/store';
 import { updateSprintResult } from '../../../store/ResultSlice';
 import { StyledGameContainer, StyledMain } from '../../../styled/SharedStyles';
 import GameInfo from '../../game/components/GameInfo';
+import ErrorPage, { ErrorType } from '../../errorPage/ErrorPage';
 
 function SprintLongGame({ group }: GroupType) {
   const navigate = useNavigate();
@@ -38,11 +39,14 @@ function SprintLongGame({ group }: GroupType) {
 
   useEffect(() => {
     if (currentData) {
-      const dataQueue = new DataQueue(currentData);
+      const dataQueue = new DataQueue({
+        elements: currentData,
+        group: group.toString(),
+      });
       data.current = dataQueue;
       setActiveWords(dataQueue.nextPair());
     }
-  }, [currentData]);
+  }, [currentData, group]);
 
   const handleClick = (value: string) => {
     if (data.current && activeWords) {
@@ -86,7 +90,7 @@ function SprintLongGame({ group }: GroupType) {
     );
   }
 
-  return <div>No data found. Please return to the main page</div>;
+  return <ErrorPage type={ErrorType.ERROR} />;
 }
 
 export default SprintLongGame;

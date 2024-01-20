@@ -53,7 +53,7 @@ const StyledList = styled('ul')`
 const StyledItem = styled('li')<{ $type: 'disabled' | 'active' }>`
   ${StyledActiveLetter};
   background-color: ${(props) =>
-    props.$type === 'active' ? 'rgba(38, 70, 83)' : 'gainsboro'};
+    props.$type === 'active' ? 'rgba(38, 70, 83)' : 'white'};
   border-radius: 0.25rem;
   width: 1.5rem;
   height: 1.25rem;
@@ -152,7 +152,9 @@ function ConstructorGame({ data }: { data: DataQueue }) {
               type="button"
               onClick={() => {
                 if (data.isEmpty) {
-                  navigate('/games/constructor/result');
+                  navigate('/games/constructor/result', {
+                    state: { data: data.words, group: data.group },
+                  });
                 } else {
                   setWord(updater);
                   setMiddleResult(null);
