@@ -226,3 +226,7 @@ export type StatiscticsType = {
   [ResultType.constructor]: Array<StatiscticsItemType[ResultType.constructor]>;
   [ResultType.puzzles]: Array<StatiscticsItemType[ResultType.puzzles]>;
 };
+export enum StatControlType {
+  TODAY = 'today',
+  TOTAL = 'total',
+}
