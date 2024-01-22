@@ -21,11 +21,6 @@ export enum WordBaseValues {
   MINWORD = 0,
 }
 
-export enum DefaultTextBookValues {
-  group = WordBaseValues.MINGROUP,
-  page = WordBaseValues.MINPAGE,
-}
-
 export enum StreakValues {
   MIN = 0,
   MAX = 3,
@@ -89,9 +84,10 @@ export interface BasicUserCredentials {
   email: string;
   password: string;
 }
+
 export type SubtrahendType = { subtrahend: number };
 
-export type GroupType = { group: number };
+export type GroupType = { group: string };
 
 export type PageType = { page: number };
 
@@ -102,6 +98,8 @@ export type TotalType = { total: number };
 export type StepType = { step: number };
 
 export type StreakType = { streak: number };
+
+export type TimeType = { time: number };
 
 export type PointsType = StepType & TotalType;
 
@@ -182,13 +180,49 @@ export type ResultsState = {
   puzzles: { middleResult: boolean } & PointsType & {
       correct: number;
       wrong: number;
-    } & SubtrahendType & { time: number };
+    } & SubtrahendType &
+    TimeType;
 
-  constructor: PointsType & AnswersType & SubtrahendType & { time: number };
+  constructor: PointsType & AnswersType & SubtrahendType & TimeType;
 };
 
 export type UpdateResultType = {
   isAnswerCorrect: boolean;
   word: WordType;
   time?: number;
+};
+
+export type BasicResultType = {
+  date: Date;
+  score: number;
+  accuracy: number;
+};
+
+export type WordsResultType = {
+  encountered: number;
+  learned: number;
+};
+
+export enum ResultType {
+  sprintShort = 'sprintShort',
+  sprintLong = 'sprintLong',
+  audiocall = 'audiocall',
+  constructor = 'constructor',
+  puzzles = 'puzzles',
+}
+
+export type StatiscticsItemType = {
+  [ResultType.sprintShort]: BasicResultType & WordsResultType;
+  [ResultType.sprintLong]: BasicResultType & WordsResultType;
+  [ResultType.audiocall]: BasicResultType & WordsResultType;
+  [ResultType.constructor]: BasicResultType & WordsResultType & TimeType;
+  [ResultType.puzzles]: BasicResultType & TimeType;
+};
+
+export type StatiscticsType = {
+  [ResultType.sprintShort]: Array<StatiscticsItemType[ResultType.sprintShort]>;
+  [ResultType.sprintLong]: Array<StatiscticsItemType[ResultType.sprintLong]>;
+  [ResultType.audiocall]: Array<StatiscticsItemType[ResultType.audiocall]>;
+  [ResultType.constructor]: Array<StatiscticsItemType[ResultType.constructor]>;
+  [ResultType.puzzles]: Array<StatiscticsItemType[ResultType.puzzles]>;
 };

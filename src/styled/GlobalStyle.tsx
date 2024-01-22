@@ -1,7 +1,6 @@
 import { createGlobalStyle } from 'styled-components';
 import titles from './Titles';
 import root from './Root';
-
 import back from '../assets/images/jpeg/vecteezy_beautiful-abstract-background-with-gradient-rainbow-blob_13047954.jpg';
 
 const GlobalStyle = createGlobalStyle`
@@ -12,6 +11,7 @@ const GlobalStyle = createGlobalStyle`
     scroll-behavior: smooth;
    
     position:relative;
+
     
 
     &:after{

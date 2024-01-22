@@ -24,7 +24,7 @@ function Sprint() {
   }
 
   if (initial.group) {
-    return <SprintLongGame group={+initial.group} />;
+    return <SprintLongGame group={initial.group} />;
   }
 
   return <ErrorPage type={ErrorType.ERROR} />;

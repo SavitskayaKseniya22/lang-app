@@ -44,7 +44,7 @@ const StyledTextBookSettings = styled('div')`
 
 function TextBookPage() {
   const [page, setPage] = useState(0);
-  const [group, setGroup] = useState(0);
+  const [group, setGroup] = useState('0');
 
   const [learnedWords, setLearnedWords] = useState<WordType[]>([]);
 

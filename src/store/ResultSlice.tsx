@@ -56,7 +56,7 @@ const initAnswersValue = { correct: [], wrong: [] };
 
 const initComplicatedResultValue = {
   answers: initAnswersValue,
-  step: StepValues.MIN,
+  step: 10,
   total: 0,
   streak: StreakValues.MIN,
 };

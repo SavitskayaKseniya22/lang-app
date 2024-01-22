@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import { useGetAllWordsQuery } from '../../../store/wordsApi';
 import {
   ActiveWordsTypes,
-  DefaultTextBookValues,
   GroupType,
   WordBaseValues,
 } from '../../../interfaces';
@@ -24,7 +23,7 @@ function SprintLongGame({ group }: GroupType) {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { sprint } = useAppSelector((state) => state.resultsReducer);
-  const pageRef = useRef(DefaultTextBookValues.page);
+  const pageRef = useRef(WordBaseValues.MINPAGE);
 
   const data = useRef<null | DataQueue>(null);
 
@@ -41,7 +40,7 @@ function SprintLongGame({ group }: GroupType) {
     if (currentData) {
       const dataQueue = new DataQueue({
         elements: currentData,
-        group: group.toString(),
+        group,
       });
       data.current = dataQueue;
       setActiveWords(dataQueue.nextPair());

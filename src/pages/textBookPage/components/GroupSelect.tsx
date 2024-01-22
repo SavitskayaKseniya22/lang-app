@@ -15,13 +15,13 @@ function GroupSelect({
   values,
 }: {
   values: GroupType & {
-    setGroup: React.Dispatch<React.SetStateAction<number>>;
+    setGroup: React.Dispatch<React.SetStateAction<string>>;
   };
 }) {
   return (
     <StyledGroupSelect
       onChange={(e) => {
-        values.setGroup(+e.target.value);
+        values.setGroup(e.target.value);
       }}
     >
       <option value="0">Choose word difficulty - Basic</option>
