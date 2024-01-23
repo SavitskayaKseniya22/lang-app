@@ -9,14 +9,11 @@ export const StyledGameResultInfo = styled('div')`
   align-items: center;
   flex-direction: column;
   gap: 0.5rem;
-  background-color: rgb(255, 255, 255);
+
   width: 100%;
   z-index: 5;
   padding: 1rem;
   text-align: center;
-  position: sticky;
-  bottom: 0;
-  left: 0;
 
   .result__detailed {
     display: flex;

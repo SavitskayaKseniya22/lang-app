@@ -19,8 +19,17 @@ import { getPercent } from '../../../utils';
 export const StyledGameResultContent = styled('ul')`
   display: flex;
   flex-direction: column;
-  gap: 2rem;
-  justify-content: space-between;
+  gap: 1rem;
+  align-items: safe center;
+  justify-content: safe center;
+
+  overflow: auto;
+  max-height: 55svh;
+  position: relative;
+  flex-grow: 2;
+  mask-image: linear-gradient(rgba(0, 0, 0, 1) 90%, rgba(0, 0, 0, 0.2));
+  mask-size: 100% 100%;
+  mask-repeat: no-repeat;
 `;
 
 export const StyledGameResultContentItem = styled('li')`

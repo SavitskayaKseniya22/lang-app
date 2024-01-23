@@ -34,25 +34,26 @@ function GameResult({
           correct={result.answers.correct.length}
           wrong={result.answers.wrong.length}
           total={result.total}
-        />
-        {'time' in result && (
-          <div>
-            {makeLineFromParcedTime(getParcedTime({ time: result.time }))}
-          </div>
-        )}
+        >
+          {'time' in result && (
+            <div>
+              {makeLineFromParcedTime(getParcedTime({ time: result.time }))}
+            </div>
+          )}
 
-        {location.state?.data && (
-          <button
-            type="button"
-            onClick={() => {
-              navigate(`/games/${type}/game`, {
-                state: location.state,
-              });
-            }}
-          >
-            repeat the game
-          </button>
-        )}
+          {location.state?.data && (
+            <button
+              type="button"
+              onClick={() => {
+                navigate(`/games/${type}/game`, {
+                  state: location.state,
+                });
+              }}
+            >
+              repeat the game
+            </button>
+          )}
+        </GameResultInfo>
       </StyledMain>
     );
   }
