@@ -30,7 +30,7 @@ function SprintLongGame({ group }: GroupType) {
 
   const [activeWords, setActiveWords] = useState<ActiveWordsTypes | null>(null);
 
-  const { currentData, isLoading } = useGetAllWordsQuery(
+  const { currentData, isLoading, isSuccess } = useGetAllWordsQuery(
     { group, page: pageRef.current },
     {
       refetchOnMountOrArgChange: true,
@@ -77,7 +77,7 @@ function SprintLongGame({ group }: GroupType) {
     navigate(`/games/sprint/result`);
   }, [navigate]);
 
-  if (isLoading) return <Spinner />;
+  if (isLoading || (isSuccess && data.current === null)) return <Spinner />;
 
   if (data.current && activeWords) {
     return (
