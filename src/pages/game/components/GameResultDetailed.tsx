@@ -1,13 +1,20 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { AnswersType, WordType, WordWithIdType } from '../../../interfaces';
+import {
+  ResultType,
+  ResultsState,
+  WordType,
+  WordWithIdType,
+} from '../../../interfaces';
 import {
   useAddToUserWordsMutation,
   useGetUserWordsQuery,
+  useUpdateUserResultsMutation,
 } from '../../../store/userWordsApi';
 import { useAppSelector } from '../../../store/store';
 import WordList from '../../textBookPage/components/WordList';
+import { getPercent } from '../../../utils';
 
 export const StyledGameResultContent = styled('ul')`
   display: flex;
@@ -22,12 +29,45 @@ export const StyledGameResultContentItem = styled('li')`
   gap: 1rem;
 `;
 
-function GameResultDetailed({ result }: { result: AnswersType }) {
+function GameResultDetailed({
+  type,
+  results,
+}: {
+  results: ResultsState;
+  type: Exclude<
+    ResultType,
+    ResultType.puzzles | ResultType.sprintShort | ResultType.sprintLong
+  >;
+}) {
+  const result = results[type];
   const { correct, wrong } = result.answers;
   const [newWords, setNewWords] = useState<WordType[]>([]);
   const [newLearned, setNewLearned] = useState<WordType[]>([]);
 
   const { user } = useAppSelector((state) => state.persist.auth);
+
+  const [updateUserResults] = useUpdateUserResultsMutation();
+
+  useEffect(
+    () => () => {
+      updateUserResults({
+        userId: user!.localId,
+        type:
+          type === ResultType.sprint && 'type' in result ? result.type : type,
+        data: {
+          date: Date.now(),
+          score: result.total,
+          accuracy: getPercent(correct.length + wrong.length, correct.length),
+          encountered: newWords.length,
+          learned: newLearned.length,
+          time: 'time' in result ? result.time : 0,
+        },
+        tokenId: user!.idToken,
+      });
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    []
+  );
 
   const { data: userWords, isSuccess } = useGetUserWordsQuery(
     {

@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ActiveWordsTypes } from '../../../interfaces';
+import { ActiveWordsTypes, ResultType } from '../../../interfaces';
 import { checkIfAnswerCorrect, DataQueue } from '../../../utils';
 import Streak from '../../game/components/Streak';
 import Points from '../../game/components/Points';
@@ -27,7 +27,13 @@ function SprintShortGame({ data }: { data: DataQueue }) {
 
     const isAnswerCorrect = checkIfAnswerCorrect(value, first, second);
 
-    dispatch(updateSprintResult({ isAnswerCorrect, word: first }));
+    dispatch(
+      updateSprintResult({
+        isAnswerCorrect,
+        word: first,
+        type: ResultType.sprintShort,
+      })
+    );
 
     if (data.isEmpty) {
       navigate(`/games/sprint/result`, {

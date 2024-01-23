@@ -4,6 +4,10 @@ import {
   DnDWordType,
   FirebaseAuthErrorTypes,
   GameType,
+  RefinedResultsType,
+  ResultPartType,
+  ResultType,
+  StatiscticsType,
   WordBaseValues,
   WordType,
 } from './interfaces';
@@ -279,4 +283,104 @@ export function makeLineFromParcedTime({
     seconds.toString().length === 1 ? `0${seconds}` : `${seconds}`;
 
   return `${hoursString}:${minutesString}:${secondsString}`;
+}
+
+export const generateRandomString = () =>
+  Math.floor(Math.random() * Date.now()).toString(36);
+
+export function getSum(array: Array<number>) {
+  return array.reduce((a, b) => a + b, 0);
+}
+
+export function isItToday(date: number) {
+  return new Date(date).toDateString() === new Date().toDateString();
+}
+
+export function reduceData(
+  data: StatiscticsType,
+  type: Exclude<ResultType, ResultType.sprint>
+): ResultPartType {
+  return {
+    score: getSum(data[type].map((item) => item.score)),
+    played: data[type].length,
+    accuracy: data[type].length
+      ? +(
+          getSum(data[type].map((item) => item.accuracy)) / data[type].length
+        ).toFixed(3)
+      : undefined,
+    learned:
+      type !== ResultType.puzzles && data[type].length
+        ? getSum(data[type].map((item) => item.learned))
+        : undefined,
+
+    encountered:
+      type !== ResultType.puzzles && data[type].length
+        ? getSum(data[type].map((item) => item.encountered))
+        : undefined,
+    time:
+      (type === ResultType.puzzles || type === ResultType.constructor) &&
+      data[type].length
+        ? data[type].map((item) => item.time).sort((a, b) => a - b)[0]
+        : undefined,
+  };
+}
+
+export function sortPreData(preData: StatiscticsType): StatiscticsType {
+  return {
+    sprintShort: preData[ResultType.sprintShort].filter((data) =>
+      isItToday(data.date)
+    ),
+    sprintLong: preData[ResultType.sprintLong].filter((data) =>
+      isItToday(data.date)
+    ),
+    audiocall: preData[ResultType.audiocall].filter((data) =>
+      isItToday(data.date)
+    ),
+    constructor: preData[ResultType.constructor].filter((data) =>
+      isItToday(data.date)
+    ),
+    puzzles: preData[ResultType.puzzles].filter((data) => isItToday(data.date)),
+  };
+}
+
+export function refineData(preData: StatiscticsType): RefinedResultsType {
+  const puzzles = reduceData(preData, ResultType.puzzles);
+  const constructor = reduceData(preData, ResultType.constructor);
+  const audiocall = reduceData(preData, ResultType.audiocall);
+  const sprintLong = reduceData(preData, ResultType.sprintLong);
+  const sprintShort = reduceData(preData, ResultType.sprintShort);
+
+  const refinedData = [
+    puzzles,
+    constructor,
+    audiocall,
+    sprintLong,
+    sprintShort,
+  ];
+
+  const total = refinedData.reduce((a, b) => ({
+    ...a,
+    ...{
+      score: a.score + b.score,
+      played: a.played + b.played,
+      learned: (a.learned || 0) + (b.learned || 0),
+      encountered: (a.encountered || 0) + (b.encountered || 0),
+      accuracy: +((a.accuracy || 0) + (b.accuracy || 0)).toFixed(3),
+      time: undefined,
+    },
+  }));
+
+  total.accuracy &&= +(
+    total.accuracy /
+    refinedData.filter((item) => item.accuracy !== undefined).length
+  ).toFixed(3);
+
+  return {
+    puzzles,
+    constructor,
+    audiocall,
+    sprintLong,
+    sprintShort,
+    total,
+  };
 }

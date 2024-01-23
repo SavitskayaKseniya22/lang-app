@@ -11,7 +11,7 @@ import MainPage from './pages/mainPage/MainPage';
 import TextBookPage from './pages/textBookPage/TextBookPage';
 import Sprint from './pages/sprint/Sprint';
 import Audiocall from './pages/audiocall/Audiocall';
-import { GameDifficultyType, GameType } from './interfaces';
+import { GameDifficultyType, GameType, ResultType } from './interfaces';
 import GameResult from './pages/game/components/GameResult';
 import Puzzles from './pages/sentences/Puzzles';
 import SidePanel from './components/sideNavigation/SidePanel';
@@ -91,7 +91,10 @@ const router = createBrowserRouter(
               }
             />
             <Route path="game" element={<Sprint />} />
-            <Route path="result" element={<GameResult type="sprint" />} />
+            <Route
+              path="result"
+              element={<GameResult type={ResultType.sprint} />}
+            />
           </Route>
 
           <Route path="puzzles" element={<GameInitialData />}>
@@ -119,7 +122,10 @@ const router = createBrowserRouter(
               }
             />
             <Route path="game" element={<Audiocall />} />
-            <Route path="result" element={<GameResult type="audiocall" />} />
+            <Route
+              path="result"
+              element={<GameResult type={ResultType.audiocall} />}
+            />
           </Route>
 
           <Route path="constructor" element={<GameInitialData />}>
@@ -133,7 +139,10 @@ const router = createBrowserRouter(
               }
             />
             <Route path="game" element={<Constructor />} />
-            <Route path="result" element={<GameResult type="constructor" />} />
+            <Route
+              path="result"
+              element={<GameResult type={ResultType.constructor} />}
+            />
           </Route>
         </Route>
         <Route path="*" element={<ErrorPage type={ErrorType.PAGENOTFOUND} />} />

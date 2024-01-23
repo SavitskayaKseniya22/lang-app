@@ -109,8 +109,6 @@ export type AnswersType = {
 
 export type ProgressType = TotalType & StreakType;
 
-export type ComplicatedResultType = AnswersType & PointsType & StreakType;
-
 export type WordType = PageType &
   GroupType & {
     id: string;
@@ -164,6 +162,8 @@ export interface CollectionLikeArraysType {
   all: WordWithIdDataType[];
 }
 
+export type TokenIdType = { tokenId: string };
+
 export type UserIdType = { userId: string };
 
 export type WordIdType = { wordId: string };
@@ -174,16 +174,32 @@ export interface Users {
   };
 }
 
+export enum ResultType {
+  sprint = 'sprint',
+  audiocall = 'audiocall',
+  constructor = 'constructor',
+  puzzles = 'puzzles',
+  sprintShort = 'sprintShort',
+  sprintLong = 'sprintLong',
+}
+
+export type ComplicatedResultType = AnswersType & PointsType & StreakType;
+
 export type ResultsState = {
-  sprint: ComplicatedResultType;
-  audiocall: ComplicatedResultType;
-  puzzles: { middleResult: boolean } & PointsType & {
+  [ResultType.sprint]: ComplicatedResultType & {
+    type: ResultType.sprintShort | ResultType.sprintLong;
+  };
+  [ResultType.audiocall]: ComplicatedResultType;
+  [ResultType.constructor]: AnswersType &
+    PointsType &
+    SubtrahendType &
+    TimeType;
+
+  [ResultType.puzzles]: { middleResult: boolean } & PointsType & {
       correct: number;
       wrong: number;
     } & SubtrahendType &
     TimeType;
-
-  constructor: PointsType & AnswersType & SubtrahendType & TimeType;
 };
 
 export type UpdateResultType = {
@@ -193,7 +209,7 @@ export type UpdateResultType = {
 };
 
 export type BasicResultType = {
-  date: Date;
+  date: number;
   score: number;
   accuracy: number;
 };
@@ -203,14 +219,6 @@ export type WordsResultType = {
   learned: number;
 };
 
-export enum ResultType {
-  sprintShort = 'sprintShort',
-  sprintLong = 'sprintLong',
-  audiocall = 'audiocall',
-  constructor = 'constructor',
-  puzzles = 'puzzles',
-}
-
 export type StatiscticsItemType = {
   [ResultType.sprintShort]: BasicResultType & WordsResultType;
   [ResultType.sprintLong]: BasicResultType & WordsResultType;
@@ -219,14 +227,62 @@ export type StatiscticsItemType = {
   [ResultType.puzzles]: BasicResultType & TimeType;
 };
 
-export type StatiscticsType = {
-  [ResultType.sprintShort]: Array<StatiscticsItemType[ResultType.sprintShort]>;
-  [ResultType.sprintLong]: Array<StatiscticsItemType[ResultType.sprintLong]>;
-  [ResultType.audiocall]: Array<StatiscticsItemType[ResultType.audiocall]>;
-  [ResultType.constructor]: Array<StatiscticsItemType[ResultType.constructor]>;
-  [ResultType.puzzles]: Array<StatiscticsItemType[ResultType.puzzles]>;
+export type StatiscticsResponseType = {
+  [ResultType.sprintShort]: {
+    [id: string]: StatiscticsItemType[ResultType.sprintShort];
+  };
+  [ResultType.sprintLong]: {
+    [id: string]: StatiscticsItemType[ResultType.sprintLong];
+  };
+  [ResultType.audiocall]: {
+    [id: string]: StatiscticsItemType[ResultType.audiocall];
+  };
+  [ResultType.constructor]: {
+    [id: string]: StatiscticsItemType[ResultType.constructor];
+  };
+  [ResultType.puzzles]: {
+    [id: string]: StatiscticsItemType[ResultType.puzzles];
+  };
 };
+
+export type StatiscticsType = {
+  [ResultType.sprintShort]: StatiscticsItemType[ResultType.sprintShort][];
+  [ResultType.sprintLong]: StatiscticsItemType[ResultType.sprintLong][];
+  [ResultType.audiocall]: StatiscticsItemType[ResultType.audiocall][];
+  [ResultType.constructor]: StatiscticsItemType[ResultType.constructor][];
+  [ResultType.puzzles]: StatiscticsItemType[ResultType.puzzles][];
+};
+
+export interface StatiscticsItemTypeWithIdType {
+  [id: string]: StatiscticsItemType;
+}
+
 export enum StatControlType {
   TODAY = 'today',
   TOTAL = 'total',
+}
+
+export type CredentialsType = UserIdType & TokenIdType;
+
+export type UserResultsType = {
+  total: StatiscticsType;
+  today: StatiscticsType;
+};
+
+export interface ResultPartType {
+  score: number;
+  played: number;
+  accuracy: number | undefined;
+  learned?: number | undefined;
+  encountered?: number | undefined;
+  time?: number | undefined;
+}
+
+export interface RefinedResultsType {
+  [ResultType.puzzles]: ResultPartType;
+  [ResultType.constructor]: ResultPartType;
+  [ResultType.audiocall]: ResultPartType;
+  [ResultType.sprintShort]: ResultPartType;
+  [ResultType.sprintLong]: ResultPartType;
+  total: ResultPartType;
 }

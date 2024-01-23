@@ -6,14 +6,18 @@ import { useAppSelector } from '../../../store/store';
 import GameResultDetailed from './GameResultDetailed';
 import GameResultInfo from './GameResultInfo';
 import { makeLineFromParcedTime, getParcedTime } from '../../../utils';
+import { ResultType } from '../../../interfaces';
 
 function GameResult({
   type,
 }: {
-  type: 'sprint' | 'audiocall' | 'constructor';
+  type: Exclude<
+    ResultType,
+    ResultType.puzzles | ResultType.sprintShort | ResultType.sprintLong
+  >;
 }) {
-  const result = useAppSelector((state) => state.resultsReducer)[type];
-
+  const results = useAppSelector((state) => state.resultsReducer);
+  const result = results[type];
   const location = useLocation();
 
   const navigate = useNavigate();
@@ -25,8 +29,7 @@ function GameResult({
     return (
       <StyledMain>
         <h2 className="main__title_main">Results</h2>
-        <GameResultDetailed result={result} />
-
+        <GameResultDetailed results={results} type={type} />
         <GameResultInfo
           correct={result.answers.correct.length}
           wrong={result.answers.wrong.length}

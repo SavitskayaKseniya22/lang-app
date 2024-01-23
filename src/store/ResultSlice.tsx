@@ -10,6 +10,7 @@ import {
   StepType,
   UpdateResultType,
   SubtrahendType,
+  ResultType,
 } from '../interfaces';
 
 export function updateResultData(
@@ -80,26 +81,39 @@ const initConstructorResultValue = {
 };
 
 const initialState: ResultsState = {
-  sprint: initComplicatedResultValue,
-  audiocall: initComplicatedResultValue,
-  puzzles: initPuzzlesResultValue,
-  constructor: initConstructorResultValue,
+  [ResultType.sprint]: {
+    ...initComplicatedResultValue,
+    type: ResultType.sprintShort,
+  },
+  [ResultType.audiocall]: initComplicatedResultValue,
+  [ResultType.puzzles]: initPuzzlesResultValue,
+  [ResultType.constructor]: initConstructorResultValue,
 };
 
 export const resultsSlice = createSlice({
   name: 'results',
   initialState,
   reducers: {
-    updateSprintResult: (state, action: PayloadAction<UpdateResultType>) => {
-      state.sprint = updateResultData(
-        state.sprint,
-        action.payload.isAnswerCorrect,
-        action.payload.word
-      );
+    updateSprintResult: (
+      state,
+      action: PayloadAction<
+        UpdateResultType & {
+          type: ResultType.sprintShort | ResultType.sprintLong;
+        }
+      >
+    ) => {
+      state[ResultType.sprint] = {
+        ...updateResultData(
+          state[ResultType.sprint],
+          action.payload.isAnswerCorrect,
+          action.payload.word
+        ),
+        type: action.payload.type,
+      };
     },
 
     resetSprintResult: (state) => {
-      state.sprint = initComplicatedResultValue;
+      state[ResultType.sprint] = initialState[ResultType.sprint];
     },
 
     setPuzzlesResult: (

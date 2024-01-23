@@ -4,6 +4,7 @@ import { useGetAllWordsQuery } from '../../../store/wordsApi';
 import {
   ActiveWordsTypes,
   GroupType,
+  ResultType,
   WordBaseValues,
 } from '../../../interfaces';
 import { DataQueue, checkIfAnswerCorrect } from '../../../utils';
@@ -53,7 +54,13 @@ function SprintLongGame({ group }: GroupType) {
 
       const isAnswerCorrect = checkIfAnswerCorrect(value, first, second);
 
-      dispatch(updateSprintResult({ isAnswerCorrect, word: first }));
+      dispatch(
+        updateSprintResult({
+          isAnswerCorrect,
+          word: first,
+          type: ResultType.sprintLong,
+        })
+      );
 
       if (data.current.isEmpty) {
         pageRef.current =
