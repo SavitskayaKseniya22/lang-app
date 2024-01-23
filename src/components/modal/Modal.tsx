@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import styled from 'styled-components';
 import ModalContext from './ModalContext';
@@ -44,6 +44,10 @@ const StyledModalButton = styled('button')`
 
 function Modal() {
   const { content, setContent } = useContext(ModalContext);
+
+  useEffect(() => {
+    document.body.style.overflow = content ? 'hidden' : 'unset';
+  }, [content]);
 
   if (!content) return null;
 
