@@ -44,7 +44,10 @@ npm start
 
 ### Screenshots: 
 
-![изображение](https://raw.githubusercontent.com/SavitskayaKseniya22/projects-photos/main/photos/lang-app/main-page.png)
+![изображение](https://github.com/SavitskayaKseniya22/projects-photos/blob/main/photos/lang-app/screenshots/main-page.png)
+![изображение](https://github.com/SavitskayaKseniya22/projects-photos/blob/main/photos/lang-app/screenshots/textbook-desktop.png)
+
+
 
 
 
