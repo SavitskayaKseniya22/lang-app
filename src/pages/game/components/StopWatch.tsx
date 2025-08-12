@@ -6,7 +6,7 @@ import { getParcedTime, makeLineFromParcedTime } from '../../../utils';
 function StopWatch({ func }: { func: (value: number) => void }) {
   const [time, setTime] = useState(0);
 
-  const intervalRef = useRef<NodeJS.Timer>();
+  const intervalRef = useRef<NodeJS.Timeout>();
 
   useEffect(() => {
     func(time);

@@ -26,7 +26,7 @@ function Timer({
 }) {
   const [timer, setTimer] = useState(duration);
 
-  const intervalRef = useRef<NodeJS.Timer>();
+  const intervalRef = useRef<NodeJS.Timeout>();
 
   useEffect(() => {
     if (timer === 0) {
