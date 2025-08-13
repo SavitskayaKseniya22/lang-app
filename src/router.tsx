@@ -2,8 +2,9 @@ import React from 'react';
 import {
   Route,
   Outlet,
-  createBrowserRouter,
+
   createRoutesFromElements,
+  createHashRouter,
 } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import ErrorPage, { ErrorType } from './pages/errorPage/ErrorPage';
@@ -28,7 +29,7 @@ import PuzzleResult from './pages/sentences/components/PuzzleResult';
 import Constructor from './pages/constructor/Constructor';
 import Statistics from './pages/statistics/Statistics';
 
-const router = createBrowserRouter(
+const router = createHashRouter(
   createRoutesFromElements(
     <Route
       path="/"
